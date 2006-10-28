@@ -1,0 +1,24 @@
+Source: libinge
+Priority: optional
+Maintainer: Humberto Luiz Campos Bandeira <nkbeto@gmail.com>
+Build-Depends: debhelper (>= 4.0.0), autotools-dev
+Standards-Version: 3.6.1
+Section: libs
+
+Package: libinge-dev
+Section: libdev
+Architecture: any
+Depends: libinge0 (= ${Source-Version})
+Description: Indigente Game Engine - runtime library
+ InGE is a free Game Engine Library.
+ .
+ This package provides the header files and static libraries.
+
+Package: libinge0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libopenal-dev, libsdl1.2-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev, libsdl-net1.2-dev, libsdl-ttf2.0-dev, libalut-dev, libopenal-dev, libode0-dev, libogg-dev, libvorbis-dev
+Description: Indigente Game Engine - runtime library
+ InGE is a free Game Engine Library.
+ .
+ This package provides the shared libraries.

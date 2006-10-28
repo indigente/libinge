@@ -1,0 +1,90 @@
+AC_INIT(configure.in)
+
+MAJOR_VERSION=0
+MINOR_VERSION=0
+MICRO_VERSION=3
+INTERFACE_AGE=2
+BINARY_AGE=3
+VERSION=$MAJOR_VERSION.$MINOR_VERSION.$MICRO_VERSION
+
+AC_SUBST(MAJOR_VERSION)
+AC_SUBST(MINOR_VERSION)
+AC_SUBST(MICRO_VERSION)
+AC_SUBST(INTERFACE_AGE)
+AC_SUBST(BINARY_AGE)
+AC_SUBST(VERSION)
+
+# libtool versioning
+LT_RELEASE=$MAJOR_VERSION.$MINOR_VERSION
+LT_CURRENT=`expr $MICRO_VERSION - $INTERFACE_AGE`
+LT_REVISION=$INTERFACE_AGE
+LT_AGE=`expr $BINARY_AGE - $INTERFACE_AGE`
+
+AC_SUBST(LT_RELEASE)
+AC_SUBST(LT_CURRENT)
+AC_SUBST(LT_REVISION)
+AC_SUBST(LT_AGE)
+
+
+
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(InGE, $VERSION)
+
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
+
+AC_LANG_CPLUSPLUS
+AC_PROG_MAKE_SET
+AC_PROG_CC
+AC_PROG_CXX
+AC_LIBTOOL_WIN32_DLL
+AC_PROG_LIBTOOL
+AC_PROG_INSTALL
+
+case "$target" in
+    alpha*-*-linux*)
+	if test x$ac_cv_prog_gcc = xyes; then
+            CFLAGS="$CFLAGS -Wa,-mall"
+        fi
+        ;;
+    sparc*-*-solaris*)
+        LIBS="$LIBS -lsocket -lnsl"	
+        ;;
+    *-*-qnx*)
+        LIBS="$LIBS -lsocket"
+        ;;
+    *-*-beos*)
+        ac_default_prefix=/boot/develop/tools/gnupro
+        ;;
+    *-*-cygwin* | *-*-mingw32*)
+        if test "$build" != "$target"; then # cross-compiling
+            ac_default_prefix=/usr/local/cross-tools/i386-mingw32msvc
+        fi
+        ;;
+esac
+
+case "$target" in
+    *-*-linux*)
+	SMPEG_RLD_FLAGS="-Wl,-rpath,\${exec_prefix}/lib"
+	;;
+    *-*-freebsd*)
+	SMPEG_RLD_FLAGS="-Wl,-rpath,\${exec_prefix}/lib"
+	;;
+    *-*-solaris*)
+	SMPEG_RLD_FLAGS="-R\${exec_prefix}/lib"
+	;;
+esac
+
+AC_SUBST(SMPEG_RLD_FLAGS)
+
+
+
+AC_CHECK_LIB(SDL, SDL_Surface, LIBS="$LIBS $SDL_LIBS")
+CFLAGS="$CFLAGS $SDL_CFLAGS"
+
+
+AC_CHECK_LIB(m, sqrt, LIBS="$LIBS -lm")
+
+
+AC_OUTPUT(Makefile src/Makefile src/AI/Makefile src/Audio/Makefile src/Common/Makefile src/Control/Makefile src/Graphics/Makefile src/Math/Makefile src/Physics/Makefile src/Util/Makefile src/AI/FSM/Makefile src/AI/FuSM/Makefile src/Graphics/Base/Makefile src/Graphics/Base/MeshDecorator/Makefile src/Graphics/Camera/Makefile src/Graphics/FX/Makefile src/Graphics/Model/Makefile src/Graphics/Render/Makefile src/Graphics/Toolkit/Makefile src/Graphics/World/Makefile src/Graphics/Model/KFModel/Makefile src/Graphics/Model/Primitive/Makefile src/Graphics/Model/KFModel/Md2/Makefile src/Graphics/Model/KFModel/Md3/Makefile src/Graphics/World/Heightmap/Makefile src/Graphics/World/Q3Bsp/Makefile src/Physics/Geoms/Makefile src/Physics/Joints/Makefile src/Triggers/Makefile src/Entities/Makefile src/Network/Makefile src/Util/TinyXML/Makefile)
+
