@@ -36,7 +36,7 @@ namespace InGE {
 /**
 	@author Danton <danton@dcc.ufba.br>
 */
-class Md2Model : public IModel{
+class Md2Model : public InGE::IModel{
 	private:
 		string		name;
 		int             num_frames;         // number of frames

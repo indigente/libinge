@@ -48,7 +48,7 @@ namespace InGE{
 			virtual void print()=0;
 	};
 	
-	class QEntityInfo : public QEntity {
+	class QEntityInfo : public InGE::QEntity {
 		public:
 			float angle;
 			string target;
@@ -62,7 +62,7 @@ namespace InGE{
 			void print();
 	};
 	
-	class QEntityLight : public QEntity{
+	class QEntityLight : public InGE::QEntity{
 		public:
 			int	light;
 			Vector3	color;

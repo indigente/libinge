@@ -28,7 +28,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace InGE{
 
-class HeightmapBruteForce : public HeightmapBase{
+class HeightmapBruteForce : public InGE::HeightmapBase{
   public:
 	HeightmapBruteForce();
 	~HeightmapBruteForce();

@@ -109,7 +109,7 @@ namespace InGE{
 	
 	
 	
-	class BspScene : public IScene{
+	class BspScene : public InGE::IScene{
 	   private:
 		// Informacoes do arquivo Bsp
 		BspInfo 		m_info;

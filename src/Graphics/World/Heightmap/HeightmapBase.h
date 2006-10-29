@@ -38,7 +38,7 @@ struct HeightData{
 	int m_size;				//tamanho do lado do mapa (elevar ao quadrado)
 };
 
-class HeightmapBase : public IScene{
+class HeightmapBase : public InGE::IScene{
   protected:
 	HeightData m_heightData;	//dados de altura
 	float m_heightScale;		//fator de escala da altura

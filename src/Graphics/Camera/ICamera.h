@@ -40,7 +40,7 @@ namespace InGE{
 	* Representa Camera.
 	* @author Ivan Medeiros Monteiro
 	*/
-	class ICamera : public IEntity{
+	class ICamera : public InGE::IEntity{
 		protected:
 			Vector3		m_position;		// Posicao da camera 
 			Vector3		m_viewPoint;		// Ponto de visao da camera
