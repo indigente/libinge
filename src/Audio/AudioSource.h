@@ -39,7 +39,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace InGE{
 
-class AudioSource : public IEntity {
+class AudioSource : public InGE::IEntity {
 private:
     ALuint number;
 

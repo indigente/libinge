@@ -31,7 +31,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace InGE{
 
-class AudioListener : public IEntity {
+class AudioListener : public InGE::IEntity {
 public:
 
 	AudioListener();
