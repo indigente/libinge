@@ -339,12 +339,13 @@ VolumeInfo *Md3Model::drawFrame(CurrentAnimInfo *currAnim){
 	Mesh *pMesh;
 	unsigned int numOfMesh = currKeyFrame->getNumMesh();
 	for (unsigned int meshI = 0; meshI < numOfMesh ; meshI++){
-		if (newFrame->getMeshDrawFlag(meshI)){
-			
-			pMesh = newFrame->getMesh( meshI );
-			
-			if (currAnim->getIsDraw())
+		if (currAnim->getIsDraw()){
+			if (newFrame->getMeshDrawFlag(meshI)){
+				
+				pMesh = newFrame->getMesh( meshI );
+				
 				pMesh->draw();
+			}
 		}
 	}
 	
@@ -423,7 +424,8 @@ void Md3Model::setDraw(string entityID,bool draw, string partToDraw){
 		addEntityID( entityID );
 		it = m_mapEntityAnim.find(entityID);
 	}
-	if(it->first==partToDraw){
+	
+	if(it->first==partToDraw){//FIXME: Isso está errado, mas como fazer funcionar? Estou comparando com a ID da entidade....
 		it->second->setIsDraw(draw);
 	} else {
 		map<string, Md3Model *>::iterator modelIt;
