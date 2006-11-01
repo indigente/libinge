@@ -40,6 +40,7 @@ KeyboardControl::KeyboardControl(){
 KeyboardControl::KeyboardControl(ControlLayer *c){
 	if(!KeyboardControl::m_controlTab)	
 		KeyboardControl::m_controlTab = new AArray();
+		
 	setControlLayer(c);
 }
 
@@ -53,6 +54,8 @@ void KeyboardControl::loadTab(string filename){
 }
 
 void KeyboardControl::loadDefaultTab(){
+
+	
 	(*m_controlTab)[SDLK_BACKSPACE] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_TAB] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_CLEAR] = InGE_CONTROL_VOID;
@@ -101,23 +104,23 @@ void KeyboardControl::loadDefaultTab(){
 	(*m_controlTab)[SDLK_b] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_c] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_d] = InGE_CONTROL_RIGHT;
-	(*m_controlTab)[SDLK_e] = InGE_CONTROL_TURN_RIGHT;
+	(*m_controlTab)[SDLK_e] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_f] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_g] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_h] = InGE_CONTROL_VOID;
-	(*m_controlTab)[SDLK_i] = InGE_CONTROL_FORWARD;
-	(*m_controlTab)[SDLK_j] = InGE_CONTROL_LEFT;
-	(*m_controlTab)[SDLK_k] = InGE_CONTROL_BACKWARD;
-	(*m_controlTab)[SDLK_l] = InGE_CONTROL_RIGHT;
+	(*m_controlTab)[SDLK_i] = InGE_CONTROL_VOID;
+	(*m_controlTab)[SDLK_j] = InGE_CONTROL_VOID;
+	(*m_controlTab)[SDLK_k] = InGE_CONTROL_VOID;
+	(*m_controlTab)[SDLK_l] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_m] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_n] = InGE_CONTROL_VOID;
-	(*m_controlTab)[SDLK_o] = InGE_CONTROL_TURN_RIGHT;
+	(*m_controlTab)[SDLK_o] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_p] = InGE_CONTROL_VOID;
-	(*m_controlTab)[SDLK_q] = InGE_CONTROL_TURN_LEFT;
+	(*m_controlTab)[SDLK_q] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_r] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_s] = InGE_CONTROL_BACKWARD;
 	(*m_controlTab)[SDLK_t] = InGE_CONTROL_VOID;
-	(*m_controlTab)[SDLK_u] = InGE_CONTROL_TURN_LEFT;
+	(*m_controlTab)[SDLK_u] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_v] = InGE_CONTROL_VOID;
 	(*m_controlTab)[SDLK_w] = InGE_CONTROL_FORWARD;
 	(*m_controlTab)[SDLK_x] = InGE_CONTROL_X;
