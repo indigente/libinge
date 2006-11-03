@@ -232,7 +232,7 @@ void RenderManager::drawGUI(){
 	float pos[] = { w/2, h/2, 600.0f, 0.0f };//FIXME: Armengue pra iluminação da GUI
 	glLightfv(GL_LIGHT0, GL_POSITION, pos);//FIXME: Armengue pra iluminação da GUI
 		
-	drawer->ortho(0,w,h,0,-1,1);
+	drawer->ortho(0,w,h,0,0,1);
 	
 	list<IWidget*>::iterator itWdg;
 	for(itWdg = m_listWidget.begin(); itWdg != m_listWidget.end(); ++itWdg) {
