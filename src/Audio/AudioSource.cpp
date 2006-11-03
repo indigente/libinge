@@ -45,11 +45,15 @@ void erro(string s) {
 }
 
 AudioSource::AudioSource() : IEntity("AudioSource"){
-	alGenSources(1,&number);	
+	alGetError();
+	alGenSources(1,&number);
+	AudioManager::checkALError();
 	alSourcef(number, AL_REFERENCE_DISTANCE, 50.0f);
 	alSourcef(number, AL_MAX_DISTANCE, 200.0f);
 
+	alGetError();
 	alGenBuffers(MAX_BUFFERS,streambuffer);
+	AudioManager::checkALError();
 }
 
 AudioSource::~AudioSource(){
@@ -58,8 +62,8 @@ AudioSource::~AudioSource(){
 }
 
 void AudioSource::setBuffer(AudioBuffer &buffer){
-    alSourcei(number,AL_BUFFER,((AudioBuffer &)buffer).getNumber());
-   	this->buffer = &buffer;
+	alSourcei(number,AL_BUFFER,((AudioBuffer &)buffer).getNumber());
+	this->buffer = &buffer;
 }
 
 AudioBuffer *AudioSource::getBuffer(){
@@ -74,8 +78,43 @@ void AudioSource::stop(){
 	alSourceStop(number);
 }
 
+void AudioSource::pause(){
+	alSourcePause(number);
+}
+void AudioSource::rewind(){
+	alSourceRewind(number);
+}
 
+bool AudioSource::isPlaying() {
+	int x;
+	alGetSourcei(number, AL_SOURCE_STATE, &x);
+	return x == AL_PLAYING;
+}
 
+bool AudioSource::isStopped(){
+	int x;
+	alGetSourcei(number, AL_SOURCE_STATE, &x);
+	return x == AL_STOPPED;
+}
+bool AudioSource::isPaused(){
+	int x;
+	alGetSourcei(number, AL_SOURCE_STATE, &x);
+	return x == AL_PAUSED;
+}
+
+void AudioSource::setLooping(bool loop)
+{
+	alSourcei(number, AL_LOOPING, loop);
+}
+bool AudioSource::getLooping() {
+	return isLooping();
+}
+
+bool AudioSource::isLooping() {
+	int x;
+	alGetSourcei(number, AL_LOOPING, &x);
+	return x != 0;
+}
 
 void AudioSource::setVelocity(const Vector3 &velocity) {
 	alSource3f(number, AL_VELOCITY, velocity.getX(), velocity.getY(), velocity.getZ());
@@ -117,53 +156,122 @@ float AudioSource::getGain() {
 	return x;
 }
 
-void AudioSource::setPitch(float pitch){}
-float AudioSource::getPitch(){}
-
-void AudioSource::setMaximumDistance(float gain){}
-float AudioSource::getMaximumDistance(){}
-void AudioSource::setRolloffFactor(float factor){}
-float AudioSource::getRolloffFactor(){}
-void AudioSource::setReferenceDistance(float distance){}
-float AudioSource::getReferenceDistance(){}
-void AudioSource::setMinimumGain(float gain){}
-float AudioSource::getMinimumGain(){}
-void AudioSource::setMaximumGain(float gain){}
-float AudioSource::getMaximumGain(){}
-void AudioSource::setConeOuterGain(float gain){}
-float AudioSource::getConeOuterGain(){}
-
-float AudioSource::getConeInnerAngle(){}
-float AudioSource::getConeOuterAngle(){}
-
-unsigned int AudioSource::AudioSource::getBuffersQueued(){}
-unsigned int AudioSource::AudioSource::getBuffersProcessed(){}
-
-void AudioSource::setSourceRelative(bool relative){}
-bool AudioSource::getSourceRelative(){}
-void AudioSource::setLooping(bool loop)
-{
-	alSourcei(number, AL_LOOPING, loop);
+void AudioSource::setPitch(float pitch){
+	alSourcef(number, AL_PITCH, pitch);
 }
-bool AudioSource::getLooping() {
+
+float AudioSource::getPitch(){
+	float ret;
+	alGetSourcef(number, AL_PITCH, &ret);
+	return ret;
+}
+
+void AudioSource::setMaximumDistance(float distance){
+	alSourcef(number, AL_MAX_DISTANCE, distance);
+}
+
+float AudioSource::getMaximumDistance(){
+	float ret;
+	alGetSourcef(number, AL_MAX_DISTANCE, &ret);
+	return ret;
+}
+
+void AudioSource::setRolloffFactor(float factor){
+	alSourcef(number, AL_ROLLOFF_FACTOR, factor);
+}
+
+float AudioSource::getRolloffFactor(){
+	float ret;
+	alGetSourcef(number, AL_ROLLOFF_FACTOR, &ret);
+	return ret;
+}
+
+void AudioSource::setReferenceDistance(float distance){
+	alSourcef(number, AL_REFERENCE_DISTANCE, distance);
+}
+
+float AudioSource::getReferenceDistance(){
+	float ret;
+	alGetSourcef(number, AL_REFERENCE_DISTANCE, &ret);
+	return ret;
+}
+
+void AudioSource::setMinimumGain(float gain){
+	alSourcef(number, AL_MIN_GAIN, gain);
+}
+
+float AudioSource::getMinimumGain(){
+	float ret;
+	alGetSourcef(number, AL_MIN_GAIN, &ret);
+	return ret;
+}
+
+void AudioSource::setMaximumGain(float gain){
+	alSourcef(number, AL_MAX_GAIN, gain);
+}
+
+float AudioSource::getMaximumGain(){
+	float ret;
+	alGetSourcef(number, AL_MAX_GAIN, &ret);
+	return ret;
+}
+
+void AudioSource::setConeOuterGain(float gain){
+	alSourcef(number, AL_CONE_OUTER_GAIN, gain);
+}
+
+float AudioSource::getConeOuterGain(){
+	float ret;
+	alGetSourcef(number, AL_CONE_OUTER_GAIN, &ret);
+	return ret;
+}
+
+float AudioSource::getConeInnerAngle(){
+	float ret;
+	alGetSourcef(number, AL_CONE_INNER_ANGLE, &ret);
+	return ret;
+}
+
+float AudioSource::getConeOuterAngle(){
+	float ret;
+	alGetSourcef(number, AL_CONE_OUTER_ANGLE, &ret);
+	return ret;
+}
+
+unsigned int AudioSource::AudioSource::getBuffersQueued(){
+	int ret;
+	alGetSourcei(number, AL_BUFFERS_QUEUED, &ret);
+	return ret;
+}
+unsigned int AudioSource::AudioSource::getBuffersProcessed(){
+	int ret;
+	alGetSourcei(number, AL_BUFFERS_PROCESSED, &ret);
+	return ret;
+}
+
+void AudioSource::setSourceRelative(bool relative){
+	alSourcei(number, AL_SOURCE_RELATIVE, relative);
+}
+
+bool AudioSource::getSourceRelative(){
 	int x;
 	alGetSourcei(number, AL_LOOPING, &x);
 	return x != 0;
 }
 
-bool AudioSource::isPlaying() {
-	int x;
-	alGetSourcei(number, AL_SOURCE_STATE, &x);
-	return x == AL_PLAYING;
+void AudioSource::queueBuffer(const AudioBuffer &buffer){
+	unsigned int n = buffer.getNumber();
+	alSourceQueueBuffers(number, 1, &n);
 }
 
-bool AudioSource::isStopped(){}
-bool AudioSource::isPaused(){}
+void AudioSource::unqueueBuffer(const AudioBuffer &buffer){
+	unsigned int n = buffer.getNumber();
+	alSourceUnqueueBuffers(number, 1, &n);
+}
 
-void AudioSource::pause(){}
-void AudioSource::rewind(){}
-void AudioSource::queueBuffer(const AudioBuffer &buffer){}
-void AudioSource::unqueueBuffer(const AudioBuffer &buffer){}
+void AudioSource::clearBuffers() {
+	alSourcei(number, AL_BUFFER, 0);
+}
 
 TiXmlElement *AudioSource::entity2xml(){
 	// TODO Implementar a serializacao dos 
@@ -201,144 +309,139 @@ bool AudioSource::playStreaming(string &path) {
 	m_path = path;
 
 	//para a musica e libera memoria se ja estiver tocando 
-    if (isPlaying()) 
-	stop(); 
-
+	if (isPlaying()) 
+		stop(); 
+	clearBuffers();
 	// Carrega o arquivo
-    int result;       
+	int result;       
 
-    if(!(oggFile = fopen(path.c_str(), "rb")))
-        ::erro(string("Could not open Ogg file."));
-        
+	if(!(oggFile = fopen(path.c_str(), "rb")))
+	::erro(string("Could not open Ogg file."));
 
-    if((result = ov_open(oggFile, &oggStream, NULL, 0)) < 0)
-    {
-        fclose(oggFile);
-        
-        ::erro(string("Could not open Ogg stream. ") + errorString(result));
-    }
+	if((result = ov_open(oggFile, &oggStream, NULL, 0)) < 0)
+	{
+		fclose(oggFile);
 
-    vorbisInfo = ov_info(&oggStream, -1);
-    vorbisComment = ov_comment(&oggStream, -1);
+			::erro(string("Could not open Ogg stream. ") + errorString(result));
+	}
 
-    if(vorbisInfo->channels == 1)
-        format = AL_FORMAT_MONO16;
-    else
-        format = AL_FORMAT_STEREO16;
+	vorbisInfo = ov_info(&oggStream, -1);
+	vorbisComment = ov_comment(&oggStream, -1);
+
+	if(vorbisInfo->channels == 1)
+		format = AL_FORMAT_MONO16;
+	else
+		format = AL_FORMAT_STEREO16;
 
 	// toca o arquivo
 
 	for (int i = 0; i < MAX_BUFFERS; i++) {
-    	if(!stream(streambuffer[i]))
-        	return false;
+		if(!stream(streambuffer[i]))
+			return false;
 	}
 
-    alSourceQueueBuffers(this->number, MAX_BUFFERS, streambuffer);
+	alSourceQueueBuffers(this->number, MAX_BUFFERS, streambuffer);
 
 	updateStreaming();
 
-    play();
+	play();
 
 	AudioManager::getInstance()->addStreamingSource(this);
 
 
-    return true;
+	return true;
 }
 
 
 
 bool AudioSource::updateStreaming() {
-    int processed;        
-    bool active = true;              
-              
-    alGetSourcei(this->number, AL_BUFFERS_PROCESSED, &processed);
-    
-     while(processed--)
-    {                      
-        ALuint buffer;
-        
-        vorbisInfo = ov_info(&oggStream, -1);
-        vorbisComment = ov_comment(&oggStream, -1);       
-        
+	int processed;        
+	bool active = true;              
 
-        alSourceUnqueueBuffers(this->number, 1, &buffer);    
+	alGetSourcei(this->number, AL_BUFFERS_PROCESSED, &processed);
 
-        check();
+	while(processed--)
+	{
+		ALuint buffer;
 
-        active =  stream(buffer);
+		vorbisInfo = ov_info(&oggStream, -1);
+		vorbisComment = ov_comment(&oggStream, -1);       
 
-   
-        alSourceQueueBuffers(this->number, 1, &buffer);       
+		alSourceUnqueueBuffers(this->number, 1, &buffer);    
 
-        check();
+		check();
 
-    }
-    
-    return active;
+		active =  stream(buffer);
+
+		alSourceQueueBuffers(this->number, 1, &buffer);       
+
+		check();
+
+	}
+
+	return active;
 }
 
 bool AudioSource::stream(ALuint buffer)
 {
 // 	static int counter = 0;
-    char pcm[BUFFER_SIZE];
-    int  size = 0;
-    int  section;
-    int  result;
+	char pcm[BUFFER_SIZE];
+	int  size = 0;
+	int  section;
+	int  result;
 
-    while(size < BUFFER_SIZE)
-    {
-        result = ov_read(&oggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1, &section);
-    
-        if(result > 0)
-            size += result;
-        else
-            if(result < 0)
-                ::erro(string("Result < 0 " + errorString(result)));
-            else
-                break;
-    }
-    
-    if(size == 0)
-        return false;
-        
-    alBufferData(buffer, format, pcm, size, vorbisInfo->rate); 
-    check();
-    
-    return true;
+	while(size < BUFFER_SIZE)
+	{
+		result = ov_read(&oggStream, pcm + size, BUFFER_SIZE - size, 0, 2, 1, &section);
+
+		if(result > 0)
+			size += result;
+		else
+			if(result < 0)
+			::erro(string("Result < 0 " + errorString(result)));
+		else
+			break;
+	}
+
+	if(size == 0)
+		return false;
+
+	alBufferData(buffer, format, pcm, size, vorbisInfo->rate); 
+	check();
+
+	return true;
 }
 
 void AudioSource::check()
 {
 	int error = alGetError();
-			
-    if(error != AL_NO_ERROR)
-     {
+
+	if(error != AL_NO_ERROR)
+	{
       //system("pause");
-	  cout << string("OpenAL error was raised.") << endl;
-	cout << errorString(error) << endl;
-     } 
-    
+		cout << string("OpenAL error was raised.") << endl;
+		cout << errorString(error) << endl;
+	}
 }
 
 string AudioSource::errorString(int code)
 {
 	char buf[10];
-    switch(code)
-    {
-        case OV_EREAD:
-            return string("Read from media.");
-        case OV_ENOTVORBIS:
-            return string("Not Vorbis data.");
-        case OV_EVERSION:
-             return string("Vorbis version mismatch.");
-        case OV_EBADHEADER:
-             return string("Invalid Vorbis header.");
-        case OV_EFAULT:
-             return string("Internal logic fault (bug or heap/stack corruption.");
-        default:
-		sprintf(buf,"%d", code);
-                return string("Unknown Ogg error.") + string(buf);
-    }
-    
+	switch(code)
+	{
+		case OV_EREAD:
+			return string("Read from media.");
+		case OV_ENOTVORBIS:
+			return string("Not Vorbis data.");
+		case OV_EVERSION:
+			return string("Vorbis version mismatch.");
+		case OV_EBADHEADER:
+			return string("Invalid Vorbis header.");
+		case OV_EFAULT:
+			return string("Internal logic fault (bug or heap/stack corruption.");
+		default:
+			sprintf(buf,"%d", code);
+			return string("Unknown Ogg error.") + string(buf);
+	}
 }
 

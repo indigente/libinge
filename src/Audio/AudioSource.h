@@ -39,9 +39,11 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace InGE{
 
+class AudioManager;
+
 class AudioSource : public InGE::IEntity {
 private:
-    ALuint number;
+	ALuint number;
 
 	// ogg vorbis, streaming
 	FILE*           oggFile;
@@ -51,14 +53,18 @@ private:
 	ALenum format;  //marcos- mono ou stereo
 	string m_path;
 
+protected:
+	AudioSource();
+
 public:
+	friend class InGE::AudioManager;
 	AudioBuffer *buffer;  // Especifico para OpenAL
 
 	// buffers para streaming
 	//AudioBuffer *streambuffer[2];
 	ALuint streambuffer[MAX_BUFFERS];
 
-	AudioSource();
+	
 	virtual ~AudioSource();
 
 	virtual void setPitch(float pitch);
@@ -96,8 +102,10 @@ public:
 	virtual void setSourceRelative(bool relative);
 	virtual bool getSourceRelative();
 	virtual void setLooping(bool loop);
-	virtual bool getLooping();
+	virtual bool getLooping(); // deprecated. Use isLooping() instead.
+	virtual bool isLooping();
 	virtual void setBuffer(AudioBuffer &buffer);
+	virtual void clearBuffers();
 	virtual AudioBuffer *getBuffer();
 
 	virtual bool isPlaying();

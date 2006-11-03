@@ -39,11 +39,16 @@ AudioManager *AudioManager::instance = 0;
 AudioManager::AudioManager()
 {
 	listener = 0;
-	alutInit(0, (char **)0);
+	
+	alutGetError();	
+	alutInit(0, (char **)0);	
+	AudioManager::checkALUTError();
 }
 
 AudioManager::~AudioManager() {
-	alutExit();
+	alutGetError();	
+	alutExit();	
+	AudioManager::checkALUTError();
 }
 
 AudioManager *AudioManager::getInstance() {
@@ -54,6 +59,7 @@ AudioManager *AudioManager::getInstance() {
 
 void AudioManager::init(){
 	// inicializacao movida para o construtor.
+	puts("AudioManager::init() is deprecated and shouldn't be used anymore.");
 }
 
 AudioSource *AudioManager::createSource() {
@@ -80,8 +86,9 @@ void AudioManager::update() {
 	for(it = streamingSources.begin(); it != streamingSources.end(); it++) {
 		AudioSource *source = *it;
 		isActive = source->updateStreaming();
-		if (!isActive) {			
+		if (!isActive) {
 			source->stop();
+			source->clearBuffers();
 			if (!source->getLooping())
 				streamingSources.erase(it);
 			break;
@@ -91,6 +98,38 @@ void AudioManager::update() {
 			break;
 		}
 	}
+}
+	
+void AudioManager::checkALError() {
+	ALenum errcode = alGetError();
+	if (errcode != AL_NO_ERROR) {
+		switch(errcode)
+		{
+			case AL_INVALID_NAME:
+				throw string("AL_INVALID_NAME: Invalid Name parameter passed to AL call.");
+				break;
+			case AL_INVALID_ENUM:
+				throw string("AL_INVALID_ENUM: Invalid parameter passed to AL call.");
+				break;
+			case AL_INVALID_VALUE:
+				throw string("AL_INVALID_VALUE: Invalid enum parameter value.");
+				break;
+			case AL_INVALID_OPERATION:
+				throw string("AL_INVALID_OPERATION: Illegal call.");
+				break;
+			case AL_OUT_OF_MEMORY:
+				throw string("AL_OUT_OF_MEMORY: No mojo.");
+				break;
+			default:
+				throw string("Unknown OpenAL error.");
+		};
+	}
+}
+
+void AudioManager::checkALUTError() {
+	ALenum errcode = alutGetError();
+	if (errcode != ALUT_ERROR_NO_ERROR)
+		throw string(alutGetErrorString(errcode));
 }
 	
 // void addSource(AudioSource *audioSource){

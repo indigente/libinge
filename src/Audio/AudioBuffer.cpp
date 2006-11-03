@@ -28,18 +28,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <AL/al.h>
 #include <AL/alut.h>
 #include <iostream>
+#include "AudioManager.h"
 
 using namespace InGE;
 using namespace std;
 
 AudioBuffer::AudioBuffer()
 {
+	alGetError();
 	alGenBuffers(1, &number);
+	try {
+		AudioManager::checkALError();
+	} catch (string e) {
+		number = 0;
+		throw;
+	}
 }
 
 AudioBuffer::~AudioBuffer()
 {
-	alDeleteBuffers(1, &number);
+	if (number != 0)
+		alDeleteBuffers(1, &number);
 }
 
 //void OpenAlBuffer::setData(void *data)=0;
@@ -50,12 +59,16 @@ void AudioBuffer::loadFile(char *filename) {
 	ALvoid *data;
 	ALboolean al_bool;
 
+	alutGetError();
 	data = alutLoadMemoryFromFile(filename,&format,&size,&freq);
 	if (!data) {
-		cerr << "Erro carregando arquivo " << filename << endl;
+		cerr << "Error while loading file " << filename << endl;
+		AudioManager::checkALUTError();
 	}
-	else { 
+	else {
+		alGetError();
 		alBufferData(number,format,data,size,(ALsizei)freq);
+		AudioManager::checkALError();
 		free(data);
 	}
 }

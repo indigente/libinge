@@ -28,13 +28,19 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "../Math/Vector3.h"
 #include "../Entities/IEntity.h"
+//#include "AudioManager.h"
 
 namespace InGE{
 
-class AudioListener : public InGE::IEntity {
-public:
+class AudioManager;
 
+class AudioListener : public InGE::IEntity {
+protected:
 	AudioListener();
+	
+public:
+	friend class InGE::AudioManager;
+
 	virtual ~AudioListener();
 
 	virtual void setGain(float gain);

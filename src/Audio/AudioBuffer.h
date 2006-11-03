@@ -30,16 +30,22 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace InGE{
 
+class AudioManager;
+class AudioSource;
+
 class AudioBuffer{
 private:
-    ALuint number;
+	ALuint number;
+	ALuint getNumber() const { return number; } // Especifico para OpenAL
+
+protected:
+	AudioBuffer();
 
 public:
-    ALuint getNumber() { return number; } // Especifico para OpenAL
+	friend class InGE::AudioManager;
+	friend class InGE::AudioSource;
 
-	AudioBuffer();
 	virtual ~AudioBuffer();
-
 	virtual void setData(void *data);
 	virtual void loadFile(char *filename);
 	virtual unsigned int getFrequency();

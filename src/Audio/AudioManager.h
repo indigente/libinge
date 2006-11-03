@@ -45,10 +45,18 @@ protected:
 public:
 	static AudioManager *instance;
 
-
-	static AudioManager *getInstance();
 	virtual ~AudioManager();
 
+	/**
+	 * Throws an exception if an error occurred since the last alGetError() call.
+	 */
+	static void checkALError();
+	/**
+	 * Throws an exception if an error occurred since the last alutGetError() call.
+	 */
+	static void checkALUTError();
+
+	static AudioManager *getInstance();
 	virtual void init();
 	virtual AudioSource *createSource();
 	virtual AudioBuffer *createBuffer();

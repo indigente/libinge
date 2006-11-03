@@ -146,7 +146,7 @@ Avatar *EntityFactory::getNewAvatar(string &uniqueId) {
 }
 
 AudioSource *EntityFactory::getNewAudioSource(string &uniqueId) {
-	AudioSource *pAudioSource = new AudioSource();
+	AudioSource *pAudioSource = AudioManager::getInstance()->createSource();
 	pAudioSource->setId( uniqueId );
 // 	addAudioSource( pAudioSource ); FIXME> Nada pra fazer???
 	return pAudioSource;
