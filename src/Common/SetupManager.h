@@ -20,7 +20,7 @@ class SetupManager{
 		static SetupManager *getInstance();
 		~SetupManager();
 		
-		int init(int width=640, int height=480, int bpp=16);
+		int init(int width=640, int height=480, int bpp=16, bool fullscreen=true);
 		
 		//Setup Net
 		bool setServer(int port, string scene);

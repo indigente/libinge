@@ -40,8 +40,10 @@ void SetupManager::setupOpenGL(int width, int height){
 	
 }
 
-int SetupManager::init(int width, int height, int bpp){
-	int videoFlags=SDL_OPENGL | SDL_FULLSCREEN;
+int SetupManager::init(int width, int height, int bpp, bool fullscreen){
+	int videoFlags=SDL_OPENGL;
+	if (fullscreen)
+		videoFlags |= SDL_FULLSCREEN;
 	const SDL_VideoInfo	*info = NULL;
 	
 	// Inicializando Subsistema de video da SDL
