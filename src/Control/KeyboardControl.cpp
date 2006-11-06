@@ -26,6 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "ControlLayer.h"
 
 #include <cstdio>
+#include <fstream>
 using namespace InGE;
 
 ControlLayer *KeyboardControl::m_pControlLayer = 0;
@@ -49,7 +50,7 @@ KeyboardControl::~KeyboardControl(){
 }
 
 void KeyboardControl::loadTab(string filename){
-	//Try to Open Filename
+  //	ifstream keymap(filename);
 	loadDefaultTab();
 }
 
