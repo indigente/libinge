@@ -1,0 +1,7 @@
+#!/bin/sh
+
+HEADER_FILE=$1
+DESTINATION=$2/`dirname $HEADER_FILE`
+
+mkdir -p $DESTINATION
+install -c -m 644 $HEADER_FILE $DESTINATION

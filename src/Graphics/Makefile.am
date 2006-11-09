@@ -10,5 +10,4 @@ libGraphics_la_LIBADD = $(top_builddir)/src/Graphics/World/libWorld.la\
 	$(top_builddir)/src/Graphics/Camera/libCamera.la\
 	$(top_builddir)/src/Graphics/Base/libBase.la
 
-noinst_HEADERS = Graphics.h
 libGraphics_la_SOURCES = Graphics.h

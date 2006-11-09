@@ -1,0 +1,9 @@
+prefix=@prefix@
+libdir=${prefix}/lib
+includedir=${prefix}/include/@PACKAGE@
+
+Name: Inge
+Description: Indigente's game engine library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lInGE
+Cflags: -I${includedir}

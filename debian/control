@@ -1,12 +1,12 @@
 Source: libinge
 Priority: optional
-Maintainer: Humberto Luiz Campos Bandeira <nkbeto@gmail.com>
-Build-Depends: debhelper (>= 4.0.0), autotools-dev
+Maintainer: Humberto Luiz Campos Bandeira <nkbeto@gmail.com>, Antonio S. de A. Terceiro <terceiro@softwarelivre.org>
+Build-Depends: debhelper (>= 4.0.0), autotools-dev, libsdl1.2-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev, libsdl-net1.2-dev, libsdl-ttf2.0-dev, libsdl-sound1.2-dev, libopenal-dev, libalut-dev, libogg-dev, libvorbis-dev, libode0-dev, libcaca-dev, libdirectfb-dev, pkg-config, cdbs, libartsc0-dev, libasound-dev, libesd0-dev, libaa1-dev, libglu1-mesa-dev, libsvga1-dev
 Standards-Version: 3.6.1
 Section: libs
 
 Package: libinge-dev
-Section: libdev
+Section: libdevel
 Architecture: any
 Depends: libinge0 (= ${Source-Version})
 Description: Indigente Game Engine - runtime library
