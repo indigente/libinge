@@ -85,5 +85,5 @@ namespace InGE{
 		void print();
 	};
 
-};
+}
 #endif // VECTOR3_H

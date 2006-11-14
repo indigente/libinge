@@ -62,5 +62,5 @@ namespace InGE{
 			
 	};
 
-};
+}
 #endif // FSMSTATE_H

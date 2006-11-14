@@ -65,6 +65,6 @@ namespace InGE{
 			virtual void setActivationLevel(float l){ m_activationLevel = l;}
 	};
 	
-};
+}
 #endif // FUSMSTATE_H
 

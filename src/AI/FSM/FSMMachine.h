@@ -70,5 +70,5 @@ namespace InGE{
 			
 	};
 
-};
+}
 #endif // FSMMACHINE_H

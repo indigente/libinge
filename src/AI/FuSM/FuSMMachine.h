@@ -56,7 +56,6 @@ namespace InGE{
 			virtual void reset();
 	};
 
-};
-
+}
 #endif // FUSMMACHINE_H
 
