@@ -100,7 +100,7 @@ SetupManager::~SetupManager(){
 	
 }
 
-bool SetupManager::setServer(int port, string scene){
+void SetupManager::setServer(int port, string scene){
 	m_pNetServer = NetServer::getInstance();
 	m_pNetServer->openServer( port );
 	m_pNetServer->setScene( scene );

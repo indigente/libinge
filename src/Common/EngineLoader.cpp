@@ -103,7 +103,7 @@ bool EngineLoader::loadWidgets(){
 // 	TextureDecorator *td = new TextureDecorator("textures/showroom_misc/spearker", status);
 // 	td->move(10,-10);
 // 	m_pRenderManager->addWidget(td);
-// 	return true;
+ 	return true;
 }
 
 void EngineLoader::setStream( AudioSource *stream ){

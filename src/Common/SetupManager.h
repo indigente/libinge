@@ -23,7 +23,7 @@ class SetupManager{
 		int init(int width=640, int height=480, int bpp=16, bool fullscreen=true);
 		
 		//Setup Net
-		bool setServer(int port, string scene);
+		void setServer(int port, string scene);
 		bool setClient(string name, string ip, int port);
 		NetClient *getNetClient();
 		NetServer *getNetServer();
