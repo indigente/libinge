@@ -96,7 +96,7 @@ int KFModelFactory::findKFModel(string name){
  */
  
  Md2Model* KFModelFactory::loadMd2Model(string md2File){
-			
+	return NULL;
  }
  
 
