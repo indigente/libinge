@@ -70,10 +70,10 @@ public:
 	void setV(float v) { m_v = v; }
 	virtual void draw();
 
-	virtual Vector3 getPosition(){};
-	virtual bool getBlend(){};
+	virtual Vector3 getPosition(){return Vector3(0,0,0);};
+	virtual bool getBlend(){return false;};
 	
-	virtual PhysicalGeom *pGetPhysicalGeom() {};
+	virtual PhysicalGeom *pGetPhysicalGeom() {return NULL;};
 };
 
 }
