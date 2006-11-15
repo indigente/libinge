@@ -79,7 +79,7 @@ namespace InGE{
 			
 			virtual VolumeInfo *pGetVolumeInfo() = 0;
 			
-			virtual Vector3 getVelocity() {}; // de IEntity
+			virtual Vector3 getVelocity() {return Vector3(0,0,0);}; // de IEntity
 			virtual Vector3 getDirection() = 0;
 			virtual Vector3 getStrafe() = 0;
 			virtual Vector3 getAttachPosition() = 0;

@@ -66,12 +66,12 @@ namespace InGE {
 			// Mover
 			virtual void move(const Vector3 &direction){};
 		
-			virtual VolumeInfo *pGetVolumeInfo() {};
+			virtual VolumeInfo *pGetVolumeInfo() {return NULL;};
 			
-			virtual Vector3 getDirection() {};
-			virtual Vector3 getStrafe() {};
-			virtual Vector3 getAttachPosition() {};
-			virtual Vector3 getAttachAxis() {};	
+			virtual Vector3 getDirection() {return Vector3(0,0,1);};
+			virtual Vector3 getStrafe() {return Vector3(0,0,1);};
+			virtual Vector3 getAttachPosition() {return Vector3(0,0,1);};
+			virtual Vector3 getAttachAxis() {return Vector3(0,0,1);};	
 		
 	};
 
