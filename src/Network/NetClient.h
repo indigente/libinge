@@ -86,10 +86,10 @@ class NetClient{
 		vector< vector<IEntity *> > m_vOthersEntities; //others[x][y] = entidade y do player x
 		vector<string> m_vOthersNames;
 		
-		static int receiver (void* instance);/** CRITICA **/
-		static int deadReckoning (void* instance);/** CRITICA **/
-		static int syncSender (void* instance);/** OPCIONAL **/
-		static int clientStopper (void* instance); /** thread que monitora a vida do cliente **/
+		static void receiver (void* instance);/** CRITICA **/
+		static void deadReckoning (void* instance);/** CRITICA **/
+		static void syncSender (void* instance);/** OPCIONAL **/
+		static void clientStopper (void* instance); /** thread que monitora a vida do cliente **/
 		
 		static void disconnectFromServerAtExit();
 		

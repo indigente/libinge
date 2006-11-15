@@ -28,7 +28,7 @@ namespace InGE{
 
 NetClient* NetClient::m_pNetClient = NULL;
 
-int NetClient::receiver (void* instance){ /** CRITICA **/
+void NetClient::receiver (void* instance){ /** CRITICA **/
 	NetClient* pNetClient = (NetClient *) instance;
 
 	UDPpacket* in_packet;
@@ -163,7 +163,7 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 
 
 
-int NetClient::deadReckoning (void* instance){ /** CRITICA **/
+void NetClient::deadReckoning (void* instance){ /** CRITICA **/
 	NetClient* pNetClient = (NetClient *) instance;
 
 	while (!pNetClient->m_stopClient){
@@ -186,7 +186,7 @@ int NetClient::deadReckoning (void* instance){ /** CRITICA **/
 
 
 
-int NetClient::syncSender (void* instance){ /** OPCIONAL **/
+void NetClient::syncSender (void* instance){ /** OPCIONAL **/
 	NetClient* pNetClient = (NetClient *) instance;
 
 	while (!pNetClient->m_stopClient){
