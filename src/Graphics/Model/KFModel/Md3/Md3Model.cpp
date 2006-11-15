@@ -38,7 +38,7 @@ bool sAnimInfo::operator<=(const sAnimInfo *animInfo) const{
 Md3Model::Md3Model(string bodyPart, map<string, vector<KeyFrame *> > mapAnim){
 	m_type = MD3_IDENT;
 	m_bodyPart = bodyPart;
-	std::transform(m_bodyPart.begin(), m_bodyPart.end(), m_bodyPart.begin(), (int(*)(int)) toupper);
+	transform(m_bodyPart.begin(), m_bodyPart.end(), m_bodyPart.begin(), (int(*)(int)) toupper);
 
 	m_mapAnim = mapAnim;
 }

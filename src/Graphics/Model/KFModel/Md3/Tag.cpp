@@ -35,7 +35,7 @@ using namespace std;
 
 Tag::Tag(string name, vec3_t position, float *rotation){
 	m_name = name;
-	std::transform(m_name.begin(), m_name.end(), m_name.begin(), (int(*)(int)) toupper);
+	transform(m_name.begin(), m_name.end(), m_name.begin(), (int(*)(int)) toupper);
 	
 	if ( m_name.find("TAG_", 0) == 0){
 		m_name.erase(0,4);
