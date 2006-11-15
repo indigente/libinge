@@ -45,13 +45,13 @@ namespace InGE{
 		Light(int i);
 		virtual ~Light();
 	
-		void setPosition(float x,float x,float x,float w);
+		void setPosition(float x,float y,float z,float w);
 		void setPosition(Vector4 &vet);
-		void setDifuseColor(float x,float x,float x,float w);
+		void setDifuseColor(float x,float y,float z,float w);
 		void setDifuseColor(Vector4 &vet);
-		void setAmbientColor(float x,float x,float x,float w);
+		void setAmbientColor(float x,float y,float z,float w);
 		void setAmbientColor(Vector4 &vet);
-		void setSpecularColor(float x,float x,float x,float w);
+		void setSpecularColor(float x,float y,float z,float w);
 		void setSpecularColor(Vector4 &vet);
 		void setConstantAttenuation(float param);
 	};
