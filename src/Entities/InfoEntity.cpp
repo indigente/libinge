@@ -52,8 +52,9 @@ Vector4 InfoEntity::getRotation( ){
 }
 
 TiXmlElement *InfoEntity::entity2xml(){
-	
+	return NULL;
 }
+
 void InfoEntity::updateFromXml(TiXmlElement *xml){
 	double posX, posY, posZ;
 	Vector3 position;
