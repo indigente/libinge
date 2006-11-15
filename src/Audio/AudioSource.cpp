@@ -238,12 +238,12 @@ float AudioSource::getConeOuterAngle(){
 	return ret;
 }
 
-unsigned int AudioSource::AudioSource::getBuffersQueued(){
+unsigned int AudioSource::getBuffersQueued(){
 	int ret;
 	alGetSourcei(number, AL_BUFFERS_QUEUED, &ret);
 	return ret;
 }
-unsigned int AudioSource::AudioSource::getBuffersProcessed(){
+unsigned int AudioSource::getBuffersProcessed(){
 	int ret;
 	alGetSourcei(number, AL_BUFFERS_PROCESSED, &ret);
 	return ret;
@@ -303,6 +303,7 @@ TiXmlElement *AudioSource::entity2xml(){
 
 bool AudioSource::playStreaming() {
 	playStreaming(m_path);
+	return true; //FIXME: Verificar se está ok antes de retornar
 }
 
 bool AudioSource::playStreaming(string &path) {
