@@ -42,7 +42,7 @@ MaterialInfo::MaterialInfo(){
 	
 	m_color.setXYZW(1.0,1.0,1.0,1.0);				// Cor do objeto
 	m_specular.setXYZW(1.0,1.0,1.0,1.0);
-	m_shininess = 0;
+	m_shininess = 64;
 	m_emissiveColor.setXYZW(1.0,1.0,1.0,1.0);
 
 }
