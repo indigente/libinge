@@ -26,8 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 
-namespace InGE
-{
+namespace InGE{
 
   //defining static class variables...
   NetServer* NetServer::m_pNetServer = NULL;
@@ -264,7 +263,7 @@ int NetServer::activeServer (void *instance ){
 	SDLNet_FreePacket (inPacket);
 	if (xmlContainer) delete (xmlContainer);
 	if (data) delete (data);
-
+    return 0;
 }
 
 
@@ -277,6 +276,7 @@ int NetServer::activeServer (void *instance ){
       pNetServer->sendPing();
       SDL_Delay(NetControl::M_PING_PERIOD);
     }
+    return 0;
   }
 
 

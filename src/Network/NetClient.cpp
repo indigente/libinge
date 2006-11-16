@@ -811,8 +811,4 @@ void NetClient::answerPing() {
 NetClient::~NetClient(){ // rever isso -> NetControl.cpp?
 	NetControl::quitSdlNet();
 }
-
-
-
-
 }
