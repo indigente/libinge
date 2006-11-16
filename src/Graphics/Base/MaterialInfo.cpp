@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright © 2004-2006 Indigente
+Copyright  2004-2006 Indigente
 
 
 This program is free software; you can redistribute it and/or modify it under
@@ -36,6 +36,15 @@ using namespace std;
  */
 MaterialInfo::MaterialInfo(){
 	m_alpha = false;
+	m_emissive = false;
+		
+	m_face = InGE_FRONT_AND_BACK;
+	
+	m_color.setXYZW(1.0,1.0,1.0,1.0);				// Cor do objeto
+	m_specular.setXYZW(1.0,1.0,1.0,1.0);
+	m_shininess = 0;
+	m_emissiveColor.setXYZW(1.0,1.0,1.0,1.0);
+
 }
 
 /**
@@ -45,9 +54,9 @@ MaterialInfo::~MaterialInfo(){
 }
 
 /**
- * Seta a textura que deverá ser utilizada por esse material
- * A textura será carregada, caso ainda não esteja carregada.
- * @param string filename - Indica o arquivo que contem a textura que será associada a este material.
+ * Seta a textura que deverï¿½ser utilizada por esse material
+ * A textura serï¿½carregada, caso ainda nï¿½ esteja carregada.
+ * @param string filename - Indica o arquivo que contem a textura que serï¿½associada a este material.
  */
 void MaterialInfo::setTexture(string filename){
 	TextureInfo *info = TextureArray::getInstance()->getInfo(filename);
@@ -66,7 +75,7 @@ void MaterialInfo::setId(int id){
 
 
 /**
- * @return Retorna o nome do arquivo que contém a textura
+ * @return Retorna o nome do arquivo que contï¿½ a textura
  */
 string MaterialInfo::getFileName(){
 	return m_filename;
@@ -83,4 +92,68 @@ int MaterialInfo::getId(){
  */
 bool MaterialInfo::getBlend(){
 	return m_alpha;
+}
+
+
+Vector4 MaterialInfo::getColor() const{
+  return m_color;
+}
+
+
+void MaterialInfo::setColor(const Vector4& theValue){
+  m_color = theValue;
+}
+
+
+bool MaterialInfo::getEmissive() const{
+  return m_emissive;
+}
+
+
+void MaterialInfo::setEmissive(bool theValue){
+  m_emissive = theValue;
+}
+
+
+EnumDrawer MaterialInfo::getFace() const{
+  return m_face;
+}
+
+
+void MaterialInfo::setFace(const EnumDrawer& theValue){
+  m_face = theValue;
+}
+
+
+Vector4 MaterialInfo::getSpecular() const{
+  return m_specular;
+}
+
+
+void MaterialInfo::setSpecular(const Vector4& theValue){
+  m_specular = theValue;
+}
+
+
+int MaterialInfo::getShininess() const{
+  return m_shininess;
+}
+
+
+void MaterialInfo::setShininess(const int& theValue){
+  m_shininess = theValue;
+}
+
+void MaterialInfo::apply(EnumDrawer textureChannel){
+	Drawer *drawer = Drawer::getInstance();
+		
+	drawer->activeTextureARB(textureChannel);
+	drawer->enable(InGE_TEXTURE_2D);
+	drawer->bindTexture(InGE_TEXTURE_2D, m_textureId );
+
+	drawer->material(m_face, InGE_AMBIENT_AND_DIFFUSE, m_color);
+	drawer->material(m_face, InGE_SPECULAR, m_specular);
+	drawer->material(m_face, InGE_SHININESS, m_shininess);
+	if(m_emissive)
+		drawer->material(m_face, InGE_EMISSION, m_emissiveColor);
 }

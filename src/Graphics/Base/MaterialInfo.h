@@ -27,7 +27,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define MATERIALINFO_H
 
 #include <string>
-
+#include "../Render/Drawer.h"
+#include "../../Math/Vector4.h"
 
 namespace InGE{
 	using std::string;
@@ -43,10 +44,15 @@ namespace InGE{
 		string m_name;					// Nome da Textura
 		string m_filename;				// Arquivo da Textura
 		bool m_alpha;
+		bool m_emissive;
+		Vector4 m_color;				// Cor do objeto
 		
-		unsigned char m_color[4];			// Cor do objeto
+		EnumDrawer m_face;
+		Vector4 m_specular;
+		int m_shininess;
+		Vector4 m_emissiveColor;
 		
-		unsigned int m_textureId;			// Identificador de Textura
+		unsigned int m_textureId;	// Identificador de Textura
 		
 		float m_uTile;					// u tiling of texture  (Currently not used)
 		float m_vTile;					// v tiling of texture  (Currently not used)
@@ -61,11 +67,33 @@ namespace InGE{
 		//Metodos Set		
 		void setTexture(string filename);
 		void setId(int i);
-
+		void setFace(const EnumDrawer& theValue);
+		void setColor(const Vector4& theValue);
+		void setSpecular(const Vector4& theValue);
+		void setShininess(const int& theValue);
+		void setEmissive(bool theValue);
+		
 		//Metodos Get		
 		string getFileName();
 		int getId();
 		bool getBlend();
+		EnumDrawer getFace() const;
+		Vector4 getColor() const;
+		Vector4 getSpecular() const;
+		int getShininess() const;
+		bool getEmissive() const;
+	
+	
+		void apply(EnumDrawer textureChannel);
+
+	
+	
+
+	
+	
+	
+	
+	
 	};
 
 };
