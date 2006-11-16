@@ -48,6 +48,13 @@ void AudioListener::setVelocity(const Vector3 &velocity) {
 	alListener3f(AL_VELOCITY, velocity.getX(), velocity.getY(), velocity.getZ());
 }
 
+void AudioListener::addVelocity(const Vector3 &velocity) {
+	Vector3 vel = getVelocity();
+	vel += velocity;
+	alListener3f(AL_VELOCITY, vel.getX(), vel.getY(), vel.getZ());
+}
+
+
 Vector3 AudioListener::getVelocity() {
 	ALfloat v[3];
 	alGetListenerfv(AL_VELOCITY, v);

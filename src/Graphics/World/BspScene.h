@@ -128,7 +128,7 @@ namespace InGE{
 		int			m_numOfMeshs;
 			
 		// Colision Data
-		PhysicalContactPoint	m_moveData;
+// 		PhysicalContactPoint	m_moveData;
 		BspTraceType		m_traceType;
 		Vector3				m_startMovePosition;
 		Vector3				m_endMovePosition;
@@ -157,11 +157,11 @@ namespace InGE{
 		void renderLeaf(int nodeIndex);
 		
 		int isClusterVisible(int current, int test);
-	  	
+
 	  	// Metodos de colisao
-		void checkNode(int indexNode, double startFraction, double endFraction, Vector3 start, Vector3 end);
+		void checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end);
 		
-		void checkBrush(BspBrush &brush);		
+		void checkBrush(BspBrush &brush, PhysicalContactPoint *moveData);
 		
 		
 		void createLightmap(int index, BspLightmap *pImageBits, int width, int height);
@@ -179,8 +179,9 @@ namespace InGE{
 		void 	renderLevel(Vector3 vPos, Frustum &frustum);
 		
 		// Colisao 
-		PhysicalContactPoint &checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom = NULL);
-		PhysicalContactPoint &checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, PhysicalGeom *geom = NULL);
+		void checkGeom(Vector3 start, Vector3 end, PhysicalGeom *geom);
+		PhysicalContactPoint *checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom = NULL);
+		PhysicalContactPoint *checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom = NULL, PhysicalContactPoint *oldMoveData = NULL);
 		
 		// Entity
 		std::vector<QEntityInfo *>& getVectorOfEntityInfo();

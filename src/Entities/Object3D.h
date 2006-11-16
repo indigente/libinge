@@ -76,6 +76,7 @@ namespace InGE {
 			
 			virtual Vector3 getVelocity();
 			virtual void setVelocity(const Vector3 &v);
+			virtual void addVelocity(const Vector3 &v);
 			
 			virtual Vector3 getForce();
 			virtual void setForce(const Vector3 &v);

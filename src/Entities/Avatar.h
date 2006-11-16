@@ -57,7 +57,6 @@ namespace InGE {
 			int	m_pointerX;
 			int	m_pointerY;
 
-			Vector3 m_targetPosition;
 			CameraFP m_camera;
 			AudioListener *m_pAudioListener;
 			
@@ -75,7 +74,6 @@ namespace InGE {
 			void 	setPointerMiddleScreen();
 			
 			void 	setPosition(Vector3 &v);
-			Vector3	getTargetPosition();
 			void	rotate(float angle, Vector3 &axis);
 			
 			void	updateGeom();

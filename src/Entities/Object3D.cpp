@@ -42,7 +42,12 @@ Object3D::Object3D(PhysicalGeom *geom) : IEntity("Object3D"){
 	m_collisionEnable = true;
 	m_direction.setXYZ( 0,1,0);
 	
+	m_worldTargetCollided = false;
+	m_worldDynamicCollided = false;
 	m_objectCollided = false;
+	
+	Vector3 vel(0,0,0);
+	m_pPhysicalGeom->getBody()->setLinearVel(vel);
 	
 }
 
@@ -95,6 +100,15 @@ void Object3D::setVelocity(const Vector3 &v){
 	if(m_pPhysicalGeom && m_pPhysicalGeom->getBody()){
 		Vector3 vel = v;
 		 m_pPhysicalGeom->getBody()->setLinearVel(vel);
+	}
+}
+
+void Object3D::addVelocity(const Vector3 &v){
+	if(m_pAudioSource) m_pAudioSource->addVelocity(v);
+	if(m_pPhysicalGeom && m_pPhysicalGeom->getBody()){
+		Vector3 linearVelocity = m_pPhysicalGeom->getBody()->getLinearVel();
+		linearVelocity += v;
+		 m_pPhysicalGeom->getBody()->setLinearVel(linearVelocity);
 	}
 }
 

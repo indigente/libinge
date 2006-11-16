@@ -53,7 +53,6 @@ void PhysicsManager::quickStep(){
 	//Armazena posicao dos Avatares e checa colisao com cenario
 	for (int i=0 ; i< m_vetAvatar.size(); i++){
 		m_vetAvatar[i]->update();
-		checkTargetColision(m_vetAvatar[i]);
 		positions[i] = m_vetAvatar[i]->getPosition();
 	}
 
@@ -75,12 +74,12 @@ void PhysicsManager::quickStep(){
 
 	// Checa colisao do avatar com o cenario
 	for (int i=0 ; i< m_vetAvatar.size(); i++){
-		checkDynamicColision(m_vetAvatar[i], positions[i]);
+		checkDynamicColision(m_vetAvatar[i], positions[i], elapsedTime);
 	}
 	
 	// Checa colisao do object3d com o cenario
 	for (int i = 0; i < m_vetObject3D.size(); i++){
-		checkDynamicColision(m_vetObject3D[i], objectPosition[i] );
+		checkDynamicColision(m_vetObject3D[i], objectPosition[i] , elapsedTime);
 	}
 	
 	
@@ -90,34 +89,10 @@ void PhysicsManager::quickStep(){
 	m_lastStepTime = currentTime;
 }
 
-	
-void PhysicsManager::checkTargetColision(Object3D *object3D){
-	PhysicalGeom *pGeom;
-	PhysicalContactPoint moveData;
-	
-	if(!object3D) return;	
-	if(!m_pScene) return;
-	
-	pGeom = object3D->pGetPhysicalGeom();
-	if(!pGeom) return;
-	
-	Vector3 position = object3D->getPosition();
-	Vector3 targetPosition = object3D->getTargetPosition();
-	
-	if ((object3D->getCollisionEnable())){
-		moveData = m_pScene->checkMoveCollisionAndTrySlide(position, targetPosition, pGeom);
-		object3D->setPosition(moveData.getPosition());
 
-		if(!(targetPosition == object3D->getPosition()))
-			object3D->worldTargetWithCollision(&moveData);
-		else
-			object3D->worldTargetWithoutCollision(&moveData);
-	}
-}
-
-void PhysicsManager::checkDynamicColision(Object3D *object3D, Vector3 startPosition){
+void PhysicsManager::checkDynamicColision(Object3D *object3D, Vector3 startPosition, float elapsedTime){
 	PhysicalGeom *pGeom;
-	PhysicalContactPoint moveData;
+	PhysicalContactPoint *moveData;
 	
 	
 	if(!object3D) return;
@@ -130,19 +105,21 @@ void PhysicsManager::checkDynamicColision(Object3D *object3D, Vector3 startPosit
 	if(!pGeom) return;
 	
 	if ( (object3D->getCollisionEnable())){
-		moveData = m_pScene->checkMoveCollision/*AndTrySlide*/( startPosition, position, pGeom);
+		moveData = m_pScene->checkMoveCollisionAndTrySlide( startPosition, position, elapsedTime, pGeom);
 		
-		if(moveData.getDepth() == 1.0f){
-			object3D->worldDynamicWithoutCollision( &moveData);
-		}
-		else{
-			//object3D->setPosition(moveData.getPosition());
-			object3D->setPosition(startPosition);
-			object3D->worldDynamicWithCollision( &moveData);
-			Vector3 v(0,0,0);
+		if(moveData->getColided() == false){
+			object3D->worldDynamicWithoutCollision(moveData);
+		}else{
+			object3D->setPosition(moveData->getPosition());
+// 			object3D->setPosition(startPosition);
+			object3D->worldDynamicWithCollision(moveData);
+			Vector3 v;
+			v = object3D->getVelocity();
+			v *= 0.9;
 			object3D->setVelocity(v);
 		}
 	}
+	delete moveData;
 }
 
 void PhysicsManager::checkObjectColision(Avatar *avatar, Object3D *object3D){

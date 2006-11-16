@@ -56,6 +56,7 @@ class InfoEntity :  public InGE::IEntity{
 		virtual void setDirection(const Vector3 &v){};
 		virtual Vector3 getVelocity(){return Vector3(0,0,1);};
 		virtual void setVelocity(const Vector3 &v){};
+		virtual void addVelocity(const Vector3 &v){};
 
 		virtual TiXmlElement *entity2xml();
 		virtual void updateFromXml(TiXmlElement *xml);

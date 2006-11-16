@@ -127,16 +127,12 @@ void Avatar::updateCamera(){
 }
 
 
-Vector3 Avatar::getTargetPosition(){
-	return m_targetPosition;
-}
-
 /**
  * Checa mudanÃ§as de estado no Avatar
  */
 void Avatar::update(){
 	static float lastUpdateTime = 0;
-	float speed = m_moveSpeed * (SDL_GetTicks() - lastUpdateTime)/1000;
+	float speed = m_moveSpeed * (SDL_GetTicks() - lastUpdateTime)/20;
 	lastUpdateTime = SDL_GetTicks();
 	
 	//Camera
@@ -149,7 +145,7 @@ void Avatar::update(){
  		rotate( -(m_rotateSpeed * speed), up);
  	}
 
-	m_targetPosition = this->getPosition();
+	Vector3 targetPosition = this->getPosition();
 	
 	m_direction = m_camera.getDirection();
 	Vector3 strafe = m_camera.getStrafe();
@@ -159,31 +155,33 @@ void Avatar::update(){
 	strafe.normalize();
 	
 	if(m_movimentState.forward){
-		m_targetPosition += m_direction * speed;
+		targetPosition += m_direction * speed;
 	}
 	if(m_movimentState.backward){
-		m_targetPosition -= m_direction * speed;	
+		targetPosition -= m_direction * speed;	
 	}
 	if(m_movimentState.strafeLeft){
-		m_targetPosition += strafe * speed;
+		targetPosition += strafe * speed;
 	}
 	if(m_movimentState.strafeRight){
-		m_targetPosition -= strafe * speed;	
+		targetPosition -= strafe * speed;	
 	}
+	
+	Vector3 velocity = targetPosition - this->getPosition();
+	velocity[2] = 0.0;
+	velocity.normalize();
+	velocity *= speed;
+	velocity[2] = getVelocity()[2];
+	
+	setVelocity( velocity );
+	
 	if(m_movimentState.jump){
 		if(m_worldDynamicCollided){
 			Vector3 v(0,0, m_jumpSpeed);
-			this->setVelocity(v);
+			this->addVelocity(v);
 		}
 		m_movimentState.jump = false;
-	}
-	Vector3 velocity = m_targetPosition - this->getPosition();
- 	velocity[2] = 0.0f;
-	velocity.normalize();
-	velocity *= speed;
-
-	m_targetPosition = velocity + this->getPosition();
-	
+	}	
 }
 	
 void Avatar::setPointerMiddleScreen(){

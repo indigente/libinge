@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright © 2004 Indigente
+Copyright  2004 Indigente
 
 
 This program is free software; you can redistribute it and/or modify it under
@@ -50,8 +50,8 @@ namespace InGE{
 			virtual ~IScene(){};
 			virtual void renderLevel(Vector3 camera, Frustum &frutum) = 0;
 			
-			virtual PhysicalContactPoint &checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom = NULL) = 0;
-			virtual PhysicalContactPoint &checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, PhysicalGeom *geom = NULL) = 0;
+			virtual PhysicalContactPoint *checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom = NULL) = 0;
+			virtual PhysicalContactPoint *checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom = NULL, PhysicalContactPoint *oldMoveData = NULL) = 0;
 		
 	};
 

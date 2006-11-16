@@ -39,16 +39,15 @@ using std::vector;
 */
 class PhysicsManager{
 private:
-	PhysicalWorld		*m_pPhysicalWorld;
-	float 			m_stepValue;
+	PhysicalWorld			*m_pPhysicalWorld;
+	float 					m_stepValue;
 	vector<Object3D *>	m_vetObject3D;
-	vector<Avatar *>	m_vetAvatar;
-	IScene			*m_pScene;
+	vector<Avatar *>		m_vetAvatar;
+	IScene					*m_pScene;
 	
 	float	m_lastStepTime;
 	
-	void	checkTargetColision(Object3D *object3d);
-	void	checkDynamicColision(Object3D *object3d, Vector3 startPosition);
+	void	checkDynamicColision(Object3D *object3d, Vector3 startPosition, float elapsedTime);
 	void	checkObjectColision(Avatar *avatar, Object3D *object3d);
 	
 	void	updateGeom(Object3D *object3d);

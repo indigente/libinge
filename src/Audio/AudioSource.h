@@ -92,6 +92,7 @@ public:
 
 	/* Estes metodos agora sao herdados de IEntity */
 	virtual void setVelocity(const Vector3 &velocity);
+	virtual void addVelocity(const Vector3 &velocity);
 	virtual Vector3 getVelocity();
 	virtual void setPosition(const Vector3 &position);
 	virtual Vector3 getPosition();

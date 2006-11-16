@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright © 2004 Indigente
+Copyright  2004 Indigente
 
 
 This program is free software; you can redistribute it and/or modify it under
@@ -32,7 +32,7 @@ namespace InGE{
 	
 	/**
 	 * Classe Vetor 3D 
-	 * Possui diversas operações utilizadas entre vetores
+	 * Possui diversas operaï¿½es utilizadas entre vetores
 	 * @author Ivan Medeiros Monteiro
 	 */	
 	class Vector3{
@@ -66,7 +66,7 @@ namespace InGE{
 		
 		void normalize();
 
-		//Metodos de Operações
+		//Metodos de Operaï¿½es
 		Vector3 operator+(const Vector3 &vet) const;
 		Vector3 operator+=(const Vector3 &vet);
 		Vector3 operator-(const Vector3 &vet) const;

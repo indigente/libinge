@@ -64,6 +64,7 @@ class IEntity {
 
 		virtual Vector3 getVelocity() =0;
 		virtual void setVelocity(const Vector3 &v)=0;
+		virtual void addVelocity(const Vector3 &v)=0;
 
 		virtual TiXmlElement *entity2xml()=0;
 		virtual void addXML(TiXmlElement *xml);

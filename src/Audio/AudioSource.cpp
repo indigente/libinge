@@ -120,6 +120,13 @@ void AudioSource::setVelocity(const Vector3 &velocity) {
 	alSource3f(number, AL_VELOCITY, velocity.getX(), velocity.getY(), velocity.getZ());
 }
 
+void AudioSource::addVelocity(const Vector3 &velocity) {
+	Vector3 vel = getVelocity();
+	vel += velocity;
+	alSource3f(number, AL_VELOCITY, vel.getX(), vel.getY(), vel.getZ());
+}
+
+
 Vector3 AudioSource::getVelocity() {
 	ALfloat v[3];
 	alGetSourcefv(number, AL_VELOCITY, v);
@@ -303,7 +310,7 @@ TiXmlElement *AudioSource::entity2xml(){
 
 bool AudioSource::playStreaming() {
 	playStreaming(m_path);
-	return true; //FIXME: Verificar se está ok antes de retornar
+	return true; //FIXME: Verificar se estï¿½ok antes de retornar
 }
 
 bool AudioSource::playStreaming(string &path) {

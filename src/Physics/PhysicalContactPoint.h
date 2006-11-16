@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright © 2004-2005 Indigente
+Copyright  2004-2005 Indigente
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
@@ -35,7 +35,7 @@ namespace InGE{
 		public:
 		
 			dContactGeom	m_contact;
-			
+			bool m_colided;
 		
 			PhysicalContactPoint();
 			~PhysicalContactPoint();
@@ -43,12 +43,18 @@ namespace InGE{
 			void setNormal(Vector3 &normal);
 			void setPosition(Vector3 &position);
 			void setDepth(float depth);
+			void setColided(bool theValue);
 			
 			Vector3 getNormal();
 			Vector3 getPosition();
 			float getDepth();
 			PhysicalGeom *getObject1();
 			PhysicalGeom *getObject2();
+			bool getColided() const;
+	
+	
+
+	
 			
 	};
 };

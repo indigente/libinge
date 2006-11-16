@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright © 2004-2005 Indigente
+Copyright  2004-2005 Indigente
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
@@ -26,6 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 using namespace InGE;
 
 PhysicalContactPoint::PhysicalContactPoint(){
+	m_colided = false;
 }
 
 PhysicalContactPoint::~PhysicalContactPoint(){
@@ -76,4 +77,14 @@ PhysicalGeom *PhysicalContactPoint::getObject2(){
 	if(!m_contact.g2) return NULL;
 	PhysicalGeom *g2 = (PhysicalGeom *)dGeomGetData(m_contact.g2);
 	return g2;
+}
+
+
+bool PhysicalContactPoint::getColided() const{
+  return m_colided;
+}
+
+
+void PhysicalContactPoint::setColided(bool theValue){
+  m_colided = theValue;
 }

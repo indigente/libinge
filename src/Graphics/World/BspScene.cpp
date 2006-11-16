@@ -456,120 +456,79 @@ void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *
  * Collision
  * Verifica colisao no movimento pretendido
  */
-PhysicalContactPoint &BspScene::checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom ){
-	m_moveData.setDepth(1.0f);
-	m_moveData.setPosition( end );
-	if ( geom == NULL ){
-		m_traceType = InGE_BSP_TRACE_RAY;
-		m_moveOffset = 0.0;
-        
-		m_startMovePosition = start;
-		m_endMovePosition = end;
-	} else if ( geom->getClass() == 0 ){
-		m_traceType = InGE_BSP_TRACE_SPHERE;
-		GeomSphere *sphere = (GeomSphere *) geom;
-		m_moveOffset = sphere->getRadius();
-        
-		m_startMovePosition = start;
-		m_endMovePosition = end;
-        
-	} else if ( geom->getClass() == 1 ){
-		m_traceType = InGE_BSP_TRACE_BOX;
-		GeomBox *box = (GeomBox *) geom;
-               
-		m_traceMin = box->getLengths() / -2;
-		m_traceMax = box->getLengths() / 2;
-		m_moveOffset = 0.0f;
-               
-		m_startMovePosition = start;
-		m_endMovePosition = end;
-               
-		m_extends.setXYZ(MAX(fabs(m_traceMin[0]), fabs(m_traceMax[0])), MAX(fabs(m_traceMin[1]), fabs(m_traceMax[1])), MAX(fabs(m_traceMin[2]), fabs(m_traceMax[2])));
-	}
-	if(start == end) return m_moveData;
+PhysicalContactPoint *BspScene::checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom ){
+	PhysicalContactPoint *moveData;
+	moveData->setDepth(1.0f);
+	moveData->setPosition( end );
+	
+	checkGeom(start, end, geom);
+	
+	if(start == end) 
+		return moveData;
         // percorre a arvore a partir da raiz
-	checkNode(0, 0.0f, 1.0f, start, end);
-        
+	checkNode(0, moveData, 0.0f, 1.0f, start, end);
+
         // Se houve colisao, atualiza os valores
-	if(m_moveData.getDepth() == 1.0f){
-		m_moveData.setPosition( end );
+	if(moveData->getDepth() == 1.0f){
+		moveData->setPosition( end );
 	}
 	else {
-		Vector3 position = start + (end - start)* (m_moveData.getDepth());
-		position += m_moveData.getNormal()*0.1;
+		Vector3 position = start + (end - start)* (moveData->getDepth());
+		position += moveData->getNormal()*0.1;
 	}
-        
-	return m_moveData;
+
+	return moveData;
 }
 /**
  * Collision
  * Verifica colisao no movimento pretendido e tenta fazer slide
  */
-PhysicalContactPoint &BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, PhysicalGeom *geom){
-	m_moveData.setDepth( 1.0f );
-	m_moveData.setPosition( end );
-	if ( geom == NULL ){
-		m_traceType = InGE_BSP_TRACE_RAY;
-		m_moveOffset = 0.0;
-        
-		m_startMovePosition = start;
-		m_endMovePosition = end;
-	}else if ( geom->getClass() == 0 ) {
-		m_traceType = InGE_BSP_TRACE_SPHERE;
-		GeomSphere *sphere = (GeomSphere *) geom;
-		m_moveOffset = sphere->getRadius();
-        
-		m_startMovePosition = start;
-		m_endMovePosition = end;
-               
-	} else if ( geom->getClass() == 1 ) {
-		m_traceType = InGE_BSP_TRACE_BOX;
-		GeomBox *box = (GeomBox *) geom;
-               
-		m_traceMin = box->getLengths() / -2;
-		m_traceMax = box->getLengths() / 2;
-		m_moveOffset = 0.0f;
-               
-		m_startMovePosition = start;
-		m_endMovePosition = end;
-               
-		m_extends.setXYZ(MAX(fabs(m_traceMin[0]), fabs(m_traceMax[0])), MAX(fabs(m_traceMin[1]), fabs(m_traceMax[1])), MAX(fabs(m_traceMin[2]), fabs(m_traceMax[2])));
-        
-	} else if ( geom->getClass() == 8 ) {
-		PhysicalSpace *space = (PhysicalSpace *)geom;
-//                    for (int i = 0; space->getNumGeom(); i++){
-//                           checkMoveCollisionAndTrySlide(start, end, space->getGeom( i ));
+PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom, PhysicalContactPoint *oldMoveData ){
+	PhysicalContactPoint	*moveData = oldMoveData;
+	if (!moveData)
+		moveData = new PhysicalContactPoint();
+	
+	moveData->setDepth( 1.0f );
+	moveData->setPosition( end );
+	
+	checkGeom(start, end, geom);
+	
+	if(start == end){
+		return moveData;
 	}
-	if(start == end)
-		return m_moveData;
-        // percorre a arvore a partir da raiz
-	checkNode(0, 0.0f, 1.0f, start, end);
-        
-        // Se houve colisao, atualiza os valores
-	if(m_moveData.getDepth() == 1.0f)
-		m_moveData.setPosition( end );
-	else{
+	
+	// percorre a arvore a partir da raiz
+	checkNode(0, moveData, 0.0f, 1.0f, start, end);
+
+	// Se houve colisao, atualiza os valores
+	if(moveData->getDepth() == 1.0f){
+		moveData->setPosition( end );
+	}else{
+		moveData->setColided(true);
+		
 		Vector3 slideStartPoint, position;
-		slideStartPoint = position = start + (end - start)* m_moveData.getDepth();
-		Vector3 v1 = (start - end)* (1.0f - m_moveData.getDepth());
-		m_moveData.getNormal().normalize();
-		Vector3 v2 =  m_moveData.getNormal() * (v1 * m_moveData.getNormal());
+		slideStartPoint = position = start + (end - start)* moveData->getDepth();
+		Vector3 v1 = (start - end)* (1.0f - moveData->getDepth());
+		moveData->getNormal().normalize();
+		Vector3 v2 =  moveData->getNormal() * (v1 * moveData->getNormal());
 		position += (v2-v1);
 
-		position += m_moveData.getNormal()*0.1;
+		moveData->getNormal().normalize();
 		
-
-		m_moveData.setPosition( position );
-		checkMoveCollisionAndTrySlide(slideStartPoint, m_moveData.getPosition(), geom);
+		position += moveData->getNormal() * elapsedTime/100;
+ 		slideStartPoint += moveData->getNormal() * elapsedTime/100;
+	
+	
+		checkMoveCollisionAndTrySlide(slideStartPoint, position,elapsedTime, geom, moveData);
 	}
-        
-	return m_moveData;
+
+	return moveData;
 }
 /**
  * Percorre a arvore(bsp) para ateh achar as folhas para verificar colisao
  */
-void BspScene::checkNode(int nodeIndex, double startFraction, double endFraction, Vector3 start, Vector3 end){
-	if(m_moveData.getDepth() <= startFraction)
+void BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end){
+	if(moveData->getDepth() <= startFraction)
 		return;
 
 	//Se o noh eh folha
@@ -580,7 +539,7 @@ void BspScene::checkNode(int nodeIndex, double startFraction, double endFraction
 			BspBrush &brush = m_info.pBrushes[m_info.pLeafBrushes[leaf.leafBrush + i]];
 			// Checa se o brush eh valido e  material pra colisao
 			if((brush.numOfBrushSides > 0) && (((m_info.pTextures[brush.textureID].contents)&1)||((m_info.pTextures[brush.textureID].contents)&0x10000))){
-				checkBrush(brush);
+				checkBrush(brush, moveData);
 			}
 
 		}
@@ -597,11 +556,11 @@ void BspScene::checkNode(int nodeIndex, double startFraction, double endFraction
 
         // Se ambos os pontos estaum na frente do plano, vai pra filho da frente
 	if((startDistance >= m_moveOffset) && (endDistance >= m_moveOffset)){
-		checkNode(node.front, startFraction, endFraction, start, end);
+		checkNode(node.front, moveData, startFraction, endFraction, start, end);
 	}
         // Se ambos os pontos estaum atras do plano, vai pra filho de tras
 	else if((startDistance < -m_moveOffset) && (endDistance < -m_moveOffset)){
-		checkNode(node.back, startFraction, endFraction, start, end);  
+		checkNode(node.back, moveData, startFraction, endFraction, start, end);  
 	}
         // Caso contrario, split e vai pra os dois filhos.
 
@@ -648,14 +607,14 @@ void BspScene::checkNode(int nodeIndex, double startFraction, double endFraction
                // define o percentual do ponto inicial ateh o ponto de split                
 		double middleFraction = startFraction + (endFraction - startFraction) * fraction1;
                //checagem no noh do ponto inicial
-		checkNode(sideIndex1, startFraction, middleFraction, start, middle);
+		checkNode(sideIndex1, moveData, startFraction, middleFraction, start, middle);
 
                // definindo ponto de split a partir do ponto final
 		middle =  start + (end - start) * fraction2;
                // define o percentual do ponto final ateh o ponto de split                  
 		middleFraction = startFraction + (endFraction - startFraction) * fraction2;
                //checagem no noh do ponto final
-		checkNode(sideIndex2, middleFraction, endFraction, middle, end);
+		checkNode(sideIndex2, moveData, middleFraction, endFraction, middle, end);
 	}
 }
 
@@ -663,7 +622,7 @@ void BspScene::checkNode(int nodeIndex, double startFraction, double endFraction
  * Faz checagem de colisao com um Brush especifico
  */
  
-void BspScene::checkBrush(BspBrush &brush){
+void BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
 	float startFraction= -1.0f;
 	float endFraction = 1.0f;
 	bool  startOut = false;
@@ -720,18 +679,18 @@ void BspScene::checkBrush(BspBrush &brush){
 	}
 	
 	if(!startOut){ // inicia dentro do brush
-	//	m_moveData.startOut = false;
-	//	if(!endOut) m_moveData.allSolid = true;
+	//	moveData->startOut = false;
+	//	if(!endOut) moveData->allSolid = true;
 		return;
 	}
 
 	if(startFraction < endFraction){
-		if((startFraction > -1.0f) && (startFraction < m_moveData.getDepth())){
+		if((startFraction > -1.0f) && (startFraction < moveData->getDepth())){
 			if(startFraction < 0) 
 				startFraction = 0;
                       
-			m_moveData.setDepth( startFraction );
-			m_moveData.setNormal( vCandidateToHitNormal );
+			moveData->setDepth( startFraction );
+			moveData->setNormal( vCandidateToHitNormal );
 		}
 	}
         
@@ -780,4 +739,39 @@ void BspScene::changeGamma(unsigned char *pImage, unsigned int size, float facto
 		pImage[1] = (unsigned char)g;
 		pImage[2] = (unsigned char)b;
 	}
+}
+
+void InGE::BspScene::checkGeom( Vector3 start, Vector3 end, PhysicalGeom * geom ){
+	if ( geom == NULL ){
+		m_traceType = InGE_BSP_TRACE_RAY;
+		m_moveOffset = 0.0;
+        
+		m_startMovePosition = start;
+		m_endMovePosition = end;
+	} else if ( geom->getClass() == 0 ){
+		m_traceType = InGE_BSP_TRACE_SPHERE;
+		GeomSphere *sphere = (GeomSphere *) geom;
+		m_moveOffset = sphere->getRadius();
+        
+		m_startMovePosition = start;
+		m_endMovePosition = end;
+        
+	} else if ( geom->getClass() == 1 ){
+		m_traceType = InGE_BSP_TRACE_BOX;
+		GeomBox *box = (GeomBox *) geom;
+               
+		m_traceMin = box->getLengths() / -2;
+		m_traceMax = box->getLengths() / 2;
+		m_moveOffset = 0.0f;
+               
+		m_startMovePosition = start;
+		m_endMovePosition = end;
+               
+		m_extends.setXYZ(MAX(fabs(m_traceMin[0]), fabs(m_traceMax[0])), MAX(fabs(m_traceMin[1]), fabs(m_traceMax[1])), MAX(fabs(m_traceMin[2]), fabs(m_traceMax[2])));
+	} /*else if ( geom->getClass() == 8 ) {
+		PhysicalSpace *space = (PhysicalSpace *)geom;
+		for (int i = 0; space->getNumGeom(); i++){
+			checkMoveCollisionAndTrySlide(start, end, space->getGeom( i ));
+		}
+	}*/
 }

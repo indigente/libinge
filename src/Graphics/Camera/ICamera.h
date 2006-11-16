@@ -56,6 +56,7 @@ namespace InGE{
 			//Metodos Set
 			virtual void setPosition(const Vector3 &position);
 			virtual void setVelocity(const Vector3 &v) {}; // de IEntity
+			virtual void addVelocity(const Vector3 &v) {}; // de IEntity
 			virtual void setViewPoint(const Vector3 &viewPoint);
 			virtual void setUp(const Vector3 &up);
 			
