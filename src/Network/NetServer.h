@@ -42,12 +42,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "NetControl.h"
 
-namespace InGE{
+namespace InGE
+{
   using namespace std;
   /**
   	@author Garou <kdubezerra@gmail.com>
   */
-  class NetServer{
+  class NetServer
+  {
   protected:
 
     static NetServer* m_pNetServer;
@@ -81,8 +83,8 @@ namespace InGE{
     void checkVacancy (UDPpacket *incoming);
 
     //função executada pela thread principal da classe
-    static void activeServer (void *instance );
-    static void pingSender (void *instance );
+    static int activeServer (void *instance );
+    static int pingSender (void *instance );
 
     void checkClientsTimeOut();
 
