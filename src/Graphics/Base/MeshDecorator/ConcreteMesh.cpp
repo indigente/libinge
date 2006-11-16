@@ -312,9 +312,12 @@ void ConcreteMesh::set(bool setup){
 	}
 
 	if (!setup){
+		m_vetMaterial[m_currMaterial].apply(InGE_TEXTURE0_ARB);
+		/*
 		drawer->activeTextureARB(InGE_TEXTURE0_ARB);
 		drawer->enable(InGE_TEXTURE_2D);
 		drawer->bindTexture(InGE_TEXTURE_2D, m_vetMaterial[m_currMaterial].getId() );
+		*/
 		
 		drawer->clientActiveTextureARB(InGE_TEXTURE0_ARB);
 		drawer->enableClientState(InGE_TEXTURE_COORD_ARRAY);
