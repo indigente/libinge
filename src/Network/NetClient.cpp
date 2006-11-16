@@ -159,6 +159,7 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 	if ( data ) 
 		delete ( data );
 	
+	return 0;
 }
 
 
@@ -182,6 +183,7 @@ int NetClient::deadReckoning (void* instance){ /** CRITICA **/
 	}
 	
 	pNetClient->m_deadReckoningIsOn = false;
+	return 0;
 }
 
 
@@ -195,6 +197,8 @@ int NetClient::syncSender (void* instance){ /** OPCIONAL **/
 	}
 	
 	pNetClient->m_syncSenderIsOn = false;
+	
+	return 0;
 }
 
 
@@ -811,4 +815,8 @@ void NetClient::answerPing() {
 NetClient::~NetClient(){ // rever isso -> NetControl.cpp?
 	NetControl::quitSdlNet();
 }
+
+
+
+
 }

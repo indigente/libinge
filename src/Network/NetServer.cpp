@@ -26,7 +26,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 
-namespace InGE{
+namespace InGE
+{
 
   //defining static class variables...
   NetServer* NetServer::m_pNetServer = NULL;
@@ -263,42 +264,41 @@ int NetServer::activeServer (void *instance ){
 	SDLNet_FreePacket (inPacket);
 	if (xmlContainer) delete (xmlContainer);
 	if (data) delete (data);
-    return 0;
+
+	return 0;
 }
 
 
-  int NetServer::pingSender (void *instance )
-  {
-    NetServer* pNetServer = (NetServer*) instance;
-    while (!pNetServer->m_stopServer)
-    {
-			pNetServer->m_pingThreadReady = true;
-      pNetServer->sendPing();
-      SDL_Delay(NetControl::M_PING_PERIOD);
-    }
-    return 0;
-  }
+int NetServer::pingSender (void *instance ){
+	NetServer* pNetServer = (NetServer*) instance;
+	while (!pNetServer->m_stopServer){
+		pNetServer->m_pingThreadReady = true;
+		pNetServer->sendPing();
+		SDL_Delay(NetControl::M_PING_PERIOD);
+	}
+	return 0;
+}
 
 
-  void NetServer::sendPing()
-  {
-    TiXmlElement* pingMsg = new TiXmlElement("InGENetMsg");
-    string pingMsgString;
-    UDPpacket* pingPacket = SDLNet_AllocPacket(NetControl::M_PACKET_SIZE);
+void NetServer::sendPing(){
+	TiXmlElement* pingMsg = new TiXmlElement("InGENetMsg");
+	string pingMsgString;
+	UDPpacket* pingPacket = SDLNet_AllocPacket(NetControl::M_PACKET_SIZE);
 
-    pingMsg->SetAttribute( "ID" , -1 );
-    pingMsg->SetAttribute( "TYPE" , "SERVER_PING" );
+	pingMsg->SetAttribute( "ID" , -1 );
+	pingMsg->SetAttribute( "TYPE" , "SERVER_PING" );
 
-    pingMsgString << *pingMsg;
+	pingMsgString << *pingMsg;
 
-    memcpy ( pingPacket->data , pingMsgString.c_str() , pingMsgString.size() + 1);
-    pingPacket->len = pingMsgString.size() + 1;
+	memcpy ( pingPacket->data , pingMsgString.c_str() , pingMsgString.size() + 1);
+	pingPacket->len = pingMsgString.size() + 1;
 
-    broadcast( pingPacket );
+	broadcast( pingPacket );
 
-    if (pingMsg) delete (pingMsg);
-    SDLNet_FreePacket(pingPacket);
-  }
+	if (pingMsg) 
+		delete (pingMsg);
+	SDLNet_FreePacket(pingPacket);
+}
 
 
  
@@ -309,8 +309,7 @@ int NetServer::activeServer (void *instance ){
   	openServer(port);	
   }*/
 
-  void NetServer::openServer(unsigned short int port)
-  {
+void NetServer::openServer(unsigned short int port){
     if(!(m_sock=SDLNet_UDP_Open(port)))
     {
       cerr << "NetServer :: SDLNet_UDP_Open: " << SDLNet_GetError() << endl;
