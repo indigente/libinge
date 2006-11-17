@@ -184,7 +184,7 @@ Vertex Vertex::operator+(const Vertex &vert) const{
 	vertRet.m_texCoord += vert.m_texCoord;						
 	vertRet.m_normal += vert.m_normal;						
 	return vertRet;
-};
+}
 
 Vertex Vertex::operator-(const Vertex &vert) const{
 	Vertex vertRet;
@@ -203,7 +203,7 @@ Vertex Vertex::operator*(float f) const{
 	vertRet.m_texCoord *= f;						
 	vertRet.m_normal *= f;						
 	return vertRet;
-};
+}
 
 Vertex &Vertex::operator=(const Vertex &vert){
 	m_position = vert.m_position;
@@ -224,17 +224,17 @@ Vertex &Vertex::operator+=(const Vertex &vert){
 	m_texCoord += vert.m_texCoord;						
 	m_normal += vert.m_normal;						
 	return *this;
-};
+}
 Vertex &Vertex::operator-=(const Vertex &vert){
 	m_position -= vert.m_position;
 	m_texCoord -= vert.m_texCoord;						
 	m_normal -= vert.m_normal;						
 	return *this;
-};
+}
 Vertex &Vertex::operator*=(float f){
 	m_position *= f;
 	m_texCoord *= f;						
 	m_normal *= f;						
 	return *this;
-};		
+}		
 

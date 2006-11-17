@@ -243,7 +243,7 @@ using std::vector;
 	};
 
 
-};
+}
 
 #include "DrawerOpenGL.h"
 

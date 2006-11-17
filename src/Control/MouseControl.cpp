@@ -60,7 +60,7 @@ void MouseControl::setControlLayer(ControlLayer *c){
 void MouseControl::loadTab(string filename){
 	//Try to open filename
 	loadDefaultTab();
-};
+}
 void MouseControl::loadDefaultTab(){
 	(*m_controlTab)[MOTION_INDEX] = InGE_CONTROL_LOOK;
 	(*m_controlTab)[SDL_BUTTON_LEFT] = InGE_CONTROL_ATTACK1;
