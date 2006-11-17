@@ -18,7 +18,7 @@ libInGE_la_LDFLAGS = -release @PACKAGE_VERSION@	\
 	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
 install-data-local:
-	find $(srcdir) -name '*.h' -execdir $(srcdir)/install-header '{}' $(DESTDIR)$(pkgincludedir) ';'
+	find . -name '*.h' -exec ./install-header '{}' $(DESTDIR)$(pkgincludedir) ';'
 	mkdir -p $(DESTDIR)$(libdir)/pkgconfig
 	$(INSTALL_DATA) inge.pc $(DESTDIR)$(libdir)/pkgconfig
 
