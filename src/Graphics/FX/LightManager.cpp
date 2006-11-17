@@ -48,7 +48,7 @@ void LightManager::setAmbientColor(const Vector4& light){
 	Drawer *drawer = Drawer::getInstance();
 	m_ambientColor = light;
 	
-	drawer->lightModel(InGE_LIGHT_MODEL_AMBIENT, m_ambientColor);
+	drawer->light(GL_AMBIENT, InGE_LIGHT_MODEL_AMBIENT, m_ambientColor);
 }
 
 bool LightManager::getLocalViewer() const {
