@@ -68,5 +68,5 @@ namespace InGE{
 			void		rmPrimitive(std::string name);
 	};
 	
-};
+}
 #endif // PRIMITIVEFACTORY_H

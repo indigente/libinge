@@ -42,6 +42,5 @@ namespace InGE{
 			Vector3 getAnchor();
 			Vector3 getAnchor2();
 	};
-};
-
+}
 #endif // JOINTBALL_H

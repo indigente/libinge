@@ -12,5 +12,5 @@ class IButtonCommand
 		virtual void onClicked() = 0;
 };
 
-};
+}
 #endif /*IBUTTONCOMMAND_H_*/

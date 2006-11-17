@@ -53,6 +53,5 @@ public:
 	virtual void resize(float width, float height);
 };
 
-};
-
+}
 #endif /*TEXTUREDECORATOR_H_*/

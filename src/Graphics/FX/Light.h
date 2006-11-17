@@ -56,5 +56,5 @@ namespace InGE{
 		void setConstantAttenuation(float param);
 	};
 
-};
+}
 #endif // LIGHT_H

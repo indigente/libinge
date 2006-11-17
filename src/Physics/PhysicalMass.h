@@ -62,6 +62,5 @@ namespace InGE{
 			dMass &getMass(){return m_mass;};
 	};
 
-};
-
+}
 #endif // PHYSICALMASS_H

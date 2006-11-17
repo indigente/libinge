@@ -83,5 +83,5 @@ namespace InGE{
 		const float *toArray();
 	};
 
-};
+}
 #endif // VECTOR4_H

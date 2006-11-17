@@ -42,5 +42,5 @@ namespace InGE{
 			float pointDepth(Vector3 &point);
 			void setData(void *data);
 	};
-};
+}
 #endif // GEOMBOX_H

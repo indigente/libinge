@@ -55,6 +55,5 @@ namespace InGE{
 		
 	};
 
-};
-
+}
 #endif // ISCENE_H

@@ -71,6 +71,5 @@ namespace InGE{
 			void setSlip2(float slip2);
 	};
 
-};
-
+}
 #endif // JOINTCONTACT_H

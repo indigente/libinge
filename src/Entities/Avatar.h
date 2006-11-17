@@ -94,6 +94,5 @@ namespace InGE {
 			virtual void updateFromXml(TiXmlElement *xml);
 	};
 
-};
-
+}
 #endif

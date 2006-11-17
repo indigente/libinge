@@ -58,6 +58,5 @@ public:
 	virtual TiXmlElement	*entity2xml();
 };
 
-};
-
+}
 #endif // AUDIOLISTENER_H

@@ -41,6 +41,5 @@ namespace InGE{
 			~QEntityParser();
 	};
 
-};
-
+}
 #endif // QENTITYPARSER_H

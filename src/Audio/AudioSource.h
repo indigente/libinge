@@ -134,6 +134,5 @@ public:
 	TiXmlElement *entity2xml();
 };
 
-};
-
+}
 #endif // AUDIOSOURCE_H

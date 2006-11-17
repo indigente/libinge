@@ -46,5 +46,5 @@ namespace InGE{
 		virtual void draw()=0;
 	};
 
-};
+}
 #endif // IRENDERLISTENER_H

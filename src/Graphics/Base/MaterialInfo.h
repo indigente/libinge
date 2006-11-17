@@ -96,5 +96,5 @@ namespace InGE{
 	
 	};
 
-};
+}
 #endif // MATERIALINFO_H

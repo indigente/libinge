@@ -77,6 +77,5 @@ namespace InGE{
 			
 
 	};
-};
-
+}
 #endif // PHYSICALSPACE_H

@@ -110,5 +110,5 @@ namespace InGE{
 
 };
 
-};
+}
 #endif // MD3MODEL_H

@@ -60,5 +60,5 @@ namespace InGE{
 			void setMouseOnCenter();
 			void unsetMouseOnCenter();	
 	};
-};
+}
 #endif // MOUSECONTROL_H

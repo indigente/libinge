@@ -39,6 +39,5 @@ namespace InGE{
 			void setFixed();
 	};
 
-};
-
+}
 #endif // JOINTFIXED_H

@@ -240,7 +240,5 @@ namespace InGE{
 
 	};
 
-};
-
-
+}
 #endif // DRAWEROPENGL_H

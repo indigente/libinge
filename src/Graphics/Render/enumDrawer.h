@@ -958,6 +958,6 @@ namespace InGE{
 	#define    InGE_MODULATE_ADD_ATI               0x8744
 	#define    InGE_MODULATE_SIGNED_ADD_ATI        0x8745
 	#define    InGE_MODULATE_SUBTRACT_ATI          0x8746
-};
+}
 #endif
 

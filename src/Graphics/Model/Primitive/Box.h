@@ -72,5 +72,5 @@ namespace InGE{
 			
 	};
 
-};
+}
 #endif // BOX_H

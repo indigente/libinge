@@ -68,6 +68,5 @@ public:
 	virtual void addStreamingSource(AudioSource *source);
 };
 
-};
-
+}
 #endif // AUDIOMANAGER_H

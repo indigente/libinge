@@ -71,6 +71,5 @@ namespace InGE{
 			void setLevel(unsigned int level);
 			
 	};
-};
-
+}
 #endif /*BEZIER_H_*/

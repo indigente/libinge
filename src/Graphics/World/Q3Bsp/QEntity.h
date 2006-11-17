@@ -76,6 +76,5 @@ namespace InGE{
 			
 	};
 
-};
-
+}
 #endif // QENTITY_H

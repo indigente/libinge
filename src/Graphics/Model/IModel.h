@@ -60,6 +60,5 @@ namespace InGE{
 			virtual void setDraw(string entityID,bool draw) = 0;
 			virtual void setDraw(string entityID,bool draw, string partToDraw) = 0;
 	};
-};
-
+}
 #endif // IMODEL_H

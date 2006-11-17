@@ -35,7 +35,6 @@ namespace InGE{
 		InGE_MAX_PRIMITIVE //FIXME: estava com o mesmo nome de outra ENUM.
 	};
 
-};
-
+}
 #endif
 

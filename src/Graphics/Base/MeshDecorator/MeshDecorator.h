@@ -92,6 +92,5 @@ class MeshDecorator : public InGE::Mesh {
 		void executeCommand(ExecuteCommandEnum e, string param);
 };
 
-};
-
+}
 #endif /*MESHDECORATOR_H_*/

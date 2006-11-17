@@ -48,5 +48,5 @@ namespace InGE{
 			void setData(void *data);
 	};
 
-};
+}
 #endif // GEOMPLANE_H

@@ -89,5 +89,5 @@ namespace InGE{
 			TiXmlElement *entity2xml();
 	};
 
-};
+}
 #endif // CAMERA_H

@@ -99,7 +99,6 @@ namespace InGE{
 		InGE_MAX_CONTROL_ENUM
 	};
 
-};
-
+}
 #endif
 

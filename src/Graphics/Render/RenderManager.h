@@ -84,5 +84,5 @@ class RenderManager{
 		void render(ICamera *camera);
 	};
 
-};
+}
 #endif // RENDERMANAGER_H

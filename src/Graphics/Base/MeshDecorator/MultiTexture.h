@@ -42,6 +42,5 @@ namespace InGE{
 			void unset();
 	};
 
-};
-
+}
 #endif /*MULTITEXTURE_H_*/

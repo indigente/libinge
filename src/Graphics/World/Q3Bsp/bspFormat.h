@@ -234,6 +234,5 @@ namespace InGE{
 	typedef char BspEntity ;
 	typedef int  BspMeshVertex;
 
-};
-
+}
 #endif

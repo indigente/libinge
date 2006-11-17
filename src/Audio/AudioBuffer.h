@@ -54,6 +54,5 @@ public:
 	virtual unsigned int getSize();
 };
 
-};
-
+}
 #endif // AUDIOBUFFER_H

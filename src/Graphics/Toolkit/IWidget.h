@@ -49,6 +49,5 @@ class IWidget{
 		virtual float getHeight();
 };
 
-};
-
+}
 #endif //_IWIDGET_H_

@@ -45,5 +45,5 @@ class RollTexture : public InGE::MeshDecorator{
 		void set(bool setup);
 };
 
-};
+}
 #endif /*ROLLTEXTURE_H_*/

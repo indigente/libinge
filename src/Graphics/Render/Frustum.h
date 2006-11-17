@@ -89,5 +89,5 @@ namespace InGE{
 		}
 	};
 
-};
+}
 #endif // FRUSTUM_H

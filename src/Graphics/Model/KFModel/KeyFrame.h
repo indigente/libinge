@@ -69,5 +69,5 @@ using std::string;
 		
 	};
 	
-};
+}
 #endif // KEYFRAME_H

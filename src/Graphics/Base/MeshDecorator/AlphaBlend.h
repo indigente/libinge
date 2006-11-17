@@ -41,5 +41,5 @@ namespace InGE{
 		void set(bool setup);
 		void unset();
 	};
-};
+}
 #endif /*ALPHABLEND_H_*/

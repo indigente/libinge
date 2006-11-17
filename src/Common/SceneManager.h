@@ -83,5 +83,5 @@ namespace InGE{
 			
 	};
 
-};
+}
 #endif // SCENEMANAGER_H

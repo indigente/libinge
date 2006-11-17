@@ -98,5 +98,5 @@ namespace InGE{
 			
 	};
 	
-};
+}
 #endif // KFMODELFACTORY_H

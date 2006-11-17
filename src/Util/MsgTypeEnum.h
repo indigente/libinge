@@ -45,6 +45,5 @@ namespace InGE{
 		InGE_MSG_ETC_bli2
 	};
 
-};
-
+}
 #endif /*MSGTYPEENUM_H_*/

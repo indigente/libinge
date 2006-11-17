@@ -35,5 +35,5 @@ class HeightmapBruteForce : public InGE::HeightmapBase{
 	void renderLevel(Vector3 vPos, Frustum &frustum);
 };
 
-};
+}
 #endif // HEIGHTMAPBRUTEFORCE_H

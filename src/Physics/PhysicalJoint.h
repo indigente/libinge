@@ -81,5 +81,5 @@ namespace InGE{
 			bool areConnectedExcluding(PhysicalBody &o1, PhysicalBody &o2, int jointType);	
 	};
 	
-};
+}
 #endif // PHYSICALJOINT_H

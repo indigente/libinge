@@ -125,5 +125,5 @@ public:
 	int getGravityMode();
 	
 };
-};
+}
 #endif // PHYSICALBODY_H

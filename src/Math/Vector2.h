@@ -78,5 +78,5 @@ namespace InGE{
 		const float *toArray();
 	};
 
-};
+}
 #endif // VECTOR2_H

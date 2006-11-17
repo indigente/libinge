@@ -57,5 +57,5 @@ class Tag{
 		MatTransform *getRotation();
 	};
 
-};
+}
 #endif // TAG_H

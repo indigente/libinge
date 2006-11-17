@@ -46,5 +46,5 @@ namespace InGE{
 
 			static void spaceCallback(PhysicalGeom &, PhysicalGeom &, void *);
 	};
-};
+}
 #endif

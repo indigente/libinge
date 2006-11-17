@@ -106,6 +106,5 @@ class ConcreteMesh : public InGE::Mesh {
 		void executeCommand(ExecuteCommandEnum e, string param);
 };
 
-};
-
+}
 #endif /*CONCRETEMESH_H_*/

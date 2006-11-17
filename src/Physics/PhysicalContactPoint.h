@@ -57,6 +57,5 @@ namespace InGE{
 	
 			
 	};
-};
-
+}
 #endif // PHYSICALCONTACTPOINT_H

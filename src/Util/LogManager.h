@@ -45,6 +45,5 @@ namespace InGE{
 			~LogManager();
 	};
 
-};
-
+}
 #endif /*LOGMANAGER_H_*/

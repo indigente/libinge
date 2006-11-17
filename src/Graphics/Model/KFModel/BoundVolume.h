@@ -54,5 +54,5 @@ namespace InGE{
 		Vector3 getOrigin();
 		float getRadius();
 	};
-};
+}
 #endif // BOUNDVOLUME_H

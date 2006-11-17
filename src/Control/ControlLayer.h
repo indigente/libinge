@@ -88,6 +88,5 @@ namespace InGE{
 
 
 	
-};
-
+}
 #endif // CONTROLLAYER_H

@@ -51,6 +51,5 @@ namespace InGE{
 			void addForce(float force);
 	};
 
-};
-
+}
 #endif // JOINTSLIDER_H

@@ -45,6 +45,5 @@ class Mask : public InGE::MeshDecorator{
 		void unset();
 };
 
-};
-
+}
 #endif /*MASK_H_*/

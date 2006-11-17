@@ -72,6 +72,5 @@ namespace InGE{
 			QShader *getShader(string name);
 			~QShaderManager();
 	};
-};
-
+}
 #endif // QSHADERMANAGER_H

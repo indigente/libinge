@@ -35,5 +35,5 @@ namespace InGE{
 			virtual ~GeomTriMesh();
 			void setData(void *data);
 	};
-};
+}
 #endif // GEOMTRIMESH_H

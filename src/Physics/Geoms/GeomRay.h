@@ -45,5 +45,5 @@ namespace InGE{
 			void  get(Vector3 &position, Vector3 &direction);
 			void setData(void *data);			
 	};
-};
+}
 #endif // GEOMRAY_H

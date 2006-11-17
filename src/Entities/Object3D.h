@@ -118,6 +118,5 @@ namespace InGE {
 			virtual void worldDynamicWithoutCollision(PhysicalContactPoint *moveData = NULL);
 	};
 
-};
-
+}
 #endif

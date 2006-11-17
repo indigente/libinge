@@ -45,5 +45,5 @@ namespace InGE{
 			void add(IWidget *w);
 	};
 
-};
+}
 #endif //_WINDOW_H_

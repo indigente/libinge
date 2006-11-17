@@ -48,5 +48,5 @@ namespace InGE{
 			void renderParticles();
 	};
 
-};
+}
 #endif //PARTICLES_H

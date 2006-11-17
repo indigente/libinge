@@ -59,7 +59,5 @@ namespace InGE{
 
 			void executeCommand(ExecuteCommandEnum e, string param);
 	};
-};
-
-
+}
 #endif

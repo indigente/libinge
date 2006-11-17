@@ -75,6 +75,5 @@ namespace InGE {
 		
 	};
 
-};
-
+}
 #endif

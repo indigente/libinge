@@ -58,6 +58,5 @@ namespace InGE{
 			void addTorque(float torque0, float torque1, float torque2);
 	};
 	
-};
-
+}
 #endif // JOINTAMOTOR_H

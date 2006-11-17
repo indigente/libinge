@@ -52,5 +52,5 @@ namespace InGE{
 		
 	};
 
-};
+}
 #endif //_VOLUMESHADOWMANAGER_H_

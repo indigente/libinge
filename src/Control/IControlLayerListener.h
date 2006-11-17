@@ -37,5 +37,5 @@ namespace InGE{
 			virtual void controlEventHandler(ControlEnum e, ControlParam *param)=0;
 	};
 
-};
+}
 #endif // ICONTROLLAYERLISTENER_H

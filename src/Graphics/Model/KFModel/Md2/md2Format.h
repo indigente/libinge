@@ -174,5 +174,5 @@ typedef struct
 
 	} animType_t;
 
-};
+}
 #endif  //MD2FORMAT_H

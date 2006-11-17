@@ -79,5 +79,5 @@ namespace InGE{
 		int loadTexture(const string &filename, unsigned int *id = 0, bool *alpha = 0);		
 	};
 	
-};
+}
 #endif // TEXTUREARRAY_H

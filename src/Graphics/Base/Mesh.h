@@ -114,5 +114,5 @@ namespace InGE{
 		virtual void executeCommand(ExecuteCommandEnum e, string param)=0;
 	};
 
-};
+}
 #endif // MESH_H

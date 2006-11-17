@@ -69,5 +69,5 @@ class HeightmapBase : public InGE::IScene{
 	~HeightmapBase();
 };
 
-};
+}
 #endif // HEIGHTMAP_H

@@ -59,5 +59,5 @@ namespace InGE{
 			
 	};
 
-};
+}
 #endif /*CAMERAFP_H_*/

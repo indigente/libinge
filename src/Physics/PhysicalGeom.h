@@ -82,6 +82,5 @@ namespace InGE{
 			dGeomID getId();
 	};
 
-};
-
+}
 #endif // PHYSICALGEOM_H

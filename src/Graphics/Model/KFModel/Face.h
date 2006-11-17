@@ -56,5 +56,5 @@ class Face{
 		bool 		getVisible();
 };
 
-};
+}
 #endif //_FACE_H_

@@ -54,6 +54,6 @@ namespace InGE{
 	};
 
 
-};
+}
 #endif // BITSET_H
 

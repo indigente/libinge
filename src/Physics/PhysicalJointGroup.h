@@ -40,6 +40,5 @@ namespace InGE{
 			dJointGroupID getId();
 	};
 
-};
-
+}
 #endif // PHYSICALJOINTGROUP_H

@@ -46,5 +46,5 @@ namespace InGE{
 			virtual VolumeInfo *drawModel(int currentAnimIndex, int currentKeyFrameIndex, int currentMaterialIndex, float interpolationToNextFrame) = 0;
 			};
 	
-};
+}
 #endif // KFMODEL_H

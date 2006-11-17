@@ -139,5 +139,5 @@ namespace InGE{
 	} sAnimation;
 
 
-};
+}
 #endif  //MD2FORMAT_H

@@ -64,5 +64,5 @@ using std::string;
 		float getFogEnd();
 	};
 
-};
+}
 #endif // FOG_H

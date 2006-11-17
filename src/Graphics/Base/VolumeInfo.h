@@ -53,5 +53,5 @@ namespace InGE{
 			Vector3 getOrigin();
 			float getRadius();
 	};
-};
+}
 #endif // VOLUMEINFO_H

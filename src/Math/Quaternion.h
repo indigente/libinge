@@ -81,5 +81,5 @@ enum { X, Y, Z, W };
 		
 	};
 
-};
+}
 #endif // QUATERNION_H

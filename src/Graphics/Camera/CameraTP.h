@@ -37,6 +37,5 @@ namespace InGE{
 			~CameraTP();
 
 	};
-};
-
+}
 #endif /*CAMERATP_H_*/

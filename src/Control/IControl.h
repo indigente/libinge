@@ -50,6 +50,5 @@ namespace InGE{
 			//virtual void activeHandler() = 0;
 			
 	};
-};
-
+}
 #endif // ICONTROL_H

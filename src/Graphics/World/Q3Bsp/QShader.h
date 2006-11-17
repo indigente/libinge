@@ -72,6 +72,5 @@ namespace InGE{
 			
 	};
 
-};
-
+}
 #endif // QSHADER_H

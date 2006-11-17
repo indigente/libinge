@@ -43,6 +43,5 @@ namespace InGE{
 			void unset();
 	};
 
-};
-
+}
 #endif /*LIGHTMAP_H_*/

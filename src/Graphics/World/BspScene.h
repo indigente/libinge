@@ -190,5 +190,5 @@ namespace InGE{
 	
 	};
 
-};
+}
 #endif

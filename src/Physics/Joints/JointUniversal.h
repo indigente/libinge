@@ -52,5 +52,5 @@ namespace InGE{
 			void addTorque(float torque1, float torque2);
 	};
 
-};
+}
 #endif // JOINTUNIVERSAL_H

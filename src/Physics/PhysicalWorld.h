@@ -85,5 +85,5 @@ namespace InGE{
 		
 	};
 
-};
+}
 #endif // PHYSICALWORLD_H

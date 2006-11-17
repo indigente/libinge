@@ -43,6 +43,5 @@ namespace InGE{
 			void setData(void *data);
 			
 	};
-};
-
+}
 #endif // GEOMSPHERE_H
