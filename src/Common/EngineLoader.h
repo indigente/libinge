@@ -17,7 +17,9 @@ using std::string;
 
 namespace InGE{
 
-
+/**
+ * Must be instantied after calling SetupManager::init()
+ */
 class EngineLoader{
 	private:
 		BspScene			*m_pScene;
