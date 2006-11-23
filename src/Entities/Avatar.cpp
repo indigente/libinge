@@ -139,10 +139,10 @@ void Avatar::update(){
 	updateCamera();
  	Vector3 up = m_camera.getUp();
  	if(m_movimentState.turnLeft){
- 		rotate( (m_rotateSpeed * speed), up);
+ 		rotate( (m_rotateSpeed), up);
  	}
  	if(m_movimentState.turnRight){
- 		rotate( -(m_rotateSpeed * speed), up);
+ 		rotate( -(m_rotateSpeed), up);
  	}
 
 	Vector3 targetPosition = this->getPosition();
