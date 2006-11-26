@@ -508,16 +508,12 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 		
 		Vector3 slideStartPoint, position;
 		slideStartPoint = position = start + (end - start)* moveData->getDepth();
+		Vector3 normal0 = moveData->getNormal().getVersor();
 		Vector3 v1 = (start - end)* (1.0f - moveData->getDepth());
-		moveData->getNormal().normalize();
-		Vector3 v2 =  moveData->getNormal() * (v1 * moveData->getNormal());
-		position += (v2-v1);
+		position += v1.cross(normal0).cross(normal0);
 
-		moveData->getNormal().normalize();
-		
 		position += moveData->getNormal() * elapsedTime/100;
  		slideStartPoint += moveData->getNormal() * elapsedTime/100;
-	
 	
 		checkMoveCollisionAndTrySlide(slideStartPoint, position,elapsedTime, geom, moveData);
 	}
