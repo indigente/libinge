@@ -28,7 +28,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 using namespace InGE;
 
 float Avatar::m_moveSpeed = 300.0f;
-float Avatar::m_rotateSpeed = 0.01f;
+float Avatar::m_rotateSpeed = 0.05f;
 float Avatar::m_jumpSpeed = 150.0f;
 
 Avatar::Avatar(PhysicalGeom *geom) : Object3D(geom) {
