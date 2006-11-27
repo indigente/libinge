@@ -500,24 +500,19 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 	// percorre a arvore a partir da raiz
 	checkNode(0, moveData, 0.0f, 1.0f, start, end);
 
-	// Se houve colisao, atualiza os valores
-	if(moveData->getDepth() == 1.0f){
-		moveData->setPosition( end );
-	}else{
+	Vector3 slideStartPoint, position, target, posInc;
+	target = start + (end - start)* moveData->getDepth();
+	
+	if(moveData->getDepth() != 1.0f){
 		moveData->setColided(true);
-		
-		Vector3 slideStartPoint, position;
-		slideStartPoint = position = start + (end - start)* moveData->getDepth();
 		Vector3 normal0 = moveData->getNormal().getVersor();
 		Vector3 v1 = (start - end)* (1.0f - moveData->getDepth());
-		position += v1.cross(normal0).cross(normal0);
-
-		position += moveData->getNormal() * elapsedTime/100;
- 		slideStartPoint += moveData->getNormal() * elapsedTime/100;
-	
-		checkMoveCollisionAndTrySlide(slideStartPoint, position,elapsedTime, geom, moveData);
+		posInc = v1.cross(normal0).cross(normal0);
 	}
-
+	target += moveData->getNormal() * elapsedTime/200;
+	slideStartPoint = target;
+	position = target + posInc;
+	checkMoveCollisionAndTrySlide(slideStartPoint, position,elapsedTime, geom, moveData);
 	return moveData;
 }
 /**
@@ -623,7 +618,7 @@ void BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
 	float endFraction = 1.0f;
 	bool  startOut = false;
 	bool  endOut   = false;
-
+    float oldDepth = moveData->getDepth();
         // Candidato a vetor normal
 	Vector3 vCandidateToHitNormal; 
 
@@ -672,24 +667,25 @@ void BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
 			float fraction = (startDistance + m_kEpsilon) / (startDistance - endDistance);
 			if(fraction < endFraction)     endFraction = fraction;
 		}
+
+		if(startFraction < endFraction){
+			if((startFraction > -1.0f) && (startFraction < oldDepth)){
+				//				if(startFraction < 0) 
+				//startFraction = 0;
+				if(startOut) {
+					moveData->setDepth( startFraction );
+					moveData->setNormal( vCandidateToHitNormal );
+				}
+			}
+		}
 	}
 	
 	if(!startOut){ // inicia dentro do brush
-	//	moveData->startOut = false;
-	//	if(!endOut) moveData->allSolid = true;
-		return;
+      //	moveData->startOut = false;
+      //	if(!endOut) moveData->allSolid = true;
+      return;
 	}
 
-	if(startFraction < endFraction){
-		if((startFraction > -1.0f) && (startFraction < moveData->getDepth())){
-			if(startFraction < 0) 
-				startFraction = 0;
-                      
-			moveData->setDepth( startFraction );
-			moveData->setNormal( vCandidateToHitNormal );
-		}
-	}
-        
 }
 
 vector<QEntityInfo *>& BspScene::getVectorOfEntityInfo(){
