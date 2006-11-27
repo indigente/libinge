@@ -27,6 +27,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define VECTOR3_H
 #include <cmath>
 #include <iostream>
+#define EQUALS(a,b) (((((a) - (b)) < 1.0E-200) && (((a) - (b)) > -1.0E-200)) || (isnan((a)) && (isnan((b)))))
 
 namespace InGE{
 	

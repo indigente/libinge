@@ -186,7 +186,7 @@ Vector3 *Vector3::operator=(Vector3 *vet){
 
 
 bool Vector3::operator==(const Vector3 &vet) const{
-	if( (m_v[0] == vet.m_v[0]) && (m_v[1] == vet.m_v[1]) && (m_v[2] == vet.m_v[2])) 
+  if ((EQUALS(m_v[0], vet.m_v[0])) && (EQUALS(m_v[1], vet.m_v[1])) && ((EQUALS(m_v[2], vet.m_v[2])))) 
 		return true;
 	return false;
 }
