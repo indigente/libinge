@@ -19,4 +19,4 @@
 ## Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##
 
-test -z "$CXXFLAGS" && CXXFLAGS="-O0 -ggdb3"
+test -z "$CPPFLAGS" && CPPFLAGS="-O0 -ggdb3"
