@@ -7,14 +7,13 @@ EngineLoader::EngineLoader(){
 	m_pSceneManager = SceneManager::getInstance();
 	
 	//Instancia a camada de controlu usada pelo jogador
-	m_pControlLayer = new ControlLayer();
+	m_pControlLayer = createControlLayer(); 
 	// Instancia o rendermanager
-	m_pRenderManager = new RenderManager();
+	m_pRenderManager = createRenderManager();
 	// Instancia o mundo fisico
-	m_pPhysicsManager = new PhysicsManager();
+	m_pPhysicsManager = createPhysicsManager();
 	
 	AudioManager *audioManager = AudioManager::getInstance();
-	audioManager->init();
 	
 	//SceneManager
 	m_pSceneManager->setRenderManager(m_pRenderManager);
@@ -27,10 +26,21 @@ EngineLoader::EngineLoader(){
 }
 
 EngineLoader::~EngineLoader(){
-	if(m_pControlLayer) delete m_pControlLayer;
-	if(m_pRenderManager) delete m_pRenderManager;
-	if(m_pPhysicsManager) delete m_pPhysicsManager;
-	
+	delete m_pControlLayer;
+	delete m_pRenderManager;
+	delete m_pPhysicsManager;
+}
+
+ControlLayer *EngineLoader::createControlLayer() {
+	return new ControlLayer();
+}
+
+RenderManager *EngineLoader::createRenderManager() {
+	return new RenderManager();
+}
+
+PhysicsManager *EngineLoader::createPhysicsManager() {
+	return new PhysicsManager();
 }
 
 void EngineLoader::createScene(string sceneFile ){

@@ -55,25 +55,23 @@ private:
 public:
 	PhysicsManager();
 
-	~PhysicsManager();
+	virtual ~PhysicsManager();
 
-	bool setPhysicalWorld(PhysicalWorld *pPhysicalWorld);
-	PhysicalWorld *pGetPhysicalWorld();
+	virtual bool setPhysicalWorld(PhysicalWorld *pPhysicalWorld);
+	virtual PhysicalWorld *pGetPhysicalWorld();
 	
-	bool addAvatar(Avatar *avatar);
-	bool removeAvatar(Avatar *avatar);
+	virtual bool addAvatar(Avatar *avatar);
+	virtual bool removeAvatar(Avatar *avatar);
 	
-	bool addObject3D(Object3D *object3d);
-	bool removeObject3D(Object3D *object3d);
+	virtual bool addObject3D(Object3D *object3d);
+	virtual bool removeObject3D(Object3D *object3d);
 	
-	
-	
-	bool setScene(IScene *scene);
-	IScene *pGetScene();
+	virtual bool setScene(IScene *scene);
+	virtual IScene *pGetScene();
 		
-	PhysicalBody *getNewBody();
+	virtual PhysicalBody *getNewBody();
 	
-	void quickStep();
+	virtual void quickStep();
 	
 };
 

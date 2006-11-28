@@ -46,9 +46,14 @@ class EngineLoader{
 		bool loadWidgets();
 		void createScene(string sceneFile);
 		void createPlayer(string playerModelDir, Avatar* pAvatar = NULL);
-		
+
 		void setStream(AudioSource *stream);
 		void loadStream(string filename);
+		
+		// factory methods
+		virtual ControlLayer *createControlLayer();
+		virtual RenderManager *createRenderManager();
+		virtual PhysicsManager *createPhysicsManager();
 };
 }
 #endif /*ENGINELOADER_H_*/
