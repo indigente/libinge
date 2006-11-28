@@ -38,7 +38,7 @@ using std::vector;
 	@author Beto <nkbeto@gmail.com>
 */
 class PhysicsManager{
-private:
+protected:
 	PhysicalWorld			*m_pPhysicalWorld;
 	float 					m_stepValue;
 	vector<Object3D *>	m_vetObject3D;
