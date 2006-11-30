@@ -159,9 +159,9 @@ namespace InGE{
 		int isClusterVisible(int current, int test);
 
 	  	// Metodos de colisao
-		void checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end);
+		PhysicalContactPoint* checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end);
 		
-		void checkBrush(BspBrush &brush, PhysicalContactPoint *moveData);
+		PhysicalContactPoint* checkBrush(BspBrush &brush, PhysicalContactPoint *moveData);
 		
 		
 		void createLightmap(int index, BspLightmap *pImageBits, int width, int height);

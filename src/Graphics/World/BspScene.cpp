@@ -498,7 +498,7 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 	}
 	
 	// percorre a arvore a partir da raiz
-	checkNode(0, moveData, 0.0f, 1.0f, start, end);
+	moveData = checkNode(0, moveData, 0.0f, 1.0f, start, end);
 
 	Vector3 slideStartPoint, position, target, posInc;
 	target = start + (end - start)* moveData->getDepth();
@@ -512,15 +512,16 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 	target += moveData->getNormal() * elapsedTime/200;
 	slideStartPoint = target;
 	position = target + posInc;
-	checkMoveCollisionAndTrySlide(slideStartPoint, position,elapsedTime, geom, moveData);
+	moveData = checkMoveCollisionAndTrySlide(slideStartPoint, position,elapsedTime, geom, moveData);
 	return moveData;
 }
 /**
  * Percorre a arvore(bsp) para ateh achar as folhas para verificar colisao
  */
-void BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end){
-	if(moveData->getDepth() <= startFraction)
-		return;
+PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end){
+	PhysicalContactPoint* anotherMoveData = new PhysicalContactPoint(moveData);
+	if(anotherMoveData->getDepth() <= startFraction)
+		return anotherMoveData;
 
 	//Se o noh eh folha
 	if(nodeIndex<0)        {
@@ -530,11 +531,11 @@ void BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double s
 			BspBrush &brush = m_info.pBrushes[m_info.pLeafBrushes[leaf.leafBrush + i]];
 			// Checa se o brush eh valido e  material pra colisao
 			if((brush.numOfBrushSides > 0) && (((m_info.pTextures[brush.textureID].contents)&1)||((m_info.pTextures[brush.textureID].contents)&0x10000))){
-				checkBrush(brush, moveData);
-			}
+				anotherMoveData = checkBrush(brush, anotherMoveData);
+ 			}
 
 		}
-		return;
+		return anotherMoveData;
 	}
 
 	BspNode        &node = m_info.pNodes[nodeIndex];
@@ -547,11 +548,11 @@ void BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double s
 
         // Se ambos os pontos estaum na frente do plano, vai pra filho da frente
 	if((startDistance >= m_moveOffset) && (endDistance >= m_moveOffset)){
-		checkNode(node.front, moveData, startFraction, endFraction, start, end);
+		anotherMoveData = checkNode(node.front, anotherMoveData, startFraction, endFraction, start, end);
 	}
         // Se ambos os pontos estaum atras do plano, vai pra filho de tras
 	else if((startDistance < -m_moveOffset) && (endDistance < -m_moveOffset)){
-		checkNode(node.back, moveData, startFraction, endFraction, start, end);  
+		anotherMoveData = checkNode(node.back, anotherMoveData, startFraction, endFraction, start, end);  
 	}
         // Caso contrario, split e vai pra os dois filhos.
 
@@ -598,14 +599,14 @@ void BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double s
                // define o percentual do ponto inicial ateh o ponto de split                
 		double middleFraction = startFraction + (endFraction - startFraction) * fraction1;
                //checagem no noh do ponto inicial
-		checkNode(sideIndex1, moveData, startFraction, middleFraction, start, middle);
+		anotherMoveData = checkNode(sideIndex1, anotherMoveData, startFraction, middleFraction, start, middle);
 
                // definindo ponto de split a partir do ponto final
 		middle =  start + (end - start) * fraction2;
                // define o percentual do ponto final ateh o ponto de split                  
 		middleFraction = startFraction + (endFraction - startFraction) * fraction2;
                //checagem no noh do ponto final
-		checkNode(sideIndex2, moveData, middleFraction, endFraction, middle, end);
+		anotherMoveData = checkNode(sideIndex2, anotherMoveData, middleFraction, endFraction, middle, end);
 	}
 }
 
@@ -613,15 +614,16 @@ void BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double s
  * Faz checagem de colisao com um Brush especifico
  */
  
-void BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
+PhysicalContactPoint* BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
 	float startFraction= -1.0f;
 	float endFraction = 1.0f;
+    float oldDepth = moveData->getDepth();
 	bool  startOut = false;
 	bool  endOut   = false;
-    float oldDepth = moveData->getDepth();
         // Candidato a vetor normal
 	Vector3 vCandidateToHitNormal; 
-
+	PhysicalContactPoint *anotherMoveData = new PhysicalContactPoint(moveData);
+	
         // Varre os lados do Brush verificando colisao
 	for(int i = 0 ; i < brush.numOfBrushSides; i++){
 		BspBrushSide &brushSide = m_info.pBrushSides[brush.brushSide + i];
@@ -649,10 +651,11 @@ void BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
 		if(endDistance > 0) endOut = true;
                
                // Se os dois pontos estaum fora, nao ha colisao
-		if((startDistance > 0) && (endDistance > 0)) return; 
+		if((startDistance > 0) && (endDistance > 0)) {
+			return anotherMoveData;
+        }
                // Se os dois pontos estaum atras, testar com outro plano
 		else if((startDistance <= 0) && (endDistance <= 0)) continue;
-               
                
                // Faz startDistance tender ao ponto final e endDistance tender ao inicial
                // se ele se cruzarem, entaum naum houve colisao
@@ -667,25 +670,23 @@ void BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
 			float fraction = (startDistance + m_kEpsilon) / (startDistance - endDistance);
 			if(fraction < endFraction)     endFraction = fraction;
 		}
-
-		if(startFraction < endFraction){
-			if((startFraction > -1.0f) && (startFraction < oldDepth)){
-				//				if(startFraction < 0) 
-				//startFraction = 0;
-				if(startOut) {
-					moveData->setDepth( startFraction );
-					moveData->setNormal( vCandidateToHitNormal );
-				}
-			}
-		}
 	}
-	
-	if(!startOut){ // inicia dentro do brush
-      //	moveData->startOut = false;
-      //	if(!endOut) moveData->allSolid = true;
-      return;
-	}
+    if(startFraction < endFraction){
+      if((startFraction > -1.0f) && (startFraction < oldDepth)){
+        //				if(startFraction < 0) 
+        //startFraction = 0;
+        if(startOut) {
+          anotherMoveData->setDepth( startFraction );
+          anotherMoveData->setNormal( vCandidateToHitNormal );
+        } else {
+          // inicia dentro do brush
+          //	anotherMoveData->startOut = false;
+          //	if(!endOut) anotherMoveData->allSolid = true;
+        }
+      }
+    }
 
+	return anotherMoveData;
 }
 
 vector<QEntityInfo *>& BspScene::getVectorOfEntityInfo(){
