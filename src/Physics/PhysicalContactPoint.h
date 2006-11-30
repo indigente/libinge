@@ -38,6 +38,7 @@ namespace InGE{
 			bool m_colided;
 		
 			PhysicalContactPoint();
+			PhysicalContactPoint(PhysicalContactPoint* point);
 			~PhysicalContactPoint();
 			
 			void setNormal(Vector3 &normal);

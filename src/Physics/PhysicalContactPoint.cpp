@@ -29,6 +29,11 @@ PhysicalContactPoint::PhysicalContactPoint(){
 	m_colided = false;
 }
 
+PhysicalContactPoint::PhysicalContactPoint(PhysicalContactPoint* point){
+	this->m_colided = point->m_colided;
+	this->m_contact = point->m_contact;
+}
+
 PhysicalContactPoint::~PhysicalContactPoint(){
 }
 void PhysicalContactPoint::setNormal(Vector3 &normal){
