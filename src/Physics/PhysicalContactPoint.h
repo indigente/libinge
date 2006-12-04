@@ -41,8 +41,8 @@ namespace InGE{
 			PhysicalContactPoint(PhysicalContactPoint* point);
 			~PhysicalContactPoint();
 			
-			void setNormal(Vector3 &normal);
-			void setPosition(Vector3 &position);
+			void setNormal(const Vector3& normal);
+			void setPosition(const Vector3& position);
 			void setDepth(float depth);
 			void setColided(bool theValue);
 			

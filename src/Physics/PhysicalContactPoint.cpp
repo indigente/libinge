@@ -27,6 +27,7 @@ using namespace InGE;
 
 PhysicalContactPoint::PhysicalContactPoint(){
 	m_colided = false;
+	m_contact.depth = 1.0f;
 }
 
 PhysicalContactPoint::PhysicalContactPoint(PhysicalContactPoint* point){
@@ -36,23 +37,22 @@ PhysicalContactPoint::PhysicalContactPoint(PhysicalContactPoint* point){
 
 PhysicalContactPoint::~PhysicalContactPoint(){
 }
-void PhysicalContactPoint::setNormal(Vector3 &normal){
+void PhysicalContactPoint::setNormal(const Vector3 &normal){
 	float *pNormal = (float *) &m_contact.normal;
-	pNormal[0] = normal[0];
-	pNormal[1] = normal[1];
-	pNormal[2] = normal[2];
-
+	const float *tmp  = normal.toArray();
+	pNormal[0] = tmp[0];
+	pNormal[1] = tmp[1];
+	pNormal[2] = tmp[2];
 }
-void PhysicalContactPoint::setPosition(Vector3 &position){
+void PhysicalContactPoint::setPosition(const Vector3 &position){
 	float *pPosition = (float *) &m_contact.pos;
-	pPosition[0] = position[0];
-	pPosition[1] = position[1];
-	pPosition[2] = position[2];
-
+	const float *tmp  = position.toArray();
+	pPosition[0] = tmp[0];
+	pPosition[1] = tmp[1];
+	pPosition[2] = tmp[2];
 }
 void PhysicalContactPoint::setDepth(float depth){
 	m_contact.depth = depth;
-	
 }
 
 Vector3 PhysicalContactPoint::getNormal(){
@@ -60,12 +60,9 @@ Vector3 PhysicalContactPoint::getNormal(){
 }
 
 Vector3 PhysicalContactPoint::getPosition(){
-//	return Vector3((float *)m_contact.pos);
-	
 	float *pPosition = (float *) &m_contact.pos;
 	Vector3 pos(pPosition[0], pPosition[1], pPosition[2]);
 	return pos;
-	
 }
 
 float PhysicalContactPoint::getDepth(){
@@ -84,11 +81,9 @@ PhysicalGeom *PhysicalContactPoint::getObject2(){
 	return g2;
 }
 
-
 bool PhysicalContactPoint::getColided() const{
   return m_colided;
 }
-
 
 void PhysicalContactPoint::setColided(bool theValue){
   m_colided = theValue;
