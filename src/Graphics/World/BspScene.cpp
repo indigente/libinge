@@ -1,32 +1,32 @@
 /*
------------------------------------------------------------------------------
-This source file is part of Indigente Game Engine
-Indigente - Interactive Digital Entertainment
-For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
-Copyright  2004 Indigente
+  -----------------------------------------------------------------------------
+  This source file is part of Indigente Game Engine
+  Indigente - Interactive Digital Entertainment
+  For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
+  Copyright  2004 Indigente
 
-This program is free software; you can redistribute it and/or modify it under
-the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
-You should have received a copy of the GNU Lesser General Public License along with
-this program; if not, write to the Free Software Foundation, Inc., 59 Temple
-Place - Suite 330, Boston, MA 02111-1307, USA, or go to
-http://www.gnu.org/copyleft/lesser.txt.
------------------------------------------------------------------------------
+  This program is free software; you can redistribute it and/or modify it under
+  the terms of the GNU Lesser General Public License as published by the Free Software
+  Foundation; either version 2 of the License, or (at your option) any later
+  version.
+  This program is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+  FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details.
+  You should have received a copy of the GNU Lesser General Public License along with
+  this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+  Place - Suite 330, Boston, MA 02111-1307, USA, or go to
+  http://www.gnu.org/copyleft/lesser.txt.
+  -----------------------------------------------------------------------------
 */
 #include "BspScene.h"
 #include "../../Entities/EntityFactory.h"
-#define         MAX(X,Y)       X>=Y?X:Y
+#define			MAX(X,Y)	   X>=Y?X:Y
 using namespace InGE;
 using std::string;
 
-//const float 	BspScene::m_kEpsilon = 0.03125f;
-const double 	BspScene::m_kEpsilon = 1E-37;
-// const float 	BspScene::m_kEpsilon = 0.1f;
+//const float	BspScene::m_kEpsilon = 0.03125f;
+const double	BspScene::m_kEpsilon = 1E-37;
+// const float	BspScene::m_kEpsilon = 0.1f;
 
 BspScene::BspScene(){
 	m_info.numOfNodes = 0;
@@ -34,35 +34,35 @@ BspScene::BspScene(){
 	m_info.numOfLeafFaces = 0;
 	m_info.numOfPlanes = 0;
 	m_info.numOfTextures = 0;
-               
+
 	m_info.numOfLeafBrushes = 0;
 	m_info.numOfBrushes = 0;
 	m_info.numOfBrushSides = 0;
-                      
-	m_info.numOfEntities = 0; 
-               
+
+	m_info.numOfEntities = 0;
+
 	m_info.numOfModels = 0;
 	m_info.numOfShaders = 0;
 	m_info.numOfLights = 0;
-        
+
 	m_numOfMeshs = 0;
-        
+
 	m_info.pNodes = NULL;
 	m_info.pLeafs = NULL;
 	m_info.pPlanes = NULL;
 	m_info.pLeafFaces = NULL;
-	m_info.pTextures = NULL;              
+	m_info.pTextures = NULL;
 	m_info.pLeafBrushes = NULL;
 	m_info.pBrushes = NULL;
 	m_info.pBrushSides = NULL;
-               
+
 	m_info.pEntities = NULL;
-               
+
 	m_info.pModels = NULL;
 	m_info.pShaders = NULL;
 	m_info.pLights = NULL;
-        
-	m_info.gamma = 5;      
+
+	m_info.gamma = 5;
 }
 BspScene::~BspScene(){
 	if(m_info.pNodes) delete [] m_info.pNodes;
@@ -70,18 +70,18 @@ BspScene::~BspScene(){
 	if(m_info.pPlanes) delete [] m_info.pPlanes;
 	if(m_info.pLeafFaces) delete [] m_info.pLeafFaces;
 	if(m_info.pTextures) delete [] m_info.pTextures;
-               
+
 	if(m_info.pLeafBrushes) delete [] m_info.pLeafBrushes;
 	if(m_info.pBrushes) delete [] m_info.pBrushes;
 	if(m_info.pBrushSides) delete [] m_info.pBrushSides;
-               
+
 	if(m_vMeshs) delete [] m_vMeshs;
 	if(m_info.pEntities) delete [] m_info.pEntities;
-               
+
 	if(m_info.pModels) delete [] m_info.pModels;
 	if(m_info.pShaders) delete [] m_info.pShaders;
 	if(m_info.pLights) delete [] m_info.pLights;
-        
+
 	for(unsigned int i=0; i<m_vEntityInfo.size(); i++){
 		if(m_vEntityInfo[i]) delete m_vEntityInfo[i];
 	}
@@ -92,77 +92,77 @@ BspScene::~BspScene(){
 int BspScene::findLeaf(Vector3 &vPos){
 	int i = 0;
 	float distance = 0.0f;
-        
+
 	while(i >=0){
 		BspNode &node = m_info.pNodes[i];
 		BspPlane &plane = m_info.pPlanes[node.plane];
 		Vector3 normal(plane.vNormal);
-               // Distancia do ponto ao plano. 
-               // Para determinar do lado do plano em que se encotra o ponto
+		// Distancia do ponto ao plano.
+		// Para determinar do lado do plano em que se encotra o ponto
 		distance = ( normal * vPos ) - plane.d;
 
 		if(distance >= 0) i = node.front;
 		else i = node.back;
-               
+
 	}
-        
+
 	return ~i;
 }
 
 void BspScene::renderLevel(Vector3 vPos, Frustum &frustum){
 	int indexLeaf = this->findLeaf(vPos); // Acha em qual folhas estah a camera
-	m_pFrustum = &frustum; 
+	m_pFrustum = &frustum;
 	m_camera = vPos;
-        
-        // Armazena a cluster que estah a camera
+
+	// Armazena a cluster que estah a camera
 	m_cameraCluster = m_info.pLeafs[indexLeaf].cluster;
 	m_info.facesDrawn.clearAll();
-        
+
 	renderTree(0);
-        
+
 }
 
 
 void BspScene::renderTree(int nodeIndex){
 	BspNode &node = m_info.pNodes[nodeIndex];
-        
-	if(!m_pFrustum->isBoxInFrustum(node.min[0], node.min[1], node.min[2], 
-		 node.max[0], node.max[1], node.max[2])) return;
-	BspPlane &plane        = m_info.pPlanes[node.plane];
+
+	if(!m_pFrustum->isBoxInFrustum(node.min[0], node.min[1], node.min[2],
+								   node.max[0], node.max[1], node.max[2])) return;
+	BspPlane &plane		   = m_info.pPlanes[node.plane];
 	Vector3 normal(plane.vNormal);
-        
-	if(normal * m_camera - plane.d > 0){ 
-		if(node.front >= 0)    renderTree(node.front);
+
+	if(normal * m_camera - plane.d > 0){
+		if(node.front >= 0)	   renderTree(node.front);
 		else renderLeaf(~node.front);
-                      
-		if(node.back >= 0)     renderTree(node.back);
+
+		if(node.back >= 0)	   renderTree(node.back);
 		else renderLeaf(~node.back);
-               
+
 	}
 	else {
-		if(node.back >= 0)     renderTree(node.back);
+		if(node.back >= 0)	   renderTree(node.back);
 		else renderLeaf(~node.back);
-                      
+
 		if(node.front >= 0) renderTree(node.front);
 		else renderLeaf(~node.front);
 	}
-        
+
 }
 
 void BspScene::renderLeaf(int leafIndex){
 	Drawer *drawer = Drawer::getInstance();
-	BspLeaf &leaf =  m_info.pLeafs[leafIndex];
+	BspLeaf &leaf =	 m_info.pLeafs[leafIndex];
 	int meshCount = leaf.numOfLeafFaces;
-        
+
 	if(!isClusterVisible(m_cameraCluster, leaf.cluster)) return;
-        
-        
-        // Verifica se a folha tem interseccao com o volume de visualizacao
-	if(!m_pFrustum->isBoxInFrustum(leaf.min[0], leaf.min[1], leaf.min[2], 
-		 leaf.max[0], leaf.max[1], leaf.max[2])) return;
-        
+
+
+	// Verifica se a folha tem interseccao com o volume de visualizacao
+	if(!m_pFrustum->isBoxInFrustum(leaf.min[0], leaf.min[1], leaf.min[2],
+								   leaf.max[0], leaf.max[1], leaf.max[2])) return;
+
 	vector<Mesh *> vMeshBlend;
-        // Percorre as faces da folha
+	// Percorre as faces da folha
 	while(meshCount--){
 		int meshIndex = m_info.pLeafFaces[leaf.leafFace + meshCount];
 		if(!m_info.facesDrawn[meshIndex]){
@@ -173,20 +173,17 @@ void BspScene::renderLeaf(int leafIndex){
 				m_vMeshs[meshIndex]->draw();
 			}
 		}
-               
+
 	}
 	for (int i = 0; i < vMeshBlend.size(); i++){
 		m_vMeshs[i]->draw();
 	}
 }
 
-
 int BspScene::isClusterVisible(int current, int test){
 	if(!m_info.clusters.pBitsets || current < 0) return 1;
-	return ( m_info.clusters.pBitsets[  current * m_info.clusters.bytesPerCluster + (test >> 3)  ]   &   (1 << (test & 7) ) ) ;
+	return ( m_info.clusters.pBitsets[	current * m_info.clusters.bytesPerCluster + (test >> 3)	 ]	 &	 (1 << (test & 7) ) ) ;
 }
-
-
 
 bool BspScene::load(string filename){
 	FILE *fp;
@@ -194,97 +191,97 @@ bool BspScene::load(string filename){
 		return false;
 	BspHeader header;
 	BspLump lumps[kMaxLumps];
-        
-        //Leitura de cabeï¿½lho
+
+	//Leitura de cabeï¿½lho
 	fread(&header, 1, sizeof(BspHeader), fp);
 	if((header.strID[0] != 'I') || (header.strID[1] != 'B') || (header.strID[2] != 'S') || (header.strID[3] != 'P') )
 		return false;
 	if(header.version != 0x2e)
 		return false;
-        
-        //Leitura de lumps
+
+	//Leitura de lumps
 	fread(lumps, kMaxLumps, sizeof(BspLump), fp);
-        
-        //Leitura de Nodos 
+
+	//Leitura de Nodos
 	if(lumps[kNodes].length){
-		m_info.numOfNodes      = lumps[kNodes].length / sizeof(BspNode);
-		m_info.pNodes         = new BspNode [m_info.numOfNodes];
-               
+		m_info.numOfNodes	   = lumps[kNodes].length / sizeof(BspNode);
+		m_info.pNodes		  = new BspNode [m_info.numOfNodes];
+
 		fseek(fp, lumps[kNodes].offset, SEEK_SET);
 		fread(m_info.pNodes, m_info.numOfNodes, sizeof(BspNode), fp);
 	}
-        
-        //Leitura das folhas
+
+	//Leitura das folhas
 	if(lumps[kLeafs].length){
-		m_info.numOfLeafs      = lumps[kLeafs].length / sizeof(BspLeaf);
-		m_info.pLeafs         = new BspLeaf [m_info.numOfLeafs];
-               
+		m_info.numOfLeafs	   = lumps[kLeafs].length / sizeof(BspLeaf);
+		m_info.pLeafs		  = new BspLeaf [m_info.numOfLeafs];
+
 		fseek(fp, lumps[kLeafs].offset, SEEK_SET);
 		fread(m_info.pLeafs, m_info.numOfLeafs, sizeof(BspLeaf), fp);
 	}
-        
-        // Leitura de faces da folha
+
+	// Leitura de faces da folha
 	if(lumps[kLeafFaces].length){
 		m_info.numOfLeafFaces  = lumps[kLeafFaces].length / sizeof(BspLeafFace);
-		m_info.pLeafFaces             = new BspLeafFace [m_info.numOfLeafFaces];
+		m_info.pLeafFaces			  = new BspLeafFace [m_info.numOfLeafFaces];
 		fseek(fp, lumps[kLeafFaces].offset, SEEK_SET);
 		fread(m_info.pLeafFaces, m_info.numOfLeafFaces, sizeof(BspLeafFace), fp);
 	}
-        
-        // Leitura de planos
+
+	// Leitura de planos
 	if(lumps[kPlanes].length){
-		m_info.numOfPlanes            = lumps[kPlanes].length / sizeof(BspPlane);
-		m_info.pPlanes                       = new BspPlane [m_info.numOfPlanes];
+		m_info.numOfPlanes			  = lumps[kPlanes].length / sizeof(BspPlane);
+		m_info.pPlanes						 = new BspPlane [m_info.numOfPlanes];
 		fseek(fp, lumps[kPlanes].offset, SEEK_SET);
 		fread(m_info.pPlanes, m_info.numOfPlanes, sizeof(BspPlane), fp);
 	}
-        
-        // Leitura dos Dados de visualizacao
+
+	// Leitura dos Dados de visualizacao
 	if(lumps[kVisData].length){
 		int size;
 		fseek(fp, lumps[kVisData].offset, SEEK_SET);
-		fread(&(m_info.clusters.numOfClusters),       1, sizeof(int), fp);
+		fread(&(m_info.clusters.numOfClusters),		  1, sizeof(int), fp);
 		fread(&(m_info.clusters.bytesPerCluster), 1, sizeof(int), fp);
-               
+
 		size = m_info.clusters.numOfClusters * m_info.clusters.bytesPerCluster;
-               
+
 		m_info.clusters.pBitsets = new unsigned char [size];
 		fread(m_info.clusters.pBitsets, 1, sizeof(unsigned char)*size, fp);
 	}
 	else m_info.clusters.pBitsets = NULL;
-        
-        // Leitura dos Brushes
+
+	// Leitura dos Brushes
 	if(lumps[kBrushes].length){
-		m_info.numOfBrushes           = lumps[kBrushes].length / sizeof(BspBrush);
-		m_info.pBrushes                      = new BspBrush [m_info.numOfBrushes];
+		m_info.numOfBrushes			  = lumps[kBrushes].length / sizeof(BspBrush);
+		m_info.pBrushes						 = new BspBrush [m_info.numOfBrushes];
 		fseek(fp, lumps[kBrushes].offset, SEEK_SET);
 		fread(m_info.pBrushes, m_info.numOfBrushes, sizeof(BspBrush), fp);
 	}
-        
-        // Leitura das folhas dos Brushes
+
+	// Leitura das folhas dos Brushes
 	if(lumps[kLeafBrushes].length){
-		m_info.numOfLeafBrushes        = lumps[kLeafBrushes].length / sizeof(BspLeafBrush);
-		m_info.pLeafBrushes           = new BspLeafBrush[m_info.numOfLeafBrushes];
+		m_info.numOfLeafBrushes		   = lumps[kLeafBrushes].length / sizeof(BspLeafBrush);
+		m_info.pLeafBrushes			  = new BspLeafBrush[m_info.numOfLeafBrushes];
 		fseek(fp, lumps[kLeafBrushes].offset, SEEK_SET);
 		fread(m_info.pLeafBrushes, m_info.numOfLeafBrushes, sizeof(BspLeafBrush), fp);
 	}
-        
-        // Leitura do BrushSide
+
+	// Leitura do BrushSide
 	if(lumps[kBrushSides]. length){
 		m_info.numOfBrushSides = lumps[kBrushSides]. length / sizeof(BspBrushSide);
-		m_info.pBrushSides            = new BspBrushSide [m_info.numOfBrushSides];
-               
+		m_info.pBrushSides			  = new BspBrushSide [m_info.numOfBrushSides];
+
 		fseek(fp, lumps[kBrushSides].offset, SEEK_SET);
 		fread(m_info.pBrushSides,m_info.numOfBrushSides, sizeof(BspBrushSide), fp);
 	}
-        
-        // Leitura de entities
+
+	// Leitura de entities
 	if(lumps[kEntities].length){
 		m_info.numOfEntities   = lumps[kEntities].length / sizeof(BspEntity);
-		m_info.pEntities              = new BspEntity [m_info.numOfEntities];
+		m_info.pEntities			  = new BspEntity [m_info.numOfEntities];
 		fseek(fp, lumps[kEntities].offset, SEEK_SET);
 		fread(m_info.pEntities, m_info.numOfEntities, sizeof(BspEntity),fp);
-               //fwrite(m_info.pEntities, m_info.numOfEntities, sizeof(BspEntity),stdout );
+		//fwrite(m_info.pEntities, m_info.numOfEntities, sizeof(BspEntity),stdout );
 	}
 	QEntityParser parser(m_info.pEntities, m_info.numOfEntities);
 	QEntity *entity =  NULL;
@@ -294,84 +291,84 @@ bool BspScene::load(string filename){
 			m_vEntityInfo.push_back(p);
 		}
 		else if(entity->type == InGE_QENTITY_LIGHT){
-			QEntityLight *p = (QEntityLight *) entity;                   
+			QEntityLight *p = (QEntityLight *) entity;
 			m_vEntityLight.push_back(p);
 		}
 	}
-        
-        // Leitura de modelos
+
+	// Leitura de modelos
 	if(lumps[kModels].length){
-		m_info.numOfModels            = lumps[kModels].length / sizeof(BspModel);
-		m_info.pModels               = new BspModel[m_info.numOfModels];
+		m_info.numOfModels			  = lumps[kModels].length / sizeof(BspModel);
+		m_info.pModels				 = new BspModel[m_info.numOfModels];
 		fseek(fp, lumps[kModels].offset, SEEK_SET);
 		fread(m_info.pModels, m_info.numOfModels, sizeof(BspModel), fp);
 	}
-        
-        // Leitura de Shaders
+
+	// Leitura de Shaders
 	if(lumps[kShaders].length){
-		m_info.numOfShaders           = lumps[kShaders].length / sizeof (BspShader);
-		m_info.pShaders                      = new BspShader [m_info.numOfShaders];
+		m_info.numOfShaders			  = lumps[kShaders].length / sizeof (BspShader);
+		m_info.pShaders						 = new BspShader [m_info.numOfShaders];
 		fseek(fp, lumps[kShaders].offset, SEEK_SET);
 		fread(m_info.pShaders, m_info.numOfShaders, sizeof(BspShader), fp);
 	}
-        
-        
-        // Leitura de Volume light
+
+
+	// Leitura de Volume light
 	if(lumps[kLightVolumes].length){
-		m_info.numOfLights            = lumps[kLightVolumes].length / sizeof(BspLight);
-		m_info.pLights               = new BspLight [m_info.numOfLights];
+		m_info.numOfLights			  = lumps[kLightVolumes].length / sizeof(BspLight);
+		m_info.pLights				 = new BspLight [m_info.numOfLights];
 		fseek(fp, lumps[kLightVolumes].offset, SEEK_SET);
 		fread(m_info.pLights, m_info.numOfLights, sizeof(BspLight), fp);
-               
+
 	}
-        
+
 	/////////////////////////////////
 	// Inicio dos dados para Meshs //
-	/////////////////////////////////      
+	/////////////////////////////////
 	BspFace *pFaces = NULL;
-        // Leitura de Faces
+	// Leitura de Faces
 	if(lumps[kFaces].length){
 		m_numOfMeshs   = lumps[kFaces].length / sizeof(BspFace);
-		pFaces                = new BspFace [m_numOfMeshs];
+		pFaces				  = new BspFace [m_numOfMeshs];
 		fseek(fp, lumps[kFaces].offset, SEEK_SET);
 		fread(pFaces, m_numOfMeshs, sizeof(BspFace), fp);
 	}
-	m_vMeshs = new  Mesh * [m_numOfMeshs];
-        
+	m_vMeshs = new	Mesh * [m_numOfMeshs];
+
 	int numOfVerts;
 	BspVertex *pVerts = NULL;
-        // Leitura de Vertices
+	// Leitura de Vertices
 	if(lumps[kVertices].length){
-		numOfVerts     = lumps[kVertices].length / sizeof(BspVertex);
-		pVerts                = new BspVertex [numOfVerts];
+		numOfVerts	   = lumps[kVertices].length / sizeof(BspVertex);
+		pVerts				  = new BspVertex [numOfVerts];
 		fseek(fp, lumps[kVertices].offset, SEEK_SET);
 		fread(pVerts, numOfVerts, sizeof(BspVertex), fp);
 	}
-               
-        // Leitura de informacao de textura
+
+	// Leitura de informacao de textura
 	if(lumps[kTextures].length){
 		m_info.numOfTextures   = lumps[kTextures].length / sizeof(BspTexture);
-		m_info.pTextures       = new BspTexture[m_info.numOfTextures];
+		m_info.pTextures	   = new BspTexture[m_info.numOfTextures];
 		fseek(fp, lumps[kTextures].offset, SEEK_SET);
 		fread(m_info.pTextures, m_info.numOfTextures, sizeof(BspTexture), fp);
-/*             QShaderManager *shaderManager = QShaderManager::getInstance();
-		for(int i=0; i< numOfTextures; i++){
-		QShader *shader = shaderManager->getShader(pTextures[i].strName);
-                      //printf("%s\n", m_info.pTextures[i].strName);
-		if(shader)m_vShaders.push_back(shader);
-		else{
-		shader = new QShader(pTextures[i].strName);
-		shaderManager->addShader(shader);
-		m_vShaders.push_back(shader);
+		/*			   QShaderManager *shaderManager = QShaderManager::getInstance();
+					   for(int i=0; i< numOfTextures; i++){
+					   QShader *shader = shaderManager->getShader(pTextures[i].strName);
+					   //printf("%s\n", m_info.pTextures[i].strName);
+					   if(shader)m_vShaders.push_back(shader);
+					   else{
+					   shader = new QShader(pTextures[i].strName);
+					   shaderManager->addShader(shader);
+					   m_vShaders.push_back(shader);
+					   }
+
+					   m_vShaders[i]->loadTextures();
+					   }*/
 	}
-                      
-		m_vShaders[i]->loadTextures();
-	}*/
-	}
-        
+
 	int numOfLightmaps;
 	BspLightmap *pLightmaps = NULL;
-        //Leitura de informaï¿½o de lightmap
+	//Leitura de informaï¿½o de lightmap
 	if(lumps[kLightmaps].length){
 		numOfLightmaps = lumps[kLightmaps].length / sizeof(BspLightmap);
 		pLightmaps = new BspLightmap[numOfLightmaps];
@@ -383,29 +380,29 @@ bool BspScene::load(string filename){
 	}
 	int numOfMeshVerts;
 	BspMeshVertex *pMeshVerts = NULL;
-        // Leitura de indice para vertices do Mesh
+	// Leitura de indice para vertices do Mesh
 	if(lumps[kMeshVerts].length){
 		numOfMeshVerts = lumps[kMeshVerts].length / sizeof(BspMeshVertex);
-		pMeshVerts     = new BspMeshVertex [numOfMeshVerts];
+		pMeshVerts	   = new BspMeshVertex [numOfMeshVerts];
 		fseek(fp, lumps[kMeshVerts].offset, SEEK_SET);
 		fread(pMeshVerts, numOfMeshVerts, sizeof(BspMeshVertex),fp );
 	}
-               
+
 	fclose(fp);
 	this->loadMeshs(pMeshVerts, pFaces, pVerts);
-        
+
 	EntityFactory *entityFactory = EntityFactory::getInstance();
 	entityFactory->loadEntities(this);
-        
+
 	if (pFaces)
-		delete [] pFaces;      
+		delete [] pFaces;
 	if (pVerts)
 		delete [] pVerts;
 	if (pLightmaps)
 		delete [] pLightmaps;
 	if (pMeshVerts)
 		delete [] pMeshVerts;
-        
+
 	return true;
 }
 void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *pVerts){
@@ -413,21 +410,21 @@ void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *
 	vector<Vector2 > vetLightmapCoord;
 	BspVertex *currVertex;
 	for (int j = 0; j < m_numOfMeshs; j++){
-               
+
 		m_vMeshs[j] = new ConcreteMesh();
-//             vLightmapCoord = new Vector2[pFaces[j].numOfVerts];
+		//			   vLightmapCoord = new Vector2[pFaces[j].numOfVerts];
 		vetLightmapCoord.clear();
 		MaterialInfo texture;
 		for (int k = 0; k < pFaces[j].numOfVerts; k++){
 			currVertex = &pVerts[pFaces[j].startVertIndex + k];
 			vetLightmapCoord.push_back(currVertex->vLightmapCoord);
-                      
+
 			pVertex = new Vertex(currVertex->vPosition, currVertex->vNormal, currVertex->vTextureCoord);
 			m_vMeshs[j]->addVertex(*pVertex);
 		}
 
 		m_vMeshs[j]->setDrawIndex( (unsigned int*) &pMeshVerts[pFaces[j].meshVertIndex], pFaces[j].numMeshVerts);
-		
+
 		texture.setTexture(m_info.pTextures[pFaces[j].textureID].strName);
 		if (texture.getBlend()){
 			m_vMeshs[j] = new AlphaBlend(m_vMeshs[j]);
@@ -443,13 +440,13 @@ void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *
 		} else if (pFaces[j].type == MESH_POLYGON){
 		} else if (pFaces[j].type == BILLBOARD){
 
-                      /*m_vMeshs[j] = new BillBoard ( m_vMeshs[j] )*/;
-                      
+			/*m_vMeshs[j] = new BillBoard ( m_vMeshs[j] )*/;
+
 		}
 	}
-        
+
 	m_info.facesDrawn.resize(m_numOfMeshs);
-        
+
 }
 
 /**
@@ -460,15 +457,15 @@ PhysicalContactPoint *BspScene::checkMoveCollision(Vector3 start, Vector3 end, P
 	PhysicalContactPoint *moveData;
 	moveData->setDepth(1.0f);
 	moveData->setPosition( end );
-	
+
 	checkGeom(start, end, geom);
-	
-	if(start == end) 
+
+	if(start == end)
 		return moveData;
-        // percorre a arvore a partir da raiz
+	// percorre a arvore a partir da raiz
 	checkNode(0, moveData, 0.0f, 1.0f, start, end);
 
-        // Se houve colisao, atualiza os valores
+	// Se houve colisao, atualiza os valores
 	if(moveData->getDepth() == 1.0f){
 		moveData->setPosition( end );
 	}
@@ -479,152 +476,221 @@ PhysicalContactPoint *BspScene::checkMoveCollision(Vector3 start, Vector3 end, P
 
 	return moveData;
 }
+
+Vector3 BspScene::getCollisionInc(const Vector3& start, const Vector3& end, PhysicalContactPoint *moveData) {
+	return (end - start) * moveData->getDepth();
+}
+
+Vector3 BspScene::getPositionInc(PhysicalContactPoint *moveData, PhysicalContactPoint *amd, const Vector3& start, const Vector3& end, const Vector3& target) {
+	Vector3 pos, normal0, normal1;
+	amd->setColided(true);
+ 	normal0 = ((end - start) * moveData->getDepth()).getVersor();
+ 	normal1 = ((target - start) * amd->getDepth()).getVersor();
+	pos = getCollisionInc(start, target, amd) + getCollisionInc(start, end, moveData);
+	pos = pos.cross(normal0).cross(normal0);
+	pos = pos.cross(normal1).cross(normal1);
+	pos *= -1;
+	return pos;
+}
+
 /**
  * Collision
  * Verifica colisao no movimento pretendido e tenta fazer slide
  */
 PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom, PhysicalContactPoint *oldMoveData ){
 	PhysicalContactPoint	*moveData = oldMoveData;
+	Vector3 slideStartPoint, position, target, posInc, targInc;
 	if (!moveData)
 		moveData = new PhysicalContactPoint();
-	
+
 	moveData->setDepth( 1.0f );
 	moveData->setPosition( end );
-	
 	checkGeom(start, end, geom);
-	
+
 	if(start == end){
 		return moveData;
 	}
-	
+
+	// Esses coisas aqui em baixo, como comentários mesmo, é só pra
+	// facilitar a visualização do que deveria ser um método.
+	// Quando aparecer alguém pra ajudar com a matemática...
+	// Ass: Caio
+// 	checkGeom(start, end, geom);
+// 	moveData->setDepth( 1.0f );
 	// percorre a arvore a partir da raiz
 	moveData = checkNode(0, moveData, 0.0f, 1.0f, start, end);
 
-	Vector3 slideStartPoint, position, target, posInc;
-	target = start + (end - start)* moveData->getDepth();
-	
-	if(moveData->getDepth() != 1.0f){
+	target = start + getCollisionInc(start, end, moveData);
+	if(moveData->getDepth() != 1.0f) {
 		moveData->setColided(true);
 		Vector3 normal0 = moveData->getNormal().getVersor();
-		Vector3 v1 = (start - end)* (1.0f - moveData->getDepth());
+		Vector3 v1 = (start - end) * (1.0f - moveData->getDepth());
 		posInc = v1.cross(normal0).cross(normal0);
+  		targInc = moveData->getNormal() * elapsedTime/200;
 	}
-	target += moveData->getNormal() * elapsedTime/200;
+	int i = 0;
+	PhysicalContactPoint *yamd = new PhysicalContactPoint(moveData);
+	PhysicalContactPoint *amd = new PhysicalContactPoint(moveData);
+
+	do {
+		checkGeom(start, target + targInc, geom);
+		amd->setDepth(1.0f);
+		amd = checkNode(0, amd, 0.0f, 1.0f, start, target + targInc);
+		if(amd->getDepth() != 1.0f) {
+			++i;
+			posInc = getPositionInc(yamd, amd, start, end, target + targInc);
+			Vector3 normal1, normal2;
+ 			normal1 = (end - start) * yamd->getDepth();
+ 			normal2 = (target + targInc - start) * amd->getDepth();
+			yamd->setNormal((normal1 + normal2).getVersor());
+  			targInc = yamd->getNormal() * elapsedTime/200;
+			if (i == 5) {
+				yamd->setPosition(start);
+				return yamd;
+			}
+		}
+	} while (amd->getDepth() != 1.0f);
+  	target += targInc;
 	slideStartPoint = target;
 	position = target + posInc;
-	moveData = checkMoveCollisionAndTrySlide(slideStartPoint, position,elapsedTime, geom, moveData);
-	return moveData;
+
+	return checkMoveCollisionAndTrySlide(slideStartPoint, position, elapsedTime, geom, moveData);
 }
 /**
  * Percorre a arvore(bsp) para ateh achar as folhas para verificar colisao
  */
 PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end){
 	PhysicalContactPoint* anotherMoveData = new PhysicalContactPoint(moveData);
+    PhysicalContactPoint* foo;
+    foo = anotherMoveData;
 	if(anotherMoveData->getDepth() <= startFraction)
 		return anotherMoveData;
-
 	//Se o noh eh folha
-	if(nodeIndex<0)        {
+	if(nodeIndex<0)	{
 		BspLeaf &leaf = m_info.pLeafs[~nodeIndex];
+		vector<PhysicalContactPoint* > eachCollision;
 
 		for (int i = 0; i < leaf.numOfLeafBrushes; i++){
 			BspBrush &brush = m_info.pBrushes[m_info.pLeafBrushes[leaf.leafBrush + i]];
-			// Checa se o brush eh valido e  material pra colisao
+			// Checa se o brush eh valido e	 material pra colisao
 			if((brush.numOfBrushSides > 0) && (((m_info.pTextures[brush.textureID].contents)&1)||((m_info.pTextures[brush.textureID].contents)&0x10000))){
+
 				anotherMoveData = checkBrush(brush, anotherMoveData);
- 			}
-
+				eachCollision.push_back(anotherMoveData);
+			}
 		}
-		return anotherMoveData;
-	}
-
-	BspNode        &node = m_info.pNodes[nodeIndex];
-	BspPlane &plane = m_info.pPlanes[node.plane];
-	Vector3  normal(plane.vNormal);
-
-	double startDistance = (normal * start) - plane.d;
-	double endDistance = (normal * end) - plane.d;
-	if(m_traceType == InGE_BSP_TRACE_BOX) m_moveOffset = fabs(m_extends[0]*normal[0])+fabs(m_extends[1]*normal[1])+fabs(m_extends[2]*normal[2]);
-
-        // Se ambos os pontos estaum na frente do plano, vai pra filho da frente
-	if((startDistance >= m_moveOffset) && (endDistance >= m_moveOffset)){
-		anotherMoveData = checkNode(node.front, anotherMoveData, startFraction, endFraction, start, end);
-	}
-        // Se ambos os pontos estaum atras do plano, vai pra filho de tras
-	else if((startDistance < -m_moveOffset) && (endDistance < -m_moveOffset)){
-		anotherMoveData = checkNode(node.back, anotherMoveData, startFraction, endFraction, start, end);  
-	}
-        // Caso contrario, split e vai pra os dois filhos.
-
-	else{
-               // Indice do noh para o ponto inicial e final
-		int sideIndex1, sideIndex2;
-               // Percentual a ser movido pelo ponto inicial e final
-		double fraction1, fraction2;
-               // Ponto de split
-		Vector3 middle;
-
-               // Ajusta Indices e Percentuais
-		if(startDistance < endDistance){
-			sideIndex1 = node.back;
-			sideIndex2 = node.front;
-
-			double inverseDiff = 1.0f / (startDistance - endDistance);
-			fraction1 = (startDistance - m_kEpsilon - m_moveOffset) * inverseDiff;
-			fraction2 = (startDistance + m_kEpsilon + m_moveOffset) * inverseDiff;               
+		if(eachCollision.size() > 1) {
+			for (unsigned int i = eachCollision.size() - 2; i > 0 ; --i) {
+				Vector3 vetorSoma, vetorAtual;
+				float depth = eachCollision[i]->getDepth();
+				if (!(isnan(depth) or isinf(depth))) {
+					vetorSoma = anotherMoveData->getNormal().getVersor() * (1.0f - anotherMoveData->getDepth());
+					vetorAtual = eachCollision[i]->getNormal().getVersor() * (1.0f - depth);
+					depth = vetorAtual.getNorma();
+ 					if (!(vetorAtual.hasNan() or vetorAtual.hasInf() or (depth == 1.0f))) {
+						Vector3 outraDirecao, mesmaDirecao, auxVect;
+						outraDirecao = vetorSoma.cross(vetorAtual.getVersor()).cross(vetorAtual.getVersor()) * -1;
+ 						mesmaDirecao = vetorSoma - outraDirecao;
+ 						if(mesmaDirecao.getNorma() < vetorAtual.getNorma()) {
+   							mesmaDirecao = vetorAtual;
+ 						}
+ 						auxVect = outraDirecao + mesmaDirecao;
+						auxVect.normalize();
+						anotherMoveData->setNormal(auxVect);
+					}
+				}
+			}
 		}
-		else if(startDistance > endDistance){
-			sideIndex1 = node.front;
-			sideIndex2 = node.back;
+	} else {
+		BspNode		   &node = m_info.pNodes[nodeIndex];
+		BspPlane &plane = m_info.pPlanes[node.plane];
+		Vector3	 normal(plane.vNormal);
 
-			double inverseDiff = 1.0f / (startDistance - endDistance);
-			fraction1 = (startDistance + m_kEpsilon + m_moveOffset) * inverseDiff;
-			fraction2 = (startDistance - m_kEpsilon - m_moveOffset) * inverseDiff;
+		double startDistance = (normal * start) - plane.d;
+		double endDistance = (normal * end) - plane.d;
+		if(m_traceType == InGE_BSP_TRACE_BOX) m_moveOffset = fabs(m_extends[0]*normal[0])+fabs(m_extends[1]*normal[1])+fabs(m_extends[2]*normal[2]);
+
+		// Se ambos os pontos estaum na frente do plano, vai pra filho da frente
+		if((startDistance >= m_moveOffset) && (endDistance >= m_moveOffset)){
+			anotherMoveData = checkNode(node.front, anotherMoveData, startFraction, endFraction, start, end);
 		}
-		else {
-			sideIndex1 = node.front;
-			sideIndex2 = node.back;
-			fraction1 = 1.0f;
-			fraction2 = 0.0f;
+		// Se ambos os pontos estaum atras do plano, vai pra filho de tras
+		else if((startDistance < -m_moveOffset) && (endDistance < -m_moveOffset)){
+			anotherMoveData = checkNode(node.back, anotherMoveData, startFraction, endFraction, start, end);
 		}
+		// Caso contrario, split e vai pra os dois filhos.
 
-               // Valida Percentuais
-		if(fraction1 < 0.0f) fraction1 = 0.0f;
-		else if (fraction1 > 1.0f) fraction1 = 1.0f;
-		if(fraction2 < 0.0f) fraction2 = 0.0f;
-		else if (fraction2 > 1.0f) fraction2 = 1.0f;
+		else{
+			// Indice do noh para o ponto inicial e final
+			int sideIndex1, sideIndex2;
+			// Percentual a ser movido pelo ponto inicial e final
+			double fraction1, fraction2;
+			// Ponto de split
+			Vector3 middle;
 
-               // definindo ponto de split a partir do ponto inicial
-		middle = start + (end - start) * fraction1;
-               // define o percentual do ponto inicial ateh o ponto de split                
-		double middleFraction = startFraction + (endFraction - startFraction) * fraction1;
-               //checagem no noh do ponto inicial
-		anotherMoveData = checkNode(sideIndex1, anotherMoveData, startFraction, middleFraction, start, middle);
+			// Ajusta Indices e Percentuais
+			if(startDistance < endDistance){
+				sideIndex1 = node.back;
+				sideIndex2 = node.front;
 
-               // definindo ponto de split a partir do ponto final
-		middle =  start + (end - start) * fraction2;
-               // define o percentual do ponto final ateh o ponto de split                  
-		middleFraction = startFraction + (endFraction - startFraction) * fraction2;
-               //checagem no noh do ponto final
-		anotherMoveData = checkNode(sideIndex2, anotherMoveData, middleFraction, endFraction, middle, end);
+				double inverseDiff = 1.0f / (startDistance - endDistance);
+				fraction1 = (startDistance - m_kEpsilon - m_moveOffset) * inverseDiff;
+				fraction2 = (startDistance + m_kEpsilon + m_moveOffset) * inverseDiff;
+			}
+			else if(startDistance > endDistance){
+				sideIndex1 = node.front;
+				sideIndex2 = node.back;
+
+				double inverseDiff = 1.0f / (startDistance - endDistance);
+				fraction1 = (startDistance + m_kEpsilon + m_moveOffset) * inverseDiff;
+				fraction2 = (startDistance - m_kEpsilon - m_moveOffset) * inverseDiff;
+			}
+			else {
+				sideIndex1 = node.front;
+				sideIndex2 = node.back;
+				fraction1 = 1.0f;
+				fraction2 = 0.0f;
+			}
+
+			// Valida Percentuais
+			if(fraction1 < 0.0f) fraction1 = 0.0f;
+			else if (fraction1 > 1.0f) fraction1 = 1.0f;
+			if(fraction2 < 0.0f) fraction2 = 0.0f;
+			else if (fraction2 > 1.0f) fraction2 = 1.0f;
+
+			// definindo ponto de split a partir do ponto inicial
+			middle = start + (end - start) * fraction1;
+			// define o percentual do ponto inicial ateh o ponto de split
+			double middleFraction = startFraction + (endFraction - startFraction) * fraction1;
+			//checagem no noh do ponto inicial
+			anotherMoveData = checkNode(sideIndex1, anotherMoveData, startFraction, middleFraction, start, middle);
+
+			// definindo ponto de split a partir do ponto final
+			middle =  start + (end - start) * fraction2;
+			// define o percentual do ponto final ateh o ponto de split
+			middleFraction = startFraction + (endFraction - startFraction) * fraction2;
+			//checagem no noh do ponto final
+			anotherMoveData = checkNode(sideIndex2, anotherMoveData, middleFraction, endFraction, middle, end);
+		}
 	}
+	return anotherMoveData;
 }
 
 /**
  * Faz checagem de colisao com um Brush especifico
  */
- 
+
 PhysicalContactPoint* BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint *moveData){
 	float startFraction= -1.0f;
 	float endFraction = 1.0f;
-    float oldDepth = moveData->getDepth();
+	float oldDepth = moveData->getDepth();
 	bool  startOut = false;
 	bool  endOut   = false;
-        // Candidato a vetor normal
-	Vector3 vCandidateToHitNormal; 
+	// Candidato a vetor normal
+	Vector3 vCandidateToHitNormal;
 	PhysicalContactPoint *anotherMoveData = new PhysicalContactPoint(moveData);
-	
-        // Varre os lados do Brush verificando colisao
+
+	// Varre os lados do Brush verificando colisao
 	for(int i = 0 ; i < brush.numOfBrushSides; i++){
 		BspBrushSide &brushSide = m_info.pBrushSides[brush.brushSide + i];
 		BspPlane &plane = m_info.pPlanes[brushSide.plane];
@@ -635,30 +701,30 @@ PhysicalContactPoint* BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint
 
 
 		if(m_traceType == InGE_BSP_TRACE_BOX){ // Box
-			Vector3 offset( normal[0] < 0 ? m_traceMax[0] : m_traceMin[0], 
-								 normal[1] < 0 ? m_traceMax[1] : m_traceMin[1],
-								 normal[2] < 0 ? m_traceMax[2] : m_traceMin[2]);
+			Vector3 offset( normal[0] < 0 ? m_traceMax[0] : m_traceMin[0],
+							normal[1] < 0 ? m_traceMax[1] : m_traceMin[1],
+							normal[2] < 0 ? m_traceMax[2] : m_traceMin[2]);
 
 			startDistance = normal * (m_startMovePosition + offset) - plane.d;
-			endDistance = normal * (m_endMovePosition + offset) - plane.d;        
+			endDistance = normal * (m_endMovePosition + offset) - plane.d;
 		}
 		else { // Ray and Sphere
 			startDistance = normal * m_startMovePosition - plane.d - m_moveOffset;
-			endDistance = normal * m_endMovePosition - plane.d - m_moveOffset;            
+			endDistance = normal * m_endMovePosition - plane.d - m_moveOffset;
 		}
-                             
+
 		if(startDistance > 0) startOut = true;
 		if(endDistance > 0) endOut = true;
-               
-               // Se os dois pontos estaum fora, nao ha colisao
+
+		// Se os dois pontos estaum fora, nao ha colisao
 		if((startDistance > 0) && (endDistance > 0)) {
 			return anotherMoveData;
-        }
-               // Se os dois pontos estaum atras, testar com outro plano
+		}
+		// Se os dois pontos estaum atras, testar com outro plano
 		else if((startDistance <= 0) && (endDistance <= 0)) continue;
-               
-               // Faz startDistance tender ao ponto final e endDistance tender ao inicial
-               // se ele se cruzarem, entaum naum houve colisao
+
+		// Faz startDistance tender ao ponto final e endDistance tender ao inicial
+		// se ele se cruzarem, entaum naum houve colisao
 		if(startDistance > endDistance){
 			float fraction = (startDistance - m_kEpsilon) / (startDistance - endDistance);
 			if(fraction > startFraction){
@@ -668,23 +734,23 @@ PhysicalContactPoint* BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint
 		}
 		else{
 			float fraction = (startDistance + m_kEpsilon) / (startDistance - endDistance);
-			if(fraction < endFraction)     endFraction = fraction;
+			if(fraction < endFraction)	   endFraction = fraction;
 		}
 	}
-    if(startFraction < endFraction){
-      if((startFraction > -1.0f) && (startFraction < oldDepth)){
-        //				if(startFraction < 0) 
-        //startFraction = 0;
-        if(startOut) {
-          anotherMoveData->setDepth( startFraction );
-          anotherMoveData->setNormal( vCandidateToHitNormal );
-        } else {
-          // inicia dentro do brush
-          //	anotherMoveData->startOut = false;
-          //	if(!endOut) anotherMoveData->allSolid = true;
-        }
-      }
-    }
+	if(startFraction < endFraction){
+		if((startFraction > -1.0f) && (startFraction < oldDepth)){
+			//				if(startFraction < 0)
+			//startFraction = 0;
+			if(startOut) {
+				anotherMoveData->setDepth( startFraction );
+				anotherMoveData->setNormal( vCandidateToHitNormal );
+			} else {
+				// inicia dentro do brush
+				//	anotherMoveData->startOut = false;
+				//	if(!endOut) anotherMoveData->allSolid = true;
+			}
+		}
+	}
 
 	return anotherMoveData;
 }
@@ -693,22 +759,22 @@ vector<QEntityInfo *>& BspScene::getVectorOfEntityInfo(){
 	return m_vEntityInfo;
 }
 vector<QEntityLight *>& BspScene::getVectorOfEntityLight(){
-	return m_vEntityLight; 
+	return m_vEntityLight;
 }
- 
+
 void BspScene::createLightmap(int index, BspLightmap *pImageBits, int width, int height){
 	Drawer *drawer = Drawer::getInstance();
-        
+
 	drawer->genTextures(1, &m_info.lightmaps[index]);
 	drawer->pixelStore(InGE_UNPACK_ALIGNMENT,1);
-        
+
 	drawer->bindTexture(InGE_TEXTURE_2D, m_info.lightmaps[index]);
-        
+
 	this->changeGamma((unsigned char *)pImageBits, width*height*3, m_info.gamma);
-        
-//      drawer->texImage2D( InGE_TEXTURE_2D, 0, InGE_RGB, width, height, 0, InGE_RGB, InGE_UNSIGNED_BYTE, pImageBits );
+
+	//		drawer->texImage2D( InGE_TEXTURE_2D, 0, InGE_RGB, width, height, 0, InGE_RGB, InGE_UNSIGNED_BYTE, pImageBits );
 	drawer->build2DMipmaps(InGE_TEXTURE_2D, 3, width, height, InGE_RGB, InGE_UNSIGNED_BYTE, pImageBits);
-        
+
 	drawer->texParameter(InGE_TEXTURE_2D, InGE_TEXTURE_MAG_FILTER, InGE_LINEAR);
 	drawer->texParameter(GL_TEXTURE_2D, InGE_TEXTURE_MIN_FILTER, InGE_LINEAR_MIPMAP_NEAREST);
 	drawer->texEnv(InGE_TEXTURE_ENV, InGE_TEXTURE_ENV_MODE, InGE_MODULATE);
@@ -727,7 +793,7 @@ void BspScene::changeGamma(unsigned char *pImage, unsigned int size, float facto
 		if(g > 1.0f && (temp = (1.0f/g)) < scale) scale=temp;
 		if(b > 1.0f && (temp = (1.0f/b)) < scale) scale=temp;
 		scale*=255.0f;
-		r*=scale;   g*=scale;   b*=scale;
+		r*=scale;	g*=scale;	b*=scale;
 		pImage[0] = (unsigned char)r;
 		pImage[1] = (unsigned char)g;
 		pImage[2] = (unsigned char)b;
@@ -738,33 +804,33 @@ void InGE::BspScene::checkGeom( Vector3 start, Vector3 end, PhysicalGeom * geom 
 	if ( geom == NULL ){
 		m_traceType = InGE_BSP_TRACE_RAY;
 		m_moveOffset = 0.0;
-        
+
 		m_startMovePosition = start;
 		m_endMovePosition = end;
 	} else if ( geom->getClass() == 0 ){
 		m_traceType = InGE_BSP_TRACE_SPHERE;
 		GeomSphere *sphere = (GeomSphere *) geom;
 		m_moveOffset = sphere->getRadius();
-        
+
 		m_startMovePosition = start;
 		m_endMovePosition = end;
-        
+
 	} else if ( geom->getClass() == 1 ){
 		m_traceType = InGE_BSP_TRACE_BOX;
 		GeomBox *box = (GeomBox *) geom;
-               
+
 		m_traceMin = box->getLengths() / -2;
 		m_traceMax = box->getLengths() / 2;
 		m_moveOffset = 0.0f;
-               
+
 		m_startMovePosition = start;
 		m_endMovePosition = end;
-               
+
 		m_extends.setXYZ(MAX(fabs(m_traceMin[0]), fabs(m_traceMax[0])), MAX(fabs(m_traceMin[1]), fabs(m_traceMax[1])), MAX(fabs(m_traceMin[2]), fabs(m_traceMax[2])));
 	} /*else if ( geom->getClass() == 8 ) {
 		PhysicalSpace *space = (PhysicalSpace *)geom;
 		for (int i = 0; space->getNumGeom(); i++){
-			checkMoveCollisionAndTrySlide(start, end, space->getGeom( i ));
+		checkMoveCollisionAndTrySlide(start, end, space->getGeom( i ));
 		}
-	}*/
+		}*/
 }

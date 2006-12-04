@@ -168,6 +168,9 @@ namespace InGE{
 		void changeGamma(unsigned char *pImage, unsigned int size, float factor);
 		
 		void loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *pVerts);
+
+        Vector3 getCollisionInc(const Vector3& start, const Vector3& end, PhysicalContactPoint *moveData);
+		Vector3 getPositionInc(PhysicalContactPoint *moveData, PhysicalContactPoint *anotherMoveData, const Vector3& start, const Vector3& end, const Vector3& target);
 		
 	  public:
 		BspScene(); 
