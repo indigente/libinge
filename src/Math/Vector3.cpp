@@ -55,9 +55,9 @@ Vector3::Vector3(float vet[3]){
 void Vector3::setX(float x){ m_v[0] = x;}
 void Vector3::setY(float y){ m_v[1] = y;}
 void Vector3::setZ(float z){ m_v[2] = z;}
-float Vector3::getX() const { return m_v[0]; }
-float Vector3::getY() const { return m_v[1]; }
-float Vector3::getZ() const { return m_v[2]; }
+const float Vector3::getX() const { return m_v[0]; }
+const float Vector3::getY() const { return m_v[1]; }
+const float Vector3::getZ() const { return m_v[2]; }
 
 void Vector3::setXYZ(float x, float y, float z){ 
 	m_v[0] = x;
@@ -86,7 +86,7 @@ float Vector3::operator*(const Vector3 &vet) const{
 void Vector3::normalize(){
 	float norma = this->getNorma();
 
-	if(norma == 0.0) return;
+	if(EQUALS(norma,0.0f)) return;
 	
 	m_v[0] /= norma;
 	m_v[1] /= norma;
@@ -97,26 +97,30 @@ void Vector3::normalize(){
  * Retorna um vetor normal ao plano 
  * formado entros outros 2 vetor
  */
-Vector3 Vector3::cross(const Vector3 &vet) const{
+const Vector3 Vector3::cross(const Vector3 &vet) const{
 	return Vector3( m_v[1] * vet.m_v[2] - m_v[2] * vet.m_v[1],
 			m_v[2] * vet.m_v[0] - m_v[0] * vet.m_v[2],
 			m_v[0] * vet.m_v[1] - m_v[1] * vet.m_v[0] );
 }
 
 // Retorna um Versor do vetor 3D
-Vector3 Vector3::getVersor() const{
+const Vector3 Vector3::getVersor() const{
 	float norma = this->getNorma();
-	return Vector3(m_v[0]/norma, m_v[1]/norma, m_v[2]/norma);
+    if(EQUALS(norma,0.0f)) {
+      return Vector3(0.0f, 0.0f, 0.0f);
+    } else {
+      return Vector3(m_v[0]/norma, m_v[1]/norma, m_v[2]/norma);
+    }
 }
 
 // Retorna a soma de 2 vetores
-Vector3 Vector3::operator+(const Vector3 &vet) const{
+const Vector3 Vector3::operator+(const Vector3 &vet) const{
 	return Vector3(m_v[0]+vet.m_v[0], m_v[1]+vet.m_v[1], m_v[2]+vet.m_v[2]);
 }
 
 
 // Retorna o vetor somado ao argumento
-Vector3 Vector3::operator+=(const Vector3 &vet){
+Vector3& Vector3::operator+=(const Vector3 &vet){
 	m_v[0] += vet.m_v[0];
 	m_v[1] += vet.m_v[1];
 	m_v[2] += vet.m_v[2];
@@ -124,12 +128,12 @@ Vector3 Vector3::operator+=(const Vector3 &vet){
 }
 
 // Retorna a subtracao de 2 vetores
-Vector3 Vector3::operator-(const Vector3 &vet) const{
+const Vector3 Vector3::operator-(const Vector3 &vet) const{
 	return Vector3(m_v[0]-vet.m_v[0], m_v[1]-vet.m_v[1], m_v[2]-vet.m_v[2]);
 }
 
 // Retorna o vetor subtraido do argumento
-Vector3 Vector3::operator-=(const Vector3 &vet){
+Vector3& Vector3::operator-=(const Vector3 &vet){
 	m_v[0] -= vet.m_v[0];
 	m_v[1] -= vet.m_v[1];
 	m_v[2] -= vet.m_v[2];
@@ -138,12 +142,12 @@ Vector3 Vector3::operator-=(const Vector3 &vet){
 
 
 // Multiplicacao por escalar
-Vector3 Vector3::operator*(float factor) const{
+const Vector3 Vector3::operator*(float factor) const{
 	return Vector3(m_v[0]*factor, m_v[1]*factor, m_v[2]*factor);
 }
 
 // Retorna o vetor multiplicado ao argumento
-Vector3 Vector3::operator*=(float factor){
+Vector3& Vector3::operator*=(float factor){
 	m_v[0] *= factor;
 	m_v[1] *= factor;
 	m_v[2] *= factor;
@@ -152,36 +156,40 @@ Vector3 Vector3::operator*=(float factor){
 
 
 // Divisao por escalar
-Vector3 Vector3::operator/(float factor) const{
+const Vector3 Vector3::operator/(float factor) const{
 	return Vector3(m_v[0]/factor, m_v[1]/factor, m_v[2]/factor);
 }
 
 // Retorna o vetor divido do argumento
-Vector3 Vector3::operator/=(float factor){
+Vector3& Vector3::operator/=(float factor){
 	
-	if(factor == 0.0f) return Vector3();
-	
-	m_v[0] /= factor;
-	m_v[1] /= factor;
-	m_v[2] /= factor;
+	if(factor != 0.0f) {
+		m_v[0] /= factor;
+		m_v[1] /= factor;
+		m_v[2] /= factor;
+	}
 	return *this;	
 }
 
 
 // Atribuicao
-Vector3 Vector3::operator=(const Vector3 &vet){
-	m_v[0] = vet.m_v[0];
-	m_v[1] = vet.m_v[1];
-	m_v[2] = vet.m_v[2];
+Vector3& Vector3::operator=(const Vector3 &vet){
+	if(this != &vet) {
+		m_v[0] = vet.m_v[0];
+		m_v[1] = vet.m_v[1];
+		m_v[2] = vet.m_v[2];
+	}
 	return *this;
 }
 
 // Atribuicao
 Vector3 *Vector3::operator=(Vector3 *vet){
-	m_v[0] = vet->m_v[0];
-	m_v[1] = vet->m_v[1];
-	m_v[2] = vet->m_v[2];
-	return this;
+	if(this != vet) {
+		m_v[0] = vet->m_v[0];
+		m_v[1] = vet->m_v[1];
+		m_v[2] = vet->m_v[2];
+	}
+ 	return this;
 }
 
 
@@ -191,8 +199,16 @@ bool Vector3::operator==(const Vector3 &vet) const{
 	return false;
 }
 
-const float *Vector3::toArray(){
+const float *Vector3::toArray() const{
 	return m_v;
+}
+
+bool Vector3::hasNan() {
+	return isnan(m_v[0] + m_v[1] + m_v[2]);
+}
+
+bool Vector3::hasInf() {
+	return isinf(m_v[0] + m_v[1] + m_v[2]);
 }
 
 void Vector3::print(){

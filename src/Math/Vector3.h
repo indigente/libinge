@@ -27,7 +27,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define VECTOR3_H
 #include <cmath>
 #include <iostream>
-#define EQUALS(a,b) (((((a) - (b)) < 1.0E-200) && (((a) - (b)) > -1.0E-200)) || (isnan((a)) && (isnan((b)))))
+#define F_EPSILON 1.0E-37
+#define EQUALS(a,b) (((((a) - (b)) < F_EPSILON) && (((a) - (b)) > -F_EPSILON)) || ((isnan((a)) && (isnan((b)))) || (isinf((a)) && (isinf((b))))))
 
 namespace InGE{
 	
@@ -54,35 +55,38 @@ namespace InGE{
 		void setXYZ(float x, float y, float z);
 
 		//Metodos Get
-		float getX() const;
-		float getY() const;	
-		float getZ() const;
-		float& operator[] (const long i) { return m_v[i];	}	
+		const float getX() const;
+		const float getY() const;	
+		const float getZ() const;
+		float& operator[] (const long i) { return m_v[i]; }	
 		
 		float getNorma() const; 			// Modulo/Norma do vetor
 		float dot(const Vector3 &vet) const;		// Produto interno
-		Vector3 cross(const Vector3 &vet) const;	// Produto vetorial
-		Vector3 getVersor() const;			// Retor um versor
+		const Vector3 cross(const Vector3 &vet) const;	// Produto vetorial
+		const Vector3 getVersor() const;			// Retor um versor
 		float operator*(const Vector3 &vet) const;	// Produto Interno
 		
 		void normalize();
 
 		//Metodos de Opera�es
-		Vector3 operator+(const Vector3 &vet) const;
-		Vector3 operator+=(const Vector3 &vet);
-		Vector3 operator-(const Vector3 &vet) const;
-		Vector3 operator-=(const Vector3 &vet);
-		Vector3 operator*(float factor) const;
-		Vector3 operator*=(float factor);
-		Vector3 operator/(float factor) const;
-		Vector3 operator/=(float factor);						
-		Vector3 operator=(const Vector3 &vet);
+		const Vector3 operator+(const Vector3 &vet) const;
+        Vector3& operator+=(const Vector3 &vet);
+		const Vector3 operator-(const Vector3 &vet) const;
+        Vector3& operator-=(const Vector3 &vet);
+		const Vector3 operator*(float factor) const;
+        Vector3& operator*=(float factor);
+		const Vector3 operator/(float factor) const;
+        Vector3& operator/=(float factor);
+        Vector3& operator=(const Vector3 &vet);
 		Vector3 *operator=(Vector3 *vet); 
 		
 		bool operator==(const Vector3 &vet) const;
 		
-		const float *toArray();
-		
+		const float *toArray() const;
+
+		bool hasNan();
+		bool hasInf();
+
 		void print();
 	};
 
