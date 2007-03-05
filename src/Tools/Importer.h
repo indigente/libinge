@@ -29,22 +29,13 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <string>
 
 //The main includes for the COLLADA DOM.
-#include <dae.h>
+#include <COLLADA_DOM/dae.h>
 //This include will import all the elements that we will need except the effect 
 //elements.
-#include <dom/domCOLLADA.h>
+#include <COLLADA_DOM/dom/domCOLLADA.h>
 //This include will import all of the elements needed for profile_COMMON 
 //effects.
-#include <dom/domProfile_COMMON.h>
+#include <COLLADA_DOM/dom/domProfile_COMMON.h>
 //This include imports a bunch of useful constant strings for types and element 
 //names.
-#include <dom/domConstants.h>
-
-const daeString documentName	= "sampleCube.dae";
-const daeString geometryID		= "cube";
-const daeString materialID		= "texture_material";
-const daeString materialSymbol	= "material";
-const daeString imageID			= "texture-image";
-const daeString effectID		= "simple_texture-fx";
-const daeString texCoordSymbol	= "UVSET0";
-const daeString visual_sceneID  = "default_scene";
+#include <COLLADA_DOM/dom/domConstants.h>
