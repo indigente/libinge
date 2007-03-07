@@ -25,9 +25,70 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 #include "Importer.h"
-daeString COLLADA_VERSION = "1.4";
-using namespace 
-std;
+daeString COLLADA_VERSION = "1.4.1";
+using namespace std;
+
+// vector<Vector3 > &loadFloatArrayStride3(){
+// 
+// }
+
+domSource *findSource(domMesh *pMesh, string id){
+	domSource_Array sourceArray = pMesh->getSource_array();
+	int count = sourceArray.getCount();
+	for(int i = 0; i < count; i++){
+		string sourceID =  sourceArray[i]->getId();
+		if ( sourceID == id ) {
+			cout << sourceID << " == " << id << endl;
+			return sourceArray[i];
+		} else {
+			cout << "Num achei " << endl;
+		}
+ 		
+	}
+	return NULL;
+}
+
+void loadMesh(domMesh *pMesh){
+// 	cout << pMesh->getID() << endl;
+	domVertices *pVertices = pMesh->getVertices();
+	domSource *pSource = NULL;
+// 	vector<Vector3 > position;
+// 	vector<Vector3 > normal;
+// 	vector<Vector2 > texCoord;
+// 	vector<Vector2 > index;
+	
+	if (pVertices) {
+		domInputLocal_Array inputArray = pVertices->getInput_array();
+		int inputCount =  inputArray.getCount();
+		
+		for(int i = 0; i < inputCount; i++){
+			if ( !strcmp( inputArray[i]->getSemantic(), "POSITION" ) ) {
+ 				pSource = findSource(pMesh, inputArray[i]->getSource().getID());
+//  				position = loadFloatArrayStride3(pSource);
+				
+			} else if ( !strcmp( inputArray[i]->getSemantic(), "NORMAL" ) ) {
+				pSource = findSource(pMesh, inputArray[i]->getSource().getID());
+//  				normal = loadFloatArrayStride3(pSource);
+			}
+		}
+	}
+	domTriangles *pTriangles = pMesh->getTriangles_array()[0];
+	if (pTriangles){
+		domInputLocalOffset_Array inputArray = pTriangles->getInput_array();
+		int inputCount =  inputArray.getCount();
+		
+		for(int i = 0; i < inputCount; i++){
+			cout << inputArray[i]->getSemantic() << endl;
+			 if ( !strcmp( inputArray[i]->getSemantic(), "TEXCOORD" ) ) {
+				 pSource = findSource(pMesh, inputArray[i]->getSource().getID());
+// 				 texCoord = loadFloatArrayStride2(pSource);
+			 }
+		}
+		
+		domP *pP = pTriangles->getP();
+// 		pP->get
+	}
+}
 
 int main( ){
 	DAE *daeObject = new DAE;
@@ -35,39 +96,43 @@ int main( ){
 	
 	error = daeObject->load( "/home/nkbeto/Desktop/champignon.dae" );
 	if ( error == DAE_OK ){
-	cout << "Sucesso no load" << endl;
+		cout << "Sucesso no load" << endl;
 	} else {
-	cout << "Falha no load" << endl;
+		cout << "Falha no load" << endl;
 	}
 	
-	cout << "Versão = " <<  daeObject->getDomVersion() << endl;
 	daeDatabase* database = daeObject->getDatabase();
-	cout << "N. Coleções = " << database->getCollectionCount() << endl;
-	cout << "N. Documentos = " << database->getDocumentCount() << endl;
-	
-	/*int max = database->getTypeCount();
-	cout << "N. Tipo = " << max << endl;
-	for (int i = 0; i < max; i++){
-		cout << "Nome do tipo " << i << " é "<< database->getTypeName( i ) << endl;
-	}*/
 	
 	int elemNum = database->getElementCount(NULL, COLLADA_ELEMENT_GEOMETRY, NULL);
-	cout << "N. Elemento = " << elemNum << endl;
 	daeElement *pElement;
 	for (int i = 0; i < elemNum; i++){
 		database->getElement( (daeElement**)&pElement, i, NULL, COLLADA_ELEMENT_GEOMETRY, NULL );
- 		cout << "ID do Elemento " << i << " é " << pElement->getID() << endl;
+		domGeometry *pGeom = NULL;
+		pGeom = (domGeometry *)pElement;
+		if (pGeom) {
+			domMesh *pMesh = NULL;
+			pMesh = pGeom->getMesh();
 		
-		daeMemoryRef mem = pElement->getAttributeValue( "float_array" );
+			if(pMesh){
+				loadMesh(pMesh);
+			}
+		}
+/*		daeElementRefArray children;
+		pElement->getChildren( children );
+		int childrenNum = children.getCount();
 		
-		
+		for ( int i = 0; i < childrenNum; i++ ) {
+			if ( !strcmp( children[i]->getTypeName(), "mesh" ) ) {
+				loadMesh(children[i]);
+			}
+		}*/
 	}
 	//dae database->getCollection( 0 );
 	
 	error = daeObject->saveAs( "teste.xml", "file:///home/nkbeto/Desktop/teste.xml");
 	if ( error == DAE_OK ){
-	cout << "Sucesso no save" << endl;
+		cout << "Sucesso no save" << endl;
 	} else {
-	cout << "Falha no save" << endl;
+		cout << "Falha no save" << endl;
 	}
 }

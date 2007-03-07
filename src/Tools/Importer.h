@@ -27,7 +27,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include <iostream>
 #include <string>
-
+#include <vector>
+		
 //The main includes for the COLLADA DOM.
 #include <COLLADA_DOM/dae.h>
 //This include will import all the elements that we will need except the effect 
