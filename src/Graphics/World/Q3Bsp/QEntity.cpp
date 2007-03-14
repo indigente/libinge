@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright © 2004-2005 Indigente
+Copyright  2004-2005 Indigente
 
 
 This program is free software; you can redistribute it and/or modify it under
@@ -48,7 +48,7 @@ void QEntityInfo::print(){
 	printf("\tOrigin (%f, %f, %f)\n", origin[0], origin[1], origin[2]);
 	printf("\tAngle %f\n", angle);
 	printf("\tTarget %s\n", target.c_str());
-	printf("\tdirName %s\n", dirName.c_str());
+	printf("\tdirName %s\n", md3File.c_str());
 	printf("\tscale %f\n", scale);
 }
 

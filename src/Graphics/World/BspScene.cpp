@@ -405,6 +405,7 @@ bool BspScene::load(string filename){
 
 	return true;
 }
+
 void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *pVerts){
 	Vertex *pVertex;
 	vector<Vector2 > vetLightmapCoord;
@@ -412,7 +413,7 @@ void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *
 	for (int j = 0; j < m_numOfMeshs; j++){
 
 		m_vMeshs[j] = new ConcreteMesh();
-		//			   vLightmapCoord = new Vector2[pFaces[j].numOfVerts];
+//			vLightmapCoord = new Vector2[pFaces[j].numOfVerts];
 		vetLightmapCoord.clear();
 		MaterialInfo texture;
 		for (int k = 0; k < pFaces[j].numOfVerts; k++){

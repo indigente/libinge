@@ -47,7 +47,7 @@ QEntity *QEntityParser::nextEntity(){
 	float radius= 0.0f;
 	int light = 0;
 	float scale = 1;
-	string dirName = "";
+	string md3File = "";
 	
 	
 	// Procura um classname suportado
@@ -115,8 +115,8 @@ QEntity *QEntityParser::nextEntity(){
 			else if(!strncmp(property, "scale", 5)){
 				sscanf(parameter, "%f", &scale);
 				
-			}else if(!strncmp(property, "dirName", 6)){
-				dirName = parameter;
+			}else if(!strncmp(property, "md3File", 6)){
+				md3File = parameter;
 				
 			}else {
 			}
@@ -132,7 +132,7 @@ QEntity *QEntityParser::nextEntity(){
 		pEntityInfo->target = target;
 		pEntityInfo->angle = angle;
 		pEntityInfo->scale = scale;
-		pEntityInfo->dirName = dirName;
+		pEntityInfo->md3File = md3File;
 	}
 	else if(pEntity->type == InGE_QENTITY_LIGHT){
 		QEntityLight *pEntityLight = (QEntityLight *) pEntity;

@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright © 2004-2005 Indigente
+Copyright  2004-2005 Indigente
 
 
 This program is free software; you can redistribute it and/or modify it under
@@ -53,7 +53,7 @@ namespace InGE{
 			float angle;
 			string target;
 		
-			string dirName;
+			string md3File;
 			float scale;
 			
 			QEntityInfo();

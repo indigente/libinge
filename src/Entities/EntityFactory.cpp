@@ -70,8 +70,9 @@ void EntityFactory::loadEntities(BspScene *pScene){
 	KFModelFactory *pModelFactory = KFModelFactory::getInstance();
 	
 	vector<QEntityInfo *> vetEntityInfo = pScene->getVectorOfEntityInfo();
-	
-	for(unsigned int i=0; i<vetEntityInfo.size(); i++){		
+	cerr << "Achei " << vetEntityInfo.size() << " entidades" << endl;
+	for(unsigned int i=0; i<vetEntityInfo.size(); i++){
+		cerr << "Entidade " << i << " é " << vetEntityInfo[i]->classname << endl;	
 		if( vetEntityInfo[i]->classname == "info_player_start" ){
 			InfoEntity *pInfoStart = new InfoEntity();
 			pInfoStart->setPosition( vetEntityInfo[i]->origin );
@@ -80,16 +81,33 @@ void EntityFactory::loadEntities(BspScene *pScene){
 			
 			m_vetInfoEntity.push_back(pInfoStart);
 		} else if( vetEntityInfo[i]->classname == "info_Objeto3D" ){
-// 			Object3D *pEntity = new Object3D();
-// 			addObject3D(pEntity);
-// 			IModel *pModel = pModelFactory->loadMd3(vetEntityInfo[i]->dirName);
+			cerr << "ENTREI" << endl;
+			Object3D *pEntity = new Object3D();
+			addObject3D(pEntity);
+			cerr << "Carregando " << vetEntityInfo[i]->md3File << endl;
+			IModel *pModel = pModelFactory->loadMd3(vetEntityInfo[i]->md3File);
 // //			pModel->scale(vetEntityInfo[i]->scale);
-// 			pEntity->setModel( pModel );
+ 			pEntity->setModel( pModel );
 // 
 // 			
 // // 			pEntity->setType( vetEntityInfo[i]->classname );
-// 			Vector3 position( vetEntityInfo[i]->origin[0],vetEntityInfo[i]->origin[1],vetEntityInfo[i]->origin[2] +50  );
-// 			pEntity->setPosition(position);
+ 			Vector3 position( vetEntityInfo[i]->origin[0],vetEntityInfo[i]->origin[1],vetEntityInfo[i]->origin[2] +50  );
+ 			pEntity->setPosition(position);
+// 			Vector3 up(0,0,1);
+// 			pEntity->rotate(vetEntityInfo[i]->angle, up);
+// 			
+		} else if( vetEntityInfo[i]->classname == "info_Objeto3DStatic" ){
+			Object3D *pEntity = new Object3D();
+			addObject3D(pEntity);
+			cerr << "Carregando " << vetEntityInfo[i]->md3File << endl;
+			IModel *pModel = pModelFactory->loadMd3(vetEntityInfo[i]->md3File);
+// //			pModel->scale(vetEntityInfo[i]->scale);
+ 			pEntity->setModel( pModel );
+// 
+// 			
+// // 			pEntity->setType( vetEntityInfo[i]->classname );
+ 			Vector3 position( vetEntityInfo[i]->origin[0],vetEntityInfo[i]->origin[1],vetEntityInfo[i]->origin[2] +50  );
+ 			pEntity->setPosition(position);
 // 			Vector3 up(0,0,1);
 // 			pEntity->rotate(vetEntityInfo[i]->angle, up);
 // 			

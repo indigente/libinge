@@ -1,5 +1,5 @@
 SUBDIRS = AI Entities Audio Common Control Graphics Math Physics Util Triggers \
-	Network
+	Network Tools
 lib_LTLIBRARIES = libInGE.la
 libInGE_la_SOURCES = InGE.h
 
