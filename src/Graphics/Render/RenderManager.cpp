@@ -227,6 +227,51 @@ void RenderManager::drawGUI(){
 	drawer->disable(InGE_CULL_FACE);
 	CEGUI::System::getSingleton().renderGUI();
 	drawer->popAttrib();
+
+
+
+
+/* codigo antigo */
+//        Drawer *drawer = Drawer::getInstance();
+        // Varre as janelas inscritas para renderizacao
+//      drawer->pushAttrib(GL_ENABLE_BIT);
+//      drawer->disable(GL_DEPTH_TEST);
+        drawer->disable(GL_CULL_FACE);
+
+
+
+//      drawer->disable(InGE_LIGHTING);
+//      drawer->enable(GL_BLEND);
+//      drawer->enable(GL_TEXTURE_2D);
+//      drawer->blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        drawer->matrixMode(GL_MODELVIEW);
+        drawer->pushMatrix();
+        drawer->loadIdentity();
+
+        drawer->matrixMode(GL_PROJECTION);
+        drawer->pushMatrix();
+        drawer->loadIdentity();
+        SDL_Surface *surface = SDL_GetVideoSurface();
+        int w = surface->w;
+        int h = surface->h;
+
+        float pos[] = { w/2, h/2, 600.0f, 0.0f };//FIXME: Armengue pra iluminação da GUI
+        glLightfv(GL_LIGHT0, GL_POSITION, pos);//FIXME: Armengue pra iluminação da GUI
+
+        drawer->ortho(0,w,h,0,0,1);
+
+        list<IWidget*>::iterator itWdg;
+        for(itWdg = m_listWidget.begin(); itWdg != m_listWidget.end(); ++itWdg) {
+                (*itWdg)->draw(0, 0, w, h);
+        }
+
+        drawer->matrixMode(GL_PROJECTION);
+        drawer->popMatrix();
+        drawer->matrixMode(GL_MODELVIEW);
+        drawer->popMatrix();
+//      drawer->popAttrib();
+
 }
 
 void RenderManager::rmWidget(string& name){
