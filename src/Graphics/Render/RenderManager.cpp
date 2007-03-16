@@ -98,13 +98,6 @@ void RenderManager::clear(){
 }
 
 void RenderManager::render(ICamera *pCamera){
-	static double oldTicks = 0.001 * SDL_GetTicks();
-
-	double ticks = 0.001 * SDL_GetTicks();
-	CEGUI::System::getSingleton().injectTimePulse(static_cast<float>(ticks - oldTicks));
-	oldTicks = ticks;
-
-
 	Drawer *drawer = Drawer::getInstance();
 
 	if(!pCamera) return;
@@ -217,9 +210,18 @@ void RenderManager::drawBlendingObjects(){
 }
 
 void RenderManager::drawGUI(){
+	static double oldTicks = 0.001 * SDL_GetTicks();
+
+	double ticks = 0.001 * SDL_GetTicks();
+	CEGUI::System::getSingleton().injectTimePulse(static_cast<float>(ticks - oldTicks));
+	oldTicks = ticks;
+
 	Drawer *drawer = Drawer::getInstance();
-	drawer->disable(GL_CULL_FACE);
+
+	drawer->pushAttrib(InGE_ENABLE_BIT);
+	drawer->disable(InGE_CULL_FACE);
 	CEGUI::System::getSingleton().renderGUI();
+	drawer->popAttrib();
 }
 
 void RenderManager::rmWidget(string& name){
