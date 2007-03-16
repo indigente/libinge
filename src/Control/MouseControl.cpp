@@ -25,6 +25,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "MouseControl.h"
 #include "ControlLayer.h"
 #include <cstdio>
+#include <CEGUI.h>
 
 #define MOTION_INDEX 	10
 
@@ -73,17 +74,42 @@ void MouseControl::loadDefaultTab(){
 
 void MouseControl::check(SDL_Event &event){
 	ControlParam param;
-	
+	CEGUI::System &cegui = CEGUI::System::getSingleton();
 
     switch ( event.type ){
 		case SDL_MOUSEBUTTONUP:
-        case SDL_MOUSEBUTTONDOWN :
+			switch(event.button.button) {
+				case SDL_BUTTON_LEFT:
+					cegui.injectMouseButtonUp(CEGUI::LeftButton); break;
+				case SDL_BUTTON_MIDDLE:
+					cegui.injectMouseButtonUp(CEGUI::MiddleButton); break;
+				case SDL_BUTTON_RIGHT:
+					cegui.injectMouseButtonUp(CEGUI::RightButton); break;
+			}
+        case SDL_MOUSEBUTTONDOWN:
+			switch(event.button.button) {
+				case SDL_BUTTON_LEFT:
+					cegui.injectMouseButtonDown(CEGUI::LeftButton); break;
+				case SDL_BUTTON_MIDDLE:
+					cegui.injectMouseButtonDown(CEGUI::MiddleButton); break;
+				case SDL_BUTTON_RIGHT:
+					cegui.injectMouseButtonDown(CEGUI::RightButton); break;
+
+				case SDL_BUTTON_WHEELDOWN:
+					cegui.injectMouseWheelChange(-1); break;
+				case SDL_BUTTON_WHEELUP:
+					cegui.injectMouseWheelChange(+1); break;
+			}
+
         	param.state = event.button.state;
         	param.x = event.button.x;
         	param.y = event.button.y;
 			m_pControlLayer->fireEvent((*m_controlTab)[event.button.button], &param);
             break;
         case SDL_MOUSEMOTION :
+			cegui.injectMousePosition(static_cast<float>(event.motion.x),
+					static_cast<float>(event.motion.y));
+
         	if(m_keepMouseOnCenter){
         		if((event.motion.x == m_middleX) && (event.motion.y == m_middleY)) return;
 				SDL_WarpMouse(m_middleX, m_middleY);

@@ -24,6 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "KeyboardControl.h"
 #include "ControlLayer.h"
+#include <CEGUI.h>
 
 #include <cstdio>
 #include <fstream>
@@ -213,9 +214,14 @@ void KeyboardControl::setControlLayer(ControlLayer *c){
 
 void KeyboardControl::check(SDL_Event &event){
 	ControlParam param;
+	CEGUI::System &cegui = CEGUI::System::getSingleton();
 
 	switch ( event.type ){
 		case SDL_KEYDOWN:
+			cegui.injectKeyDown(event.key.keysym.scancode);
+			if (event.key.keysym.unicode & 0xFF80 == 0)
+				cegui.injectChar(event.key.keysym.unicode & 0x7F);
+
 			param.state = event.key.state;
 			fireKeyEvent(event.key.keysym.sym);
 			switch(event.key.keysym.sym){
@@ -624,6 +630,8 @@ void KeyboardControl::check(SDL_Event &event){
 			break;
 	
 		case SDL_KEYUP :
+			cegui.injectKeyUp(event.key.keysym.scancode);
+
 			param.state = event.key.state;
 			switch(event.key.keysym.sym){
 				case SDLK_BACKSPACE:
