@@ -223,27 +223,8 @@ void RenderManager::drawGUI(){
 
 	Drawer *drawer = Drawer::getInstance();
 
-	drawer->pushAttrib(InGE_ENABLE_BIT);
-	drawer->disable(InGE_CULL_FACE);
-	CEGUI::System::getSingleton().renderGUI();
-	drawer->popAttrib();
-
-
-
-
-/* codigo antigo */
-//        Drawer *drawer = Drawer::getInstance();
-        // Varre as janelas inscritas para renderizacao
-//      drawer->pushAttrib(GL_ENABLE_BIT);
-//      drawer->disable(GL_DEPTH_TEST);
+	/* Old GUI Code */
         drawer->disable(GL_CULL_FACE);
-
-
-
-//      drawer->disable(InGE_LIGHTING);
-//      drawer->enable(GL_BLEND);
-//      drawer->enable(GL_TEXTURE_2D);
-//      drawer->blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         drawer->matrixMode(GL_MODELVIEW);
         drawer->pushMatrix();
@@ -270,8 +251,12 @@ void RenderManager::drawGUI(){
         drawer->popMatrix();
         drawer->matrixMode(GL_MODELVIEW);
         drawer->popMatrix();
-//      drawer->popAttrib();
+	/* end of Old Gui Code */
 
+	drawer->pushAttrib(InGE_ENABLE_BIT);
+	drawer->disable(InGE_CULL_FACE);
+	CEGUI::System::getSingleton().renderGUI();
+	drawer->popAttrib();
 }
 
 void RenderManager::rmWidget(string& name){
