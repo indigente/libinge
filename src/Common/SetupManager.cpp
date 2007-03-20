@@ -83,6 +83,8 @@ int SetupManager::init(int width, int height, int bpp, bool fullscreen){
 	}
 	setupOpenGL(width, height);
 
+	SDL_EnableUNICODE(1);
+
 	return 0;
 }
 

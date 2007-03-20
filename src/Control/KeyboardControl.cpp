@@ -218,9 +218,43 @@ void KeyboardControl::check(SDL_Event &event){
 
 	switch ( event.type ){
 		case SDL_KEYDOWN:
-			cegui.injectKeyDown(event.key.keysym.scancode);
-			if (event.key.keysym.unicode & 0xFF80 == 0)
-				cegui.injectChar(event.key.keysym.unicode & 0x7F);
+
+			// CEGUI
+			switch (event.key.keysym.sym) {
+			case SDLK_BACKSPACE:
+				cegui.injectKeyDown(CEGUI::Key::Backspace);
+			case SDLK_DELETE:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::Delete);
+				break;
+			case SDLK_RETURN:
+			case SDLK_KP_ENTER:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::Return);
+				break;
+			case SDLK_LEFT:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::ArrowLeft);
+				break;
+			case SDLK_RIGHT:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::ArrowRight);
+				break;
+			case SDLK_UP:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::ArrowUp);
+				break;
+			case SDLK_DOWN:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::ArrowDown);
+				break;
+			case SDLK_HOME:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::Home);
+				break;
+			case SDLK_END:
+				CEGUI::System::getSingleton().injectKeyDown(CEGUI::Key::End);
+				break;
+
+			default:
+				if (event.key.keysym.unicode != 0/*& 0xFF80 == 0*/)
+					cegui.injectChar(event.key.keysym.unicode/* & 0x7F*/);
+				break;
+			}
+
 
 			param.state = event.key.state;
 			fireKeyEvent(event.key.keysym.sym);
