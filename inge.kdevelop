@@ -1,8 +1,8 @@
 <?xml version = '1.0'?>
 <kdevelop>
   <general>
-    <author>Ivan Medeiros Monteiro</author>
-    <email>fehler@gmail.com</email>
+    <author>Humberto Bandeira</author>
+    <email>nkbeto@gmail.com</email>
     <version>0.1</version>
     <projectmanagement>KDevAutoProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
@@ -18,8 +18,8 @@
   </general>
   <kdevautoproject>
     <general>
-      <activetarget>src/libInGE.la</activetarget>
-      <useconfiguration>debug</useconfiguration>
+      <activetarget>src/Tools/COLLADA2InGE</activetarget>
+      <useconfiguration>default</useconfiguration>
     </general>
     <run>
       <mainprogram>src/inge</mainprogram>
@@ -29,6 +29,9 @@
       <programargs/>
       <autocompile>true</autocompile>
       <envvars/>
+      <runarguments>
+        <COLLADA2InGE/>
+      </runarguments>
     </run>
     <configurations>
       <optimized>
@@ -37,6 +40,7 @@
         <cxxcompiler>kdevgppoptions</cxxcompiler>
         <f77compiler>kdevg77options</f77compiler>
         <cxxflags>-O2 -g0</cxxflags>
+        <envvars/>
       </optimized>
       <debug>
         <configargs>--enable-debug=full</configargs>
@@ -44,7 +48,7 @@
         <ccompiler>kdevgccoptions</ccompiler>
         <cxxcompiler>kdevgppoptions</cxxcompiler>
         <f77compiler>kdevg77options</f77compiler>
-        <cxxflags>-O0 -g3 -I/usr/include/SDL</cxxflags>
+        <cxxflags>-O0 -g3 -I/usr/include/SDL -I$HOME/workspace/COLLADA_DOM/include -L$HOME/workspace/COLLADA_DOM/lib-dbg -I/usr/include/libxml2</cxxflags>
         <envvars/>
         <topsourcedir/>
         <cppflags/>
@@ -55,6 +59,23 @@
         <cflags/>
         <f77flags/>
       </debug>
+      <default>
+        <envvars/>
+        <configargs>--enable-debug=full</configargs>
+        <builddir/>
+        <topsourcedir/>
+        <cppflags/>
+        <ldflags/>
+        <ccompiler>kdevgccoptions</ccompiler>
+        <cxxcompiler>kdevgppoptions</cxxcompiler>
+        <f77compiler>kdevg77options</f77compiler>
+        <ccompilerbinary/>
+        <cxxcompilerbinary/>
+        <f77compilerbinary/>
+        <cflags/>
+        <cxxflags>-O0 -g3 -I/usr/include/SDL -I/usr/include/libxml2 -I$HOME/workspace/libinge/src/Tools/COLLADA_DOM </cxxflags>
+        <f77flags/>
+      </default>
     </configurations>
     <make>
       <envvars>
