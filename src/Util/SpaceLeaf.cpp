@@ -27,13 +27,11 @@ http://www.gnu.org/copyleft/lesser.txt.
 using namespace InGE;
 using namespace std;
 
-template <typename Tp> InGE::SpaceLeaf<Tp>::SpaceLeaf(Tp type){
-	m_type = type;
+template <typename Tp> InGE::SpaceLeaf<Tp>::SpaceLeaf(){
 }
 
 
 template <typename Tp> InGE::SpaceLeaf<Tp>::~SpaceLeaf(){
-	delete m_type;
 }
 
 
@@ -55,4 +53,8 @@ template <typename Tp> bool InGE::SpaceLeaf<Tp>::removeElement( unsigned int ind
 }
 
 template <typename Tp> bool InGE::SpaceLeaf<Tp>::clean( ){
+}
+
+template <typename Tp> bool InGE::SpaceLeaf<Tp>::isLeaf( ){
+	return true;
 }

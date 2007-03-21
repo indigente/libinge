@@ -29,7 +29,6 @@ using namespace std;
 namespace InGE {
 
 template <typename Tp> SpaceNode<Tp>::SpaceNode(Tp type){
-	m_type = type;
 }
 
 

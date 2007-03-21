@@ -4,7 +4,7 @@ This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
 For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
-Copyright  2004-2006 Indigente
+Copyright © 2004-2006 Indigente
 
 
 This program is free software; you can redistribute it and/or modify it under
@@ -22,27 +22,35 @@ Place - Suite 330, Boston, MA 02111-1307, USA, or go to
 http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
-#ifndef INGESPACENODE_H
-#define INGESPACENODE_H
+#ifndef INGEQUADNODE_H
+#define INGEQUADNODE_H
+
+#include "SpaceNode.h"
 
 namespace InGE {
 
 /**
-	@author Humberto Bandeira <nkbeto@gmail.com>
+	@author Aline Bessa	<alibezz@gmail.com>
 */
-template <typename Tp> class SpaceNode{
-	private: 
-		
+template <typename Tp> class QuadNode : public SpaceNode<Tp> {
+	private:
+		/* Each ordinary node has pointers to its 'family'*/
+		 
+		SpaceNode<Tp> *m_son;
+		QuadNode *m_father;
+		double m_axisX, m_axisY;
+	
 	public:
-   	 SpaceNode(Tp type);
-
-   	 ~SpaceNode();
-	 
-		virtual bool insertElement(Tp *element) = 0;
-		virtual bool isLeaf() = 0;
-
+		QuadNode();
+		
+		~QuadNode();
+		
+		bool isLeaf();
+		bool reCalculate(); /*not leaf? return false */
+		
 };
 
 }
+
 
 #endif

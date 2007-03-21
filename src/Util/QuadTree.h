@@ -26,6 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define INGEQUADTREE_H
 
 #include "SpaceTree.h"
+#include "QuadNode.h"
 		
 namespace InGE {
 
@@ -36,10 +37,10 @@ template <typename Tp> class QuadTree : public SpaceTree<Tp> {
 	private: 
 		double m_minX, m_maxX, m_minY, m_maxY;
 		unsigned int m_maxElem, m_maxDepth;
-// 		QuadNode *m_root;
+		QuadNode<Tp> *m_root;
 				
 	public:
-   	QuadTree(Tp type, double minX, double maxX,
+   	QuadTree(double minX, double maxX,
 					double minY, double maxY,
 					unsigned int maxElem, unsigned int maxDepth = 0);
 

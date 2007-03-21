@@ -35,10 +35,9 @@ namespace InGE {
 */
 template <typename Tp> class SpaceTree{
 	private:
-		Tp	m_type;
 		
 	public:
-		SpaceTree(Tp type);
+		SpaceTree();
 	
 		~SpaceTree();
 		

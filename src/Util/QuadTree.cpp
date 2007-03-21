@@ -27,9 +27,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace InGE {
 
 template <typename Tp> 
-	QuadTree<Tp>::QuadTree(Tp type, double minX, double maxX,
+	QuadTree<Tp>::QuadTree(double minX, double maxX,
 								 double minY, double maxY,
-								 unsigned int maxElem, unsigned int maxDepth) : SpaceTree<Tp>(type) {
+								 unsigned int maxElem, unsigned int maxDepth) : SpaceTree<Tp>() {
 	m_minX = minX;
 	m_maxX = maxX;
 	m_minY = minY;

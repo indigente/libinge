@@ -26,19 +26,19 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define INGESPACELEAF_H
 
 #include <list>
-		
+#include "SpaceNode.h"
+
 namespace InGE {
 
 /**
 	@author Humberto Bandeira <nkbeto@gmail.com>
 */
-template <typename Tp> class SpaceLeaf{
+template <typename Tp> class SpaceLeaf : public SpaceNode<Tp> {
 	private:
-		Tp	m_type;
 		std::list<Tp *> m_vetElement;
 	
 	public:
-		SpaceLeaf(Tp type);
+		SpaceLeaf();
 	
 		~SpaceLeaf();
 		
@@ -50,6 +50,7 @@ template <typename Tp> class SpaceLeaf{
 		bool removeElement(unsigned int index);
 		bool clean();
 		
+		bool isLeaf();
 		
 };
 

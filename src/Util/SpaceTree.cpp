@@ -28,12 +28,11 @@ using namespace std;
 
 namespace InGE {
 
-template <typename Tp> SpaceTree<Tp>::SpaceTree(Tp type){
+template <typename Tp> SpaceTree<Tp>::SpaceTree(){
 }
 
 
 template <typename Tp> SpaceTree<Tp>::~SpaceTree(){
-	delete m_type;
 }
 
 }
