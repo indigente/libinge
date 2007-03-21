@@ -49,6 +49,8 @@ template <typename Tp> class SpaceTree{
 		virtual Tp *getElement(PhysicalGeom *geom, unsigned int index) = 0;
 		virtual std::list<Tp *>	getElements(PhysicalGeom *geom) = 0;
 		
+		virtual std::list<Tp *>	getNeighbors(PhysicalGeom *geom) = 0;
+		
 		virtual bool removeElement(PhysicalGeom *geom, unsigned int index) = 0;
 		virtual bool cleanLeaf(PhysicalGeom *geom) = 0;
 		

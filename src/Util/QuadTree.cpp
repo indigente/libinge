@@ -22,19 +22,29 @@ Place - Suite 330, Boston, MA 02111-1307, USA, or go to
 http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
-#include "SpaceTree.h"
-		
-using namespace std;
+#include "QuadTree.h"
 
 namespace InGE {
 
-template <typename Tp> SpaceTree<Tp>::SpaceTree(Tp type){
+template <typename Tp> 
+	QuadTree<Tp>::QuadTree(Tp type, double minX, double maxX,
+								 double minY, double maxY,
+								 unsigned int maxElem, unsigned int maxDepth) : SpaceTree<Tp>(type) {
+	m_minX = minX;
+	m_maxX = maxX;
+	m_minY = minY;
+	m_maxY = maxY;
+	m_maxElem = maxElem;
+	m_maxDepth = maxDepth;
 }
 
 
-template <typename Tp> SpaceTree<Tp>::~SpaceTree(){
-	delete m_type;
-}
+template <typename Tp> QuadTree<Tp>::~QuadTree(){
 
 }
 
+template <typename Tp> bool QuadTree<Tp>::reCalculate(){
+	
+}
+
+}

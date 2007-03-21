@@ -22,19 +22,48 @@ Place - Suite 330, Boston, MA 02111-1307, USA, or go to
 http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
+#ifndef INGEQUADTREE_H
+#define INGEQUADTREE_H
+
 #include "SpaceTree.h"
 		
-using namespace std;
-
 namespace InGE {
 
-template <typename Tp> SpaceTree<Tp>::SpaceTree(Tp type){
+/**
+	@author Humberto Bandeira <nkbeto@gmail.com>
+*/
+template <typename Tp> class QuadTree : public SpaceTree<Tp> {
+	private: 
+		double m_minX, m_maxX, m_minY, m_maxY;
+		unsigned int m_maxElem, m_maxDepth;
+// 		QuadNode *m_root;
+				
+	public:
+   	QuadTree(Tp type, double minX, double maxX,
+					double minY, double maxY,
+					unsigned int maxElem, unsigned int maxDepth = 0);
+
+		~QuadTree();
+
+		 bool reCalculate();
+		
+		 bool insertElement(Tp *element);
+		
+		 Tp *getElement(PhysicalGeom *geom, unsigned int index);
+		 std::list<Tp *>	getElements(PhysicalGeom *geom);
+		
+		 std::list<Tp *>	getNeighbors(PhysicalGeom *geom);
+		
+		 bool removeElement(PhysicalGeom *geom, unsigned int index);
+		 bool cleanLeaf(PhysicalGeom *geom);
+		
+		 unsigned int getNumberOfLeaves();
+		 unsigned int getNumberOfLeaves(PhysicalGeom *geom);
+		 unsigned int getNumberOfLevels();
+		 unsigned int getNumberOfLevels(PhysicalGeom *geom);
+
+};
+
 }
 
-
-template <typename Tp> SpaceTree<Tp>::~SpaceTree(){
-	delete m_type;
-}
-
-}
-
+#endif

@@ -22,19 +22,27 @@ Place - Suite 330, Boston, MA 02111-1307, USA, or go to
 http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
-#include "SpaceTree.h"
-		
-using namespace std;
+#ifndef INGESPACENODE_H
+#define INGESPACENODE_H
 
 namespace InGE {
 
-template <typename Tp> SpaceTree<Tp>::SpaceTree(Tp type){
+/**
+	@author Humberto Bandeira <nkbeto@gmail.com>
+*/
+template <typename Tp> class SpaceNode{
+	private: 
+		Tp m_type;
+		
+	public:
+   	 SpaceNode(Tp type);
+
+   	 ~SpaceNode();
+	 
+		  virtual bool insertElement(Tp *element) = 0;
+
+};
+
 }
 
-
-template <typename Tp> SpaceTree<Tp>::~SpaceTree(){
-	delete m_type;
-}
-
-}
-
+#endif
