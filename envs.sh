@@ -20,3 +20,4 @@
 ##
 
 test -z "$CPPFLAGS" && CPPFLAGS="-O0 -ggdb3"
+CPPFLAGS="-I$SRCDIR/src/Tools/COLLADA_DOM  -I/usr/include/CEGUI -I/usr/include/libxml2 $CPPFLAGS"
