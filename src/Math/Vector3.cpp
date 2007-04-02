@@ -67,6 +67,8 @@ void Vector3::setXYZ(float x, float y, float z){
  
 // Retorna o Modulo vetor 3D
 float Vector3::getNorma() const{
+	if(!this)
+		return 0;
 	Vector3 temp = *this;
 	return sqrt(this->dot(temp));
 }
