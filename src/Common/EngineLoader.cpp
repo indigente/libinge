@@ -43,14 +43,17 @@ PhysicsManager *EngineLoader::createPhysicsManager() {
 	return new PhysicsManager();
 }
 
-void EngineLoader::createScene(string sceneFile ){
+bool EngineLoader::createScene(string sceneFile ){
 		// Instancia o cenario
 	m_pScene = new BspScene();
 	// Carrega o Cenario
-	loadScene(sceneFile);
-	// Seta o cenario utilizado pelo rendermanager
-	m_pRenderManager->setScene(m_pScene);
-	m_pPhysicsManager->setScene( m_pScene);
+	if ( loadScene(sceneFile) ){
+		// Seta o cenario utilizado pelo rendermanager
+		m_pRenderManager->setScene(m_pScene);
+		m_pPhysicsManager->setScene(m_pScene);
+		return true;
+	}
+	return false;
 }
 
 void EngineLoader::createPlayer(string playerModelDir, Avatar* pAvatar) {
@@ -84,7 +87,7 @@ bool EngineLoader::loadScene(string sceneFile){
 	bool ret = m_pScene->load(sceneFile);
 	if(!ret){
 		cerr << "Falha carregando Bsp..." << endl;
-		exit(-1);
+// 		exit(-1);
 	}
 	m_vEntityInfo = m_pScene->getVectorOfEntityInfo();
 	return ret;

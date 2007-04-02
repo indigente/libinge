@@ -44,7 +44,7 @@ class EngineLoader{
 		BspScene *getScene();
 		ControlLayer *getControlLayer();
 		bool loadWidgets();
-		void createScene(string sceneFile);
+		bool createScene(string sceneFile);
 		void createPlayer(string playerModelDir, Avatar* pAvatar = NULL);
 
 		void setStream(AudioSource *stream);
