@@ -60,9 +60,11 @@ MaterialInfo::~MaterialInfo(){
  */
 void MaterialInfo::setTexture(string filename){
 	TextureInfo *info = TextureArray::getInstance()->getInfo(filename);
-	m_filename = filename;
-	m_textureId = info->textureID;
-	m_alpha = info->alpha;
+	if(info) {
+		m_filename = filename;
+		m_textureId = info->textureID;
+		m_alpha = info->alpha;
+    }
 }
 
 /**

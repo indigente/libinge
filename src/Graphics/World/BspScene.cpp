@@ -562,8 +562,7 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
  */
 PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end){
 	PhysicalContactPoint* anotherMoveData = new PhysicalContactPoint(moveData);
-    PhysicalContactPoint* foo;
-    foo = anotherMoveData;
+    if(!anotherMoveData) return new PhysicalContactPoint();
 	if(anotherMoveData->getDepth() <= startFraction)
 		return anotherMoveData;
 	//Se o noh eh folha

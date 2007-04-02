@@ -60,7 +60,7 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 	
 	
 		if (data)
-			delete (data);
+			delete [] data;
 
 		data = new char[in_packet->len];
 		memcpy (data, in_packet->data, in_packet->len);
@@ -157,7 +157,7 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 		delete ( xmlcontainer );
 	
 	if ( data ) 
-		delete ( data );
+		delete [] data;
 	
 	return 0;
 }
@@ -477,7 +477,8 @@ int NetClient::connectToServer(string ip_address, unsigned short port){
 		delete (xmlcontainer);
 	if (net_msg)
 		delete (net_msg);
-
+    if(data)
+		delete [] data;
 
 	NetClient* pNetClient = getInstance();
 	atexit(disconnectFromServerAtExit);

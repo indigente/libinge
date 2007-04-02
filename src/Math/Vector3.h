@@ -63,7 +63,7 @@ namespace InGE{
 		float getNorma() const; 			// Modulo/Norma do vetor
 		float dot(const Vector3 &vet) const;		// Produto interno
 		const Vector3 cross(const Vector3 &vet) const;	// Produto vetorial
-		const Vector3 getVersor() const;			// Retor um versor
+		const Vector3& getVersor() const;			// Retor um versor
 		float operator*(const Vector3 &vet) const;	// Produto Interno
 		
 		void normalize();

@@ -337,7 +337,7 @@ void EntityFactory::generateId(IEntity* ent){
 	
 	ent->setId( newId );
 	
-	delete buffer;
+	if (buffer) delete [] buffer;
 
 }
 

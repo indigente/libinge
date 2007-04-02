@@ -77,7 +77,7 @@ namespace InGE
 
       if ( entSequence < m_mClientsEntitiesSequence[entId] )
       {
-        if (data) delete (data);
+        if (data) delete [] data;
         if (xmlContainer) delete (xmlContainer);
         return;
       }
@@ -113,7 +113,7 @@ namespace InGE
 		
 		NetControl::postForSync();
 
-    if (data) delete (data);
+    if (data) delete [] data;
     if (xmlContainer) delete (xmlContainer);
     SDLNet_FreePacket(outPacket);
 
@@ -171,7 +171,7 @@ namespace InGE
 		
 		broadcast (outPacket);
 
-    if (data) delete (data);
+    if (data) delete [] data;
     if (xmlContainer) delete (xmlContainer);
     SDLNet_FreePacket(outPacket);
   }
@@ -208,7 +208,7 @@ int NetServer::activeServer (void *instance ){
 		//       cout << "NetServer :: REBENDO MENSAGEM" << endl;
 
 		if (data) 
-			delete (data);
+			delete [] data;
 		
 		data = new char[inPacket->len];
 		memcpy (data, inPacket->data, inPacket->len);
@@ -263,7 +263,7 @@ int NetServer::activeServer (void *instance ){
 
 	SDLNet_FreePacket (inPacket);
 	if (xmlContainer) delete (xmlContainer);
-	if (data) delete (data);
+	if (data) delete [] data;
 
 	return 0;
 }
