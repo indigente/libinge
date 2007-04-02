@@ -73,7 +73,7 @@
         <cxxcompilerbinary/>
         <f77compilerbinary/>
         <cflags/>
-        <cxxflags>-O0 -g3 -I/usr/include/SDL -I/usr/include/libxml2 -I$HOME/workspace/libinge/src/Tools/COLLADA_DOM </cxxflags>
+        <cxxflags>-O0 -g3 -I/usr/include/SDL -I/usr/include/libxml2 -I$HOME/workspace/libinge/src/Tools/COLLADA_DOM</cxxflags>
         <f77flags/>
       </default>
     </configurations>
