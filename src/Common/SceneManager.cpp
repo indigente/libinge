@@ -134,7 +134,14 @@ void SceneManager::update(){
 	
 	
 	//Atualizar render
-	if(m_pRenderManager) m_pRenderManager->render(m_pPlayer->getCamera());
+	if(m_pRenderManager){
+		if(m_pPlayer){
+			m_pRenderManager->render(m_pPlayer->getCamera());
+		} else {
+			CameraFP camera;
+			m_pRenderManager->render(&camera);
+		}
+	}
 	
 	NetControl::postForSync();
 	//SDL_SemPost(NetControl::m_pSemNetAndLocalSync);
