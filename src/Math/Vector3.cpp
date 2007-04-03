@@ -67,10 +67,7 @@ void Vector3::setXYZ(float x, float y, float z){
  
 // Retorna o Modulo vetor 3D
 float Vector3::getNorma() const{
-	if(!this)
-		return 0;
-	Vector3 temp = *this;
-	return sqrt(this->dot(temp));
+	return sqrt(this->dot(*this));
 }
 
 // Produto interno do vetor 3D
@@ -107,11 +104,9 @@ const Vector3 Vector3::cross(const Vector3 &vet) const{
 }
 
 // Retorna um Versor do vetor 3D
-const Vector3& Vector3::getVersor() const{
+const Vector3 Vector3::getVersor() const{
 	float norma = this->getNorma();
-    if(!norma) {
-		return Vector3(0.0f, 0.0f, 0.0f);
-    } else if(EQUALS(norma,0.0f)) {
+    if(EQUALS(norma,0.0f)) {
       return Vector3(0.0f, 0.0f, 0.0f);
     } else {
       return Vector3(m_v[0]/norma, m_v[1]/norma, m_v[2]/norma);
