@@ -31,10 +31,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "AudioBuffer.h"
 #include "AudioSource.h"
 #include "AudioManager.h"
-#include <stdlib.h>
 #include <iostream>
-
-
 
 using namespace InGE;
 using namespace std;
@@ -45,15 +42,21 @@ void erro(string s) {
 }
 
 AudioSource::AudioSource() : IEntity("AudioSource"){
-	alGetError();
-	alGenSources(1,&number);
-	AudioManager::checkALError();
-	alSourcef(number, AL_REFERENCE_DISTANCE, 50.0f);
-	alSourcef(number, AL_MAX_DISTANCE, 200.0f);
+	try {
+		alGetError();
+		alGenSources(1,&number);
+		AudioManager::checkALError();
+		alSourcef(number, AL_REFERENCE_DISTANCE, 50.0f);
+		alSourcef(number, AL_MAX_DISTANCE, 200.0f);
 
-	alGetError();
-	alGenBuffers(MAX_BUFFERS,streambuffer);
-	AudioManager::checkALError();
+		alGetError();
+		alGenBuffers(MAX_BUFFERS,streambuffer);
+		AudioManager::checkALError();
+	}
+	catch (string e) {
+		cerr << e << endl;
+		number = 0;
+	}
 }
 
 AudioSource::~AudioSource(){
@@ -314,6 +317,9 @@ bool AudioSource::playStreaming() {
 }
 
 bool AudioSource::playStreaming(string &path) {
+	if (number == 0)
+		return false;
+	
 	m_path = path;
 
 	//para a musica e libera memoria se ja estiver tocando 
@@ -365,6 +371,9 @@ bool AudioSource::playStreaming(string &path) {
 bool AudioSource::updateStreaming() {
 	int processed;        
 	bool active = true;              
+
+	if (number == 0)
+		return false;
 
 	alGetSourcei(this->number, AL_BUFFERS_PROCESSED, &processed);
 

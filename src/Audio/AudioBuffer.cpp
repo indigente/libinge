@@ -23,7 +23,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
 
-#include <stdlib.h>
 #include "AudioBuffer.h"
 #include <AL/al.h>
 #include <AL/alut.h>
@@ -41,7 +40,8 @@ AudioBuffer::AudioBuffer()
 		AudioManager::checkALError();
 	} catch (string e) {
 		number = 0;
-		throw;
+		cerr << e << endl;
+		// throw;
 	}
 }
 
@@ -63,12 +63,17 @@ void AudioBuffer::loadFile(char *filename) {
 	data = alutLoadMemoryFromFile(filename,&format,&size,&freq);
 	if (!data) {
 		cerr << "Error while loading file " << filename << endl;
-		AudioManager::checkALUTError();
+		//AudioManager::checkALUTError();
 	}
 	else {
 		alGetError();
 		alBufferData(number,format,data,size,(ALsizei)freq);
-		AudioManager::checkALError();
+		try {
+			AudioManager::checkALError();
+		}
+		catch (string e) {
+			cerr << e << endl;
+		}
 		free(data);
 	}
 }

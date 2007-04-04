@@ -31,8 +31,12 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "AudioListener.h"
 #include "AudioBuffer.h"
 #include "AudioSource.h"
+#include <iostream>
+#include <string>
 
 using namespace InGE;
+using std::cerr;
+using std::string;
 
 AudioManager *AudioManager::instance = 0;
 
@@ -41,14 +45,19 @@ AudioManager::AudioManager()
 	listener = 0;
 	
 	alutGetError();	
-	alutInit(0, (char **)0);	
-	AudioManager::checkALUTError();
+	alutInit(0, (char **)0);
+	try {
+		AudioManager::checkALUTError();
+	}
+	catch (string e) {
+		cerr << e << endl;
+	}
 }
 
 AudioManager::~AudioManager() {
 	alutGetError();	
 	alutExit();	
-	AudioManager::checkALUTError();
+	// AudioManager::checkALUTError();
 }
 
 AudioManager *AudioManager::getInstance() {
