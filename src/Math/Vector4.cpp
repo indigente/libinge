@@ -2,7 +2,7 @@
 -----------------------------------------------------------------------------
 This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
-For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
+For the latest info, see http://indigente.dcc.ufba.br
 
 Copyright © 2004 Indigente
 
