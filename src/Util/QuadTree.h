@@ -40,7 +40,7 @@ template <typename Tp> class QuadTree : public SpaceTree<Tp> {
 		QuadNode<Tp> *m_root;
 				
 	public:
-   	QuadTree(double minX, double maxX,
+   		QuadTree(double minX, double maxX,
 					double minY, double maxY,
 					unsigned int maxElem, unsigned int maxDepth = 0);
 
@@ -48,12 +48,12 @@ template <typename Tp> class QuadTree : public SpaceTree<Tp> {
 
 		 bool reCalculate();
 		
-		 bool insertElement(Tp *element);
+		 bool insertElement(Tp *element, Vector3 &position);
 		
 		 Tp *getElement(PhysicalGeom *geom, unsigned int index);
-		 std::list<Tp *>	getElements(PhysicalGeom *geom);
+		 std::map<Vector3, Tp *>	getElements(PhysicalGeom *geom);
 		
-		 std::list<Tp *>	getNeighbors(PhysicalGeom *geom);
+		 std::map<Vector3, Tp *>	getNeighbors(PhysicalGeom *geom);
 		
 		 bool removeElement(PhysicalGeom *geom, unsigned int index);
 		 bool cleanLeaf(PhysicalGeom *geom);

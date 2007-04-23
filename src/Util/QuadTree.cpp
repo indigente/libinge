@@ -36,15 +36,34 @@ template <typename Tp>
 	m_maxY = maxY;
 	m_maxElem = maxElem;
 	m_maxDepth = maxDepth;
+	
+	m_root = new SpaceLeaf<Tp> (maxElem);
 }
 
 
 template <typename Tp> QuadTree<Tp>::~QuadTree(){
+	delete m_root;
 
 }
 
 template <typename Tp> bool QuadTree<Tp>::reCalculate(){
 	
+}
+
+
+template <typename Tp> bool QuadTree<Tp>:: insertElement(Tp *element, Vector3 &position) {
+	if (m_root){
+		if (m_root->insertElement(element, position) ){
+			return true;
+		} else {
+			QuadNode<Tp> *newNode = new QuadNode<Tp>(m_minX, m_maxX, m_minY, m_maxY, m_maxElem, m_maxDepth);
+			newNode->insertLeaf(m_root);
+			m_root = newNode;
+			
+			return true;
+		}
+	}
+	return false;
 }
 
 }

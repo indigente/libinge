@@ -25,8 +25,10 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef INGESPACELEAF_H
 #define INGESPACELEAF_H
 
-#include <list>
+#include <map>
 #include "SpaceNode.h"
+#include "../Math/Vector3.h"
+
 
 namespace InGE {
 
@@ -35,19 +37,22 @@ namespace InGE {
 */
 template <typename Tp> class SpaceLeaf : public SpaceNode<Tp> {
 	private:
-		std::list<Tp *> m_vetElement;
+		unsigned int m_maxElem;
+		std::map<Vector3,Tp *> m_vetElement;
 	
 	public:
-		SpaceLeaf();
+		SpaceLeaf(unsigned int maxElem);
 	
 		~SpaceLeaf();
 		
-		bool insertElement(Tp *element);
+		bool insertElement(Tp *element, Vector3 &position = NULL);
 		
 		Tp *getElement(unsigned int index);
-		std::list<Tp *>	getElements();
+		Tp *getElement(Vector3 &positon);
+		std::map<Vector3, Tp *>	getElements();
 		unsigned int getNumberOfElements();
 		bool removeElement(unsigned int index);
+		bool removeElement(Vector3 &positon);
 		bool clean();
 		
 		bool isLeaf();

@@ -27,7 +27,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 using namespace InGE;
 using namespace std;
 
-template <typename Tp> InGE::SpaceLeaf<Tp>::SpaceLeaf(){
+template <typename Tp> InGE::SpaceLeaf<Tp>::SpaceLeaf(unsigned int maxElem){
+	m_maxElem = maxElem;
 }
 
 
@@ -35,15 +36,19 @@ template <typename Tp> InGE::SpaceLeaf<Tp>::~SpaceLeaf(){
 }
 
 
-template <typename Tp> bool InGE::SpaceLeaf<Tp>::insertElement( Tp *element ){
-	m_vetElement.push_back(element);
+template <typename Tp> bool InGE::SpaceLeaf<Tp>::insertElement( Tp *element, Vector3 &position ){
+	if (m_vetElement.size() < m_maxElem){
+		m_vetElement.push_back(element);
+		return true;
+	}
+	return false;
 }
 
 template <typename Tp> Tp *InGE::SpaceLeaf<Tp>::getElement( unsigned int index ){
 	return m_vetElement[index];
 }
 
-template <typename Tp> std::list< Tp * > InGE::SpaceLeaf<Tp>::getElements( ){
+template <typename Tp> std::map<Vector3, Tp * > InGE::SpaceLeaf<Tp>::getElements( ){
 }
 
 template <typename Tp> unsigned int InGE::SpaceLeaf<Tp>::getNumberOfElements( ){

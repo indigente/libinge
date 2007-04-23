@@ -25,7 +25,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef INGESPACETREE_H
 #define INGESPACETREE_H
 
-#include <list>
+#include <map>
 #include "../Physics/PhysicalGeom.h"
 
 namespace InGE {
@@ -43,20 +43,20 @@ template <typename Tp> class SpaceTree{
 		
 		virtual bool reCalculate() = 0;
 		
-		virtual bool insertElement(Tp *element) = 0;
+		virtual bool insertElement(Tp *element, Vector3 &position) = 0;
 		
-		virtual Tp *getElement(PhysicalGeom *geom, unsigned int index) = 0;
-		virtual std::list<Tp *>	getElements(PhysicalGeom *geom) = 0;
+		virtual Tp *getElement(Vector3 &position, unsigned int index) = 0;
+		virtual std::map<Vector3, Tp *>	getElements(Vector3 &position) = 0;
 		
-		virtual std::list<Tp *>	getNeighbors(PhysicalGeom *geom) = 0;
+		virtual std::map<Vector3, Tp *>	getNeighbors(Vector3 &position) = 0;
 		
-		virtual bool removeElement(PhysicalGeom *geom, unsigned int index) = 0;
-		virtual bool cleanLeaf(PhysicalGeom *geom) = 0;
+		virtual bool removeElement(Vector3 &position, unsigned int index) = 0;
+		virtual bool cleanLeaf(Vector3 &position) = 0;
 		
 		virtual unsigned int getNumberOfLeaves() = 0;
-		virtual unsigned int getNumberOfLeaves(PhysicalGeom *geom) = 0;
+		virtual unsigned int getNumberOfLeaves(Vector3 &position) = 0;
 		virtual unsigned int getNumberOfLevels() = 0;
-		virtual unsigned int getNumberOfLevels(PhysicalGeom *geom) = 0;
+		virtual unsigned int getNumberOfLevels(Vector3 &position) = 0;
 		
 
 };

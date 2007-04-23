@@ -14,8 +14,8 @@ libInGE_la_LIBADD = $(top_builddir)/src/Util/libUtil.la \
 	$(top_builddir)/src/Audio/libAudio.la $(top_builddir)/src/AI/libAI.la \
 	$(top_builddir)/src/Entities/libEntities.la $(top_builddir)/src/Network/libNetwork.la
 	
-libInGE_la_LDFLAGS = -release @PACKAGE_VERSION@	\
-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+libInGE_la_LDFLAGS = -release $(LT_RELEASE) -version-info \
+	$(LT_CURRENT):$(LT_REVISION):$(LT_AGE) -I/usr/include/CEGUI
 
 install-data-local:
 	find . -name '*.h' -exec ./install-header '{}' $(DESTDIR)$(pkgincludedir) ';'

@@ -26,6 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define INGEQUADNODE_H
 
 #include "SpaceNode.h"
+#include "SpaceLeaf.h"
 
 namespace InGE {
 
@@ -35,19 +36,28 @@ namespace InGE {
 template <typename Tp> class QuadNode : public SpaceNode<Tp> {
 	private:
 		/* Each ordinary node has pointers to its 'family'*/
-		 
+		double m_minX, m_maxX, m_minY, m_maxY;
+		unsigned int m_maxElem, m_maxDepth;
+		double m_middleX, m_middleY;
+		
 		SpaceNode<Tp> *m_son;
 		QuadNode *m_father;
-		double m_axisX, m_axisY;
+		
+		bool createNewFather(unsigned int sonIndex);
+		int checkQuad(Vector3 &position);
 	
 	public:
-		QuadNode();
+		QuadNode(double minX, double maxX,
+				 double minY, double maxY,
+				 unsigned int maxElem, unsigned int maxDepth = 0);
 		
 		~QuadNode();
 		
 		bool isLeaf();
-		bool reCalculate(); /*not leaf? return false */
-		
+		bool reCalculate();
+		bool insertElement(Tp *element, Vector3 &position);
+		void insertLeaf(SpaceLeaf<Tp> *leaf);
+			
 };
 
 }

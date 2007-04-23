@@ -24,7 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #ifndef INGESPACENODE_H
 #define INGESPACENODE_H
-
+#include "../Math/Vector3.h"
 namespace InGE {
 
 /**
@@ -34,11 +34,11 @@ template <typename Tp> class SpaceNode{
 	private: 
 		
 	public:
-   	 SpaceNode(Tp type);
+		SpaceNode(Tp type);
 
-   	 ~SpaceNode();
+		~SpaceNode();
 	 
-		virtual bool insertElement(Tp *element) = 0;
+		virtual bool insertElement(Tp *element, Vector3 &position = NULL) = 0;
 		virtual bool isLeaf() = 0;
 
 };
