@@ -68,18 +68,18 @@ void PhysicsManager::quickStep(){
 	// Checa colisao entre objetos
 	for (int i= 0; i < m_vetAvatar.size(); i++){
 		for (int j = 0; j < m_vetObject3D.size(); j++){
-			checkObjectColision(m_vetAvatar[i], m_vetObject3D[j]);
+			checkObjectCollision(m_vetAvatar[i], m_vetObject3D[j]);
 		}
 	}
 
 	// Checa colisao do avatar com o cenario
 	for (int i=0 ; i< m_vetAvatar.size(); i++){
-		checkDynamicColision(m_vetAvatar[i], positions[i], elapsedTime);
+		checkDynamicCollision(m_vetAvatar[i], positions[i], elapsedTime);
 	}
 	
 	// Checa colisao do object3d com o cenario
 	for (int i = 0; i < m_vetObject3D.size(); i++){
-		checkDynamicColision(m_vetObject3D[i], objectPosition[i] , elapsedTime);
+		checkDynamicCollision(m_vetObject3D[i], objectPosition[i] , elapsedTime);
 	}
 	
 	
@@ -90,7 +90,7 @@ void PhysicsManager::quickStep(){
 }
 
 
-void PhysicsManager::checkDynamicColision(Object3D *object3D, Vector3 startPosition, float elapsedTime){
+void PhysicsManager::checkDynamicCollision(Object3D *object3D, Vector3 startPosition, float elapsedTime){
 	PhysicalGeom *pGeom;
 	PhysicalContactPoint *moveData;
 	
@@ -122,7 +122,7 @@ void PhysicsManager::checkDynamicColision(Object3D *object3D, Vector3 startPosit
 	delete moveData;
 }
 
-void PhysicsManager::checkObjectColision(Avatar *avatar, Object3D *object3D){
+void PhysicsManager::checkObjectCollision(Avatar *avatar, Object3D *object3D){
 	if(!avatar) return;
 	if(!object3D) return;
 	int numOfContact = 5;

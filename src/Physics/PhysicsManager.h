@@ -47,8 +47,8 @@ protected:
 	
 	float	m_lastStepTime;
 	
-	void	checkDynamicColision(Object3D *object3d, Vector3 startPosition, float elapsedTime);
-	void	checkObjectColision(Avatar *avatar, Object3D *object3d);
+	void	checkDynamicCollision(Object3D *object3d, Vector3 startPosition, float elapsedTime);
+	void	checkObjectCollision(Avatar *avatar, Object3D *object3d);
 	
 	void	updateGeom(Object3D *object3d);
 

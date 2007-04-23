@@ -127,7 +127,7 @@ namespace InGE{
 		Mesh 			**m_vMeshs;
 		int			m_numOfMeshs;
 			
-		// Colision Data
+		// Collision Data
 // 		PhysicalContactPoint	m_moveData;
 		BspTraceType		m_traceType;
 		Vector3				m_startMovePosition;

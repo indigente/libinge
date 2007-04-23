@@ -136,7 +136,7 @@ void CameraFP::rotate(float angle, Vector3 &axis){
  */
 void CameraFP::move(const Vector3 &target){
  	Vector3 newPosition;
-	newPosition = this->checkColision(m_position, target);
+	newPosition = this->checkCollision(m_position, target);
 
 	m_viewPoint += newPosition;
 	m_position += newPosition;
@@ -187,7 +187,7 @@ Vector3 CameraFP::getAttachAxis(){
  * Checa colis� com o IScene
  * @return Retorna o vetor com a posi�o final
  */
-Vector3 CameraFP::checkColision(const Vector3 &start,const Vector3 &target){
+Vector3 CameraFP::checkCollision(const Vector3 &start,const Vector3 &target){
 	return target;
 }
 

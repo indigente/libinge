@@ -31,7 +31,7 @@ namespace InGE{
 
 	class CameraFP : public InGE::ICamera{
 		private:
-			Vector3 checkColision(const Vector3 &start,const Vector3 &target);
+			Vector3 checkCollision(const Vector3 &start,const Vector3 &target);
 		
 		public:
 			CameraFP();
