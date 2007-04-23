@@ -30,6 +30,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <GL/glext.h>
 
 #include <iostream>
+#include <cassert>
 
 #define min(A,B) ((A<B) ? (A):(B))
 
@@ -61,7 +62,7 @@ Spline::Spline(InGE_Spline_Type type, float u, float v, vector<Vector3> data)
 	if (type == InGE_BSPLINE) {
 		m_step = 1;
 		m_data.push_back(data[0]);//FIXME: menino feio, deve ter uma solucao melhor.
-		for ( int i = 0; i + 3 < data.size(); i+=1 ) {
+		for (unsigned int i = 0; i + 3 < data.size(); i+=1 ) {
 			m_data.pop_back();
 			for(int j = 0; j < 4; ++j){
 				Vector3 vet3;
@@ -76,7 +77,7 @@ Spline::Spline(InGE_Spline_Type type, float u, float v, vector<Vector3> data)
 		}
 	} else if (type == InGE_INTERPOLATING) {
 		m_data.push_back(data[0]);
-		for ( int i = 0; i + 3 < data.size(); i+=3 ) {
+		for (unsigned int i = 0; i + 3 < data.size(); i+=3 ) {
 			for(int j = 1; j < 4; ++j){
 				Vector3 vet3;
 				for(int k = 0; k < 3; ++k){
@@ -111,16 +112,16 @@ Vector3 Spline::p(int i, float t) {
 
 Vector3 Spline::evaluate(float t)
 {
-	if(isValid(t)) { //FIXME: Assert()
-		float normalized = (t - m_u)/(m_v - m_u); // intervalo 0 a 1
-		int ncurves = (m_data.size()-1)/3; //FIXME: B-spline é diferente.
-		float patch_size = (m_v - m_u) / ncurves;
-		int patch = (int) (normalized / patch_size);
-		if (patch >= ncurves) --patch;
-		float value = (normalized - patch*patch_size)/patch_size;
-		//return p(0, t); //FIXME: identificar a curva
-		return p(3*patch, value);
-	}
+
+	assert(isValid(t));
+	float normalized = (t - m_u)/(m_v - m_u); // intervalo 0 a 1
+	int ncurves = (m_data.size()-1)/3; //FIXME: B-spline é diferente.
+	float patch_size = (m_v - m_u) / ncurves;
+	int patch = (int) (normalized / patch_size);
+	if (patch >= ncurves) --patch;
+	float value = (normalized - patch*patch_size)/patch_size;
+	//return p(0, t); //FIXME: identificar a curva
+	return p(3*patch, value);
 }
 
 void Spline::draw()
@@ -137,7 +138,7 @@ void Spline::draw()
 	glColor3f(0.0, 0.0, 1.0);
 	glPointSize(7.0);
 	glBegin(GL_POINTS);
-	for( int i = 0; i < m_data.size(); ++i ) {
+	for(unsigned int i = 0; i < m_data.size(); ++i ) {
 		glVertex3fv((float*) &(m_data[i]));
 	}
 	glEnd();
@@ -145,7 +146,7 @@ void Spline::draw()
 	glColor3f(0.0, 1.0, 0.0);
 	glLineWidth(1.0);
 	glBegin(GL_LINE_STRIP);
-	for( int i = 0; i < m_data.size(); ++i ) {
+	for(unsigned int i = 0; i < m_data.size(); ++i ) {
 		glVertex3fv((float*) &(m_data[i]));
 	}
 	glEnd();
