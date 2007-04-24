@@ -97,14 +97,14 @@ void Vector3::normalize(){
  * Retorna um vetor normal ao plano 
  * formado entros outros 2 vetor
  */
-const Vector3 Vector3::cross(const Vector3 &vet) const{
+const Vector3& Vector3::cross(const Vector3 &vet) const{
 	return Vector3( m_v[1] * vet.m_v[2] - m_v[2] * vet.m_v[1],
 			m_v[2] * vet.m_v[0] - m_v[0] * vet.m_v[2],
 			m_v[0] * vet.m_v[1] - m_v[1] * vet.m_v[0] );
 }
 
 // Retorna um Versor do vetor 3D
-const Vector3 Vector3::getVersor() const{
+const Vector3& Vector3::getVersor() const{
 	float norma = this->getNorma();
     if(EQUALS(norma,0.0f)) {
       return Vector3(0.0f, 0.0f, 0.0f);
