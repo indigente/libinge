@@ -68,6 +68,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Graphics/Render/Frustum.h"
 #include "Graphics/Render/RenderManager.h"
 
+#include "Graphics/Toolkit/ToolkitManager.h"
 #include "Graphics/Toolkit/Button.h"
 #include "Graphics/Toolkit/Label.h"
 #include "Graphics/Toolkit/TextureDecorator.h"

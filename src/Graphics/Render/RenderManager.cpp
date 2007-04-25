@@ -24,6 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 
 #include "RenderManager.h"
+#include "../Toolkit/ToolkitManager.h"
 #include <iostream>
 #include <CEGUI.h>
 
@@ -51,6 +52,8 @@ RenderManager::RenderManager(){
 	
 	CEGUI::OpenGLRenderer * renderer = new CEGUI::OpenGLRenderer (0);
 	new CEGUI::System(renderer);
+
+	ToolkitManager::getInstance();
 }
 
 RenderManager::~RenderManager(){
