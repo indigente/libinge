@@ -27,6 +27,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef VECTOR4_H
 #define VECTOR4_H
 #include <cmath>
+#define F_EPSILON 1.0E-37
+#define EQUALS(a,b) (((((a) - (b)) < F_EPSILON) && (((a) - (b)) > -F_EPSILON)) || ((isnan((a)) && (isnan((b)))) || (isinf((a)) && (isinf((b))))))
 
 namespace InGE{
 
@@ -35,9 +37,9 @@ namespace InGE{
 	 * Possui diversas operações utilizadas entre vetores
 	 * @author Ivan Medeiros Monteiro
 	 */	
-	class Vector4{
+	class Vector4 {
 	  private:
-		float v[4];
+		float m_v[4];
 
 	  public:
 	  	Vector4(const Vector4 &vet);
@@ -58,9 +60,9 @@ namespace InGE{
 		float getY() const;	
 		float getZ() const;
 		float getW() const;
-		float& operator[] (const long i) { return v[i];	}
+		float& operator[] (const long i) { return m_v[i];	}
+		const float getNorma() const; 			// Modulo/Norma do vetor
 
-		float getNorma() const;						// Modulo/Norma do vetor
 		float dot(const Vector4 &vet) const;		// Produto interno
 		Vector4 getVersor() const;						// Retorna um versor
 		float operator*(const Vector4 &vet) const;	// Produto Interno	
@@ -80,7 +82,12 @@ namespace InGE{
 		Vector4 *operator=(Vector4 *vet);
 		bool operator==(const Vector4 &vet) const;
 
-		const float *toArray();
+/* 		const bool hasNan() const; */
+/* 		const bool hasInf() const; */
+
+/* 		void print(); */
+
+ 		const float *toArray() const;
 	};
 
 }

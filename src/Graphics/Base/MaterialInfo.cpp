@@ -60,10 +60,14 @@ MaterialInfo::~MaterialInfo(){
  */
 void MaterialInfo::setTexture(string filename){
 	TextureInfo *info = TextureArray::getInstance()->getInfo(filename);
+	m_filename = filename;
 	if(info) {
-		m_filename = filename;
 		m_textureId = info->textureID;
 		m_alpha = info->alpha;
+    } else {
+		cerr << "Couldn't get texture" << endl;
+		m_textureId = -1;
+		m_alpha = false;
     }
 }
 

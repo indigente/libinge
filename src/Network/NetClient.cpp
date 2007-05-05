@@ -58,17 +58,15 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 			
 			pNetClient->m_lastServerMsg = SDL_GetTicks();
 	
-	
-		if (data)
-			delete [] data;
-
 		data = new char[in_packet->len];
 		memcpy (data, in_packet->data, in_packet->len);
 	
 		xmlcontainer->Clear();
 		xmlcontainer->Parse( data );
 		net_msg = xmlcontainer->RootElement();
-	
+
+		if ( data ) 
+			delete [] data;
 	
 		msg_type = net_msg->Attribute( "TYPE" );
 		net_msg->QueryIntAttribute( "ID", &msg_id );
@@ -155,9 +153,6 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 	SDLNet_FreePacket( in_packet );
 	if ( xmlcontainer ) 
 		delete ( xmlcontainer );
-	
-	if ( data ) 
-		delete [] data;
 	
 	return 0;
 }
@@ -779,6 +774,7 @@ int NetClient::clientStopper (void* instance) {
 		delete ( pNetClient->m_qCustomMessageQueue.front() );
 		pNetClient->m_qCustomMessageQueue.pop();
 	}
+	return 0;
 }
 	
 	

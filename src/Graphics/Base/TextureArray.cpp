@@ -84,6 +84,7 @@ TextureInfo* TextureArray::getInfo(const string &filename) {
 			m_textures[filename] = loadFile(filename);
 			return &(m_textures.find(filename)->second);
 		} catch(string s) {
+			cerr << "It wasn't possible to load the texture from file " << filename << endl;
 			return &m_defaultTexture;
 		}
 	}
@@ -198,7 +199,7 @@ TextureInfo TextureArray::loadFile(const string &filename){
 			pixels[count++] = b;
 			pixels[count++] = a;
 			
-			if ((int ) a != -1 );
+			if ((int ) a != -1 )
 				alpha = true;
 		}
 		
@@ -233,7 +234,7 @@ TextureInfo TextureArray::loadFile(const string &filename){
 
 
 	SDL_FreeSurface(pImage);
-	//if(pixels) delete [] pixels;
+	if(pixels) delete [] pixels;
 	
 	return TextureInfo(textureID, width, height, alpha);
 }

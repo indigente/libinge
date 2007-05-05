@@ -175,7 +175,7 @@ void BspScene::renderLeaf(int leafIndex){
 		}
 
 	}
-	for (int i = 0; i < vMeshBlend.size(); i++){
+	for (unsigned int i = 0; i < vMeshBlend.size(); i++){
 		m_vMeshs[i]->draw();
 	}
 }
@@ -332,6 +332,9 @@ bool BspScene::load(string filename){
 		pFaces				  = new BspFace [m_numOfMeshs];
 		fseek(fp, lumps[kFaces].offset, SEEK_SET);
 		fread(pFaces, m_numOfMeshs, sizeof(BspFace), fp);
+	} else {
+		cerr << "lumps[kFaces].length is zero" << endl;
+		return false;
 	}
 	m_vMeshs = new	Mesh * [m_numOfMeshs];
 
@@ -389,10 +392,17 @@ bool BspScene::load(string filename){
 	}
 
 	fclose(fp);
-	this->loadMeshs(pMeshVerts, pFaces, pVerts);
 
-	EntityFactory *entityFactory = EntityFactory::getInstance();
-	entityFactory->loadEntities(this);
+	if(pMeshVerts && pFaces && pVerts) {
+		this->loadMeshs(pMeshVerts, pFaces, pVerts);
+
+		EntityFactory *entityFactory = EntityFactory::getInstance();
+		entityFactory->loadEntities(this);
+	/*		if (entityFactory)
+		delete entityFactory;*/
+	}
+
+
 
 	if (pFaces)
 		delete [] pFaces;
@@ -410,7 +420,8 @@ void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *
 	Vertex *pVertex;
 	vector<Vector2 > vetLightmapCoord;
 	BspVertex *currVertex;
-	for (int j = 0; j < m_numOfMeshs; j++){
+	int j;
+	for (j = 0; j < m_numOfMeshs; j++){
 
 		m_vMeshs[j] = new ConcreteMesh();
 //			vLightmapCoord = new Vector2[pFaces[j].numOfVerts];
@@ -485,8 +496,8 @@ Vector3 BspScene::getCollisionInc(const Vector3& start, const Vector3& end, Phys
 Vector3 BspScene::getPositionInc(PhysicalContactPoint *moveData, PhysicalContactPoint *amd, const Vector3& start, const Vector3& end, const Vector3& target) {
 	Vector3 pos, normal0, normal1;
 	amd->setColided(true);
- 	normal0 = ((end - start) * moveData->getDepth()).getVersor();
- 	normal1 = ((target - start) * amd->getDepth()).getVersor();
+	normal0 = ((end - start) * moveData->getDepth()).getVersor();
+	normal1 = ((target - start) * amd->getDepth()).getVersor();
 	pos = getCollisionInc(start, target, amd) + getCollisionInc(start, end, moveData);
 	pos = pos.cross(normal0).cross(normal0);
 	pos = pos.cross(normal1).cross(normal1);
@@ -516,8 +527,8 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 	// facilitar a visualização do que deveria ser um método.
 	// Quando aparecer alguém pra ajudar com a matemática...
 	// Ass: Caio
-// 	checkGeom(start, end, geom);
-// 	moveData->setDepth( 1.0f );
+//	checkGeom(start, end, geom);
+//	moveData->setDepth( 1.0f );
 	// percorre a arvore a partir da raiz
 	moveData = checkNode(0, moveData, 0.0f, 1.0f, start, end);
 
@@ -527,7 +538,7 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 		Vector3 normal0 = moveData->getNormal().getVersor();
 		Vector3 v1 = (start - end) * (1.0f - moveData->getDepth());
 		posInc = v1.cross(normal0).cross(normal0);
-  		targInc = moveData->getNormal() * elapsedTime/200;
+		targInc = moveData->getNormal() * elapsedTime/200;
 	}
 	int i = 0;
 	PhysicalContactPoint *yamd = new PhysicalContactPoint(moveData);
@@ -541,20 +552,22 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 			++i;
 			posInc = getPositionInc(yamd, amd, start, end, target + targInc);
 			Vector3 normal1, normal2;
- 			normal1 = (end - start) * yamd->getDepth();
- 			normal2 = (target + targInc - start) * amd->getDepth();
+			normal1 = (end - start) * yamd->getDepth();
+			normal2 = (target + targInc - start) * amd->getDepth();
 			yamd->setNormal((normal1 + normal2).getVersor());
-  			targInc = yamd->getNormal() * elapsedTime/200;
+			targInc = yamd->getNormal() * elapsedTime/200;
 			if (i == 5) {
 				yamd->setPosition(start);
-				return yamd;
+				return new PhysicalContactPoint(yamd);
 			}
 		}
 	} while (amd->getDepth() != 1.0f);
-  	target += targInc;
+	target += targInc;
 	slideStartPoint = target;
 	position = target + posInc;
 
+    delete amd;
+    delete yamd;
 	return checkMoveCollisionAndTrySlide(slideStartPoint, position, elapsedTime, geom, moveData);
 }
 /**
@@ -586,20 +599,22 @@ PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *m
 				if (!(isnan(depth) or isinf(depth))) {
 					vetorSoma = anotherMoveData->getNormal().getVersor() * (1.0f - anotherMoveData->getDepth());
 					vetorAtual = eachCollision[i]->getNormal().getVersor() * (1.0f - depth);
+					delete eachCollision[i];
 					depth = vetorAtual.getNorma();
- 					if (!(vetorAtual.hasNan() or vetorAtual.hasInf() or (depth == 1.0f))) {
+					if (!(vetorAtual.hasNan() or vetorAtual.hasInf() or (depth == 1.0f))) {
 						Vector3 outraDirecao, mesmaDirecao, auxVect;
 						outraDirecao = vetorSoma.cross(vetorAtual.getVersor()).cross(vetorAtual.getVersor()) * -1;
- 						mesmaDirecao = vetorSoma - outraDirecao;
- 						if(mesmaDirecao.getNorma() < vetorAtual.getNorma()) {
-   							mesmaDirecao = vetorAtual;
- 						}
- 						auxVect = outraDirecao + mesmaDirecao;
+						mesmaDirecao = vetorSoma - outraDirecao;
+						if(mesmaDirecao.getNorma() < vetorAtual.getNorma()) {
+							mesmaDirecao = vetorAtual;
+						}
+						auxVect = outraDirecao + mesmaDirecao;
 						auxVect.normalize();
 						anotherMoveData->setNormal(auxVect);
 					}
 				}
 			}
+			delete eachCollision[0];
 		}
 	} else {
 		BspNode		   &node = m_info.pNodes[nodeIndex];
