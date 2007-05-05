@@ -51,12 +51,16 @@ RenderManager::RenderManager(){
 	m_pScene = NULL;
 	
 	CEGUI::OpenGLRenderer * renderer = new CEGUI::OpenGLRenderer (0);
-	new CEGUI::System(renderer);
+	m_cegui = new CEGUI::System(renderer);
 
 	ToolkitManager::getInstance();
 }
 
 RenderManager::~RenderManager(){
+	if(m_cegui)
+		delete m_cegui;
+	if(m_pScene)
+		delete m_pScene;
 }
 
 

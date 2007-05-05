@@ -240,6 +240,14 @@ Md3Model *KFModelFactory::createMd3(FILE *file, string bodyPart){
 	}
 	
 	Md3Model *pModel = new Md3Model( bodyPart, this->md3Setup(header, psMesh, psBoundVolume, psTag, drawIndex, bodyPart) );
+	if(drawIndex)
+		delete [] drawIndex;
+	if(psMesh)
+		delete [] psMesh;
+	if(psBoundVolume)
+		delete [] psBoundVolume;
+	if(psTag)
+		delete [] psTag;
 	return pModel;
 }
 

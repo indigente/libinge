@@ -47,7 +47,12 @@ Tag::Tag(string name, vec3_t position, float *rotation){
 	memcpy(m_pRotation->axis , rotation, sizeof(float)*9);
 }
 
-Tag::~Tag(){}
+Tag::~Tag(){
+	if(m_pOrigin)
+		delete m_pOrigin;
+	if(m_pRotation)
+		delete m_pRotation;
+}
 
 void Tag::setName(string name){
 	m_name = name;

@@ -558,6 +558,10 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 			targInc = yamd->getNormal() * elapsedTime/200;
 			if (i == 5) {
 				yamd->setPosition(start);
+				if(amd)
+					delete amd;
+				if(yamd)
+					delete yamd;
 				return new PhysicalContactPoint(yamd);
 			}
 		}
@@ -566,20 +570,21 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 	slideStartPoint = target;
 	position = target + posInc;
 
-    delete amd;
-    delete yamd;
+	if(amd)
+		delete amd;
+	if(yamd)
+		delete yamd;
 	return checkMoveCollisionAndTrySlide(slideStartPoint, position, elapsedTime, geom, moveData);
 }
 /**
  * Percorre a arvore(bsp) para ateh achar as folhas para verificar colisao
  */
 PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end){
-	PhysicalContactPoint* anotherMoveData = new PhysicalContactPoint(moveData);
-    if(!anotherMoveData) return new PhysicalContactPoint();
-	if(anotherMoveData->getDepth() <= startFraction)
-		return anotherMoveData;
+    if(!moveData) return new PhysicalContactPoint();
+	else if(moveData->getDepth() <= startFraction)
+		return moveData;
 	//Se o noh eh folha
-	if(nodeIndex<0)	{
+	else if(nodeIndex<0)	{
 		BspLeaf &leaf = m_info.pLeafs[~nodeIndex];
 		vector<PhysicalContactPoint* > eachCollision;
 
@@ -588,8 +593,8 @@ PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *m
 			// Checa se o brush eh valido e	 material pra colisao
 			if((brush.numOfBrushSides > 0) && (((m_info.pTextures[brush.textureID].contents)&1)||((m_info.pTextures[brush.textureID].contents)&0x10000))){
 
-				anotherMoveData = checkBrush(brush, anotherMoveData);
-				eachCollision.push_back(anotherMoveData);
+				moveData = checkBrush(brush, moveData);
+				eachCollision.push_back(moveData);
 			}
 		}
 		if(eachCollision.size() > 1) {
@@ -597,7 +602,7 @@ PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *m
 				Vector3 vetorSoma, vetorAtual;
 				float depth = eachCollision[i]->getDepth();
 				if (!(isnan(depth) or isinf(depth))) {
-					vetorSoma = anotherMoveData->getNormal().getVersor() * (1.0f - anotherMoveData->getDepth());
+					vetorSoma = moveData->getNormal().getVersor() * (1.0f - moveData->getDepth());
 					vetorAtual = eachCollision[i]->getNormal().getVersor() * (1.0f - depth);
 					delete eachCollision[i];
 					depth = vetorAtual.getNorma();
@@ -610,7 +615,7 @@ PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *m
 						}
 						auxVect = outraDirecao + mesmaDirecao;
 						auxVect.normalize();
-						anotherMoveData->setNormal(auxVect);
+						moveData->setNormal(auxVect);
 					}
 				}
 			}
@@ -627,11 +632,11 @@ PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *m
 
 		// Se ambos os pontos estaum na frente do plano, vai pra filho da frente
 		if((startDistance >= m_moveOffset) && (endDistance >= m_moveOffset)){
-			anotherMoveData = checkNode(node.front, anotherMoveData, startFraction, endFraction, start, end);
+			moveData = checkNode(node.front, moveData, startFraction, endFraction, start, end);
 		}
 		// Se ambos os pontos estaum atras do plano, vai pra filho de tras
 		else if((startDistance < -m_moveOffset) && (endDistance < -m_moveOffset)){
-			anotherMoveData = checkNode(node.back, anotherMoveData, startFraction, endFraction, start, end);
+			moveData = checkNode(node.back, moveData, startFraction, endFraction, start, end);
 		}
 		// Caso contrario, split e vai pra os dois filhos.
 
@@ -678,17 +683,17 @@ PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *m
 			// define o percentual do ponto inicial ateh o ponto de split
 			double middleFraction = startFraction + (endFraction - startFraction) * fraction1;
 			//checagem no noh do ponto inicial
-			anotherMoveData = checkNode(sideIndex1, anotherMoveData, startFraction, middleFraction, start, middle);
+			moveData = checkNode(sideIndex1, moveData, startFraction, middleFraction, start, middle);
 
 			// definindo ponto de split a partir do ponto final
 			middle =  start + (end - start) * fraction2;
 			// define o percentual do ponto final ateh o ponto de split
 			middleFraction = startFraction + (endFraction - startFraction) * fraction2;
 			//checagem no noh do ponto final
-			anotherMoveData = checkNode(sideIndex2, anotherMoveData, middleFraction, endFraction, middle, end);
+			moveData = checkNode(sideIndex2, moveData, middleFraction, endFraction, middle, end);
 		}
 	}
-	return anotherMoveData;
+	return moveData;
 }
 
 /**
@@ -816,13 +821,7 @@ void BspScene::changeGamma(unsigned char *pImage, unsigned int size, float facto
 }
 
 void InGE::BspScene::checkGeom( Vector3 start, Vector3 end, PhysicalGeom * geom ){
-	if ( geom == NULL ){
-		m_traceType = InGE_BSP_TRACE_RAY;
-		m_moveOffset = 0.0;
-
-		m_startMovePosition = start;
-		m_endMovePosition = end;
-	} else if ( geom->getClass() == 0 ){
+	if ( geom->getClass() == 0 ){
 		m_traceType = InGE_BSP_TRACE_SPHERE;
 		GeomSphere *sphere = (GeomSphere *) geom;
 		m_moveOffset = sphere->getRadius();
@@ -848,4 +847,13 @@ void InGE::BspScene::checkGeom( Vector3 start, Vector3 end, PhysicalGeom * geom 
 		checkMoveCollisionAndTrySlide(start, end, space->getGeom( i ));
 		}
 		}*/
+	else {
+		/*if ( geom == NULL ){*/
+		m_traceType = InGE_BSP_TRACE_RAY;
+		m_moveOffset = 0.0;
+		
+		m_startMovePosition = start;
+		m_endMovePosition = end;
+	}
+
 }

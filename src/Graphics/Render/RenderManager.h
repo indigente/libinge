@@ -30,14 +30,15 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "../Toolkit/Window.h"
 #include "../../Entities/Object3D.h"
 #include "Frustum.h"
-
-
-
-
 #include "Drawer.h"
-
 #include <list>
+#include <CEGUI.h>
 
+#if defined(CEGUI_VERSION_MINOR) && (CEGUI_VERSION_MINOR >= 5)
+#include <RendererModules/OpenGLGUIRenderer/openglrenderer.h>
+#else
+#include <renderers/OpenGLGUIRenderer/openglrenderer.h>
+#endif
 
 namespace InGE{
 
@@ -48,6 +49,7 @@ class RenderManager{
 	private:
 		Frustum		m_frustum;
 		IScene		*m_pScene;
+		CEGUI::System *m_cegui;
 		list<Object3D *>	m_listOpaqueObjects;
 		list<Object3D *>	m_listBlendingObjects;
 		list<IWidget *>	m_listWidget;
