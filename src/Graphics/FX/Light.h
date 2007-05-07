@@ -35,7 +35,7 @@ namespace InGE{
  	  private:
 		int lightNumber;
 		Vector4 lightPosition;
-		Vector4 difuseColor;
+		Vector4 diffuseColor;
 		Vector4 ambientColor;
 		Vector4 specularColor;
 		Vector4 constantAttenuation;
@@ -47,8 +47,8 @@ namespace InGE{
 	
 		void setPosition(float x,float y,float z,float w);
 		void setPosition(Vector4 &vet);
-		void setDifuseColor(float x,float y,float z,float w);
-		void setDifuseColor(Vector4 &vet);
+		void setDiffuseColor(float x,float y,float z,float w);
+		void setDiffuseColor(Vector4 &vet);
 		void setAmbientColor(float x,float y,float z,float w);
 		void setAmbientColor(Vector4 &vet);
 		void setSpecularColor(float x,float y,float z,float w);

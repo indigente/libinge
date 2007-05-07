@@ -31,7 +31,7 @@ Light::Light(int i){
 	Drawer *drawer = Drawer::getInstance();
 	lightNumber = i;
 	lightPosition.setXYZW(0, -1, 0, 0);
-	difuseColor.setXYZW(1, 0, 0, 1);
+	diffuseColor.setXYZW(1, 0, 0, 1);
 	ambientColor.setXYZW(1, 1, 0, 1);
 	specularColor.setXYZW(1,  1, 0,  1);
 
@@ -41,7 +41,7 @@ Light::Light(int i){
 	drawer->enable(InGE_NORMALIZE);
 	drawer->lightModel(InGE_LIGHT_MODEL_LOCAL_VIEWER, InGE_TRUE);
 	drawer->lightModel(InGE_LIGHT_MODEL_TWO_SIDE, InGE_TRUE);
-	drawer->material(InGE_FRONT_AND_BACK, InGE_AMBIENT, difuseColor);
+	drawer->material(InGE_FRONT_AND_BACK, InGE_AMBIENT, diffuseColor);
 	drawer->material(InGE_FRONT_AND_BACK, InGE_SPECULAR, specularColor);
 } 
 
@@ -60,16 +60,16 @@ void Light::setPosition(Vector4 &vet){
 	drawer->light(GL_LIGHT0 + lightNumber,GL_POSITION, lightPosition);
 }
 
-void Light::setDifuseColor(float x,float y,float z,float w){
+void Light::setDiffuseColor(float x,float y,float z,float w){
 	Drawer *drawer = Drawer::getInstance();
-	difuseColor.setXYZW(x, y, z, w);
-	drawer->light(GL_LIGHT0 + lightNumber, GL_DIFFUSE, difuseColor);
+	diffuseColor.setXYZW(x, y, z, w);
+	drawer->light(GL_LIGHT0 + lightNumber, GL_DIFFUSE, diffuseColor);
 }
 
-void Light::setDifuseColor(Vector4 &vet){
+void Light::setDiffuseColor(Vector4 &vet){
 	Drawer *drawer = Drawer::getInstance();
-	difuseColor = vet;
-	drawer->light(GL_LIGHT0 + lightNumber, GL_DIFFUSE, difuseColor);
+	diffuseColor = vet;
+	drawer->light(GL_LIGHT0 + lightNumber, GL_DIFFUSE, diffuseColor);
 }
 
 
