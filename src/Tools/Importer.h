@@ -2,7 +2,7 @@
 -----------------------------------------------------------------------------
 This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
-For the latest info, see http://indigente.dcc.ufba.br
+For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
 Copyright  2004-2006 Indigente
 
@@ -22,6 +22,10 @@ Place - Suite 330, Boston, MA 02111-1307, USA, or go to
 http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
+
+#ifndef IMPORTER_H_
+#define IMPORTER_H_
+
 /**
 	@author Humberto Bandeira <nkbeto@gmail.com>
 */
@@ -40,3 +44,31 @@ http://www.gnu.org/copyleft/lesser.txt.
 //This include imports a bunch of useful constant strings for types and element 
 //names.
 #include <COLLADA_DOM/dom/domConstants.h>
+
+namespace InGE{
+daeString COLLADA_VERSION = "1.4.1";
+using std::string;
+/**
+ * 
+ */
+class Importer{
+	private:
+		DAE *m_pDaeObject;
+		daeDatabase *m_pDaeDatabase;
+		
+		void loadMesh(domMesh *pMesh);
+		domSource *findSource(domMesh *pMesh, string id);
+				
+	public:
+		Importer(string filename);
+		~Importer();
+		
+		int getNumElem(daeString name, daeString type, daeString file);
+		int getNumElem(daeString type);
+		bool importModel(daeString type);
+		bool saveCOLLADA(string filename, string filedir);
+		
+};
+
+}
+#endif /*IMPORTER_H_*/

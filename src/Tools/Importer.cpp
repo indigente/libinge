@@ -2,7 +2,7 @@
 -----------------------------------------------------------------------------
 This source file is part of Indigente Game Engine
 Indigente - Interactive Digital Entertainment
-For the latest info, see http://indigente.dcc.ufba.br
+For the latest info, see http://twiki.im.ufba.br/bin/view/Indigente
 
 Copyright  2004-2006 Indigente
 
@@ -25,37 +25,89 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 
 #include "Importer.h"
-daeString COLLADA_VERSION = "1.4.1";
 using namespace std;
+using namespace InGE;
 
-// vector<Vector3 > &loadFloatArrayStride3(){
-// 
-// }
+InGE::Importer::Importer(string filename){
+	m_pDaeObject = new DAE;
+	daeInt error;
+	
+	error = m_pDaeObject->load( filename.c_str() );
+	
+	if ( error == DAE_OK ){
+		cout << "Sucesso no load" << endl;
+	} else {
+		cout << "Falha no load" << endl;
+	}
+	
+	m_pDaeDatabase = m_pDaeObject->getDatabase();
+	
+}
 
-domSource *findSource(domMesh *pMesh, string id){
+int InGE::Importer::getNumElem(daeString type){
+		if (m_pDaeDatabase){
+		return m_pDaeDatabase->getElementCount(NULL, type, NULL);
+	} else {
+		return 0;
+	}
+}
+
+int InGE::Importer::getNumElem(daeString name, daeString type, daeString file){
+	if (m_pDaeDatabase){
+		return m_pDaeDatabase->getElementCount(name, type, file);
+	} else {
+		return 0;
+	}
+}
+
+bool InGE::Importer::importModel(daeString type){
+// 	int elemNum = getNumElem(NULL, COLLADA_ELEMENT_GEOMETRY, NULL);
+	int elemNum = getNumElem(type);
+
+	daeElement *pElement;
+	for (int i = 0; i < elemNum; i++){
+		m_pDaeDatabase->getElement( (daeElement**)&pElement, i, NULL, COLLADA_ELEMENT_GEOMETRY, NULL );
+		domGeometry *pGeom = NULL;
+		pGeom = (domGeometry *)pElement;
+		if (pGeom) {
+// 			loadGeom(pGeom);
+			domMesh *pMesh = NULL;
+			pMesh = pGeom->getMesh();
+		
+			if(pMesh){
+				loadMesh(pMesh);
+			}
+		}
+	}
+}
+
+domSource *InGE::Importer::findSource(domMesh *pMesh, string id){
 	domSource_Array sourceArray = pMesh->getSource_array();
 	int count = sourceArray.getCount();
 	for(int i = 0; i < count; i++){
 		string sourceID =  sourceArray[i]->getId();
 		if ( sourceID == id ) {
-			cout << sourceID << " == " << id << endl;
+// 			cout << sourceID << " == " << id << endl;
 			return sourceArray[i];
 		} else {
 			cout << "Num achei " << endl;
 		}
- 		
 	}
 	return NULL;
 }
 
-void loadMesh(domMesh *pMesh){
-// 	cout << pMesh->getID() << endl;
+/**
+ * This method loads the one mesh from the COLLADA_DOM into the Class Mesh of InGE.
+ * @param pMesh Pointer to mesh in COLLADA_DOM
+ */
+void InGE::Importer::loadMesh(domMesh *pMesh){
+ 	cout << pMesh->getID() << endl;
 	domVertices *pVertices = pMesh->getVertices();
 	domSource *pSource = NULL;
-// 	vector<Vector3 > position;
-// 	vector<Vector3 > normal;
-// 	vector<Vector2 > texCoord;
-// 	vector<Vector2 > index;
+//	vector<Vector3 > position;
+//	vector<Vector3 > normal;
+//	vector<Vector2 > texCoord;
+//	vector<Vector2 > index;
 	
 	if (pVertices) {
 		domInputLocal_Array inputArray = pVertices->getInput_array();
@@ -90,49 +142,21 @@ void loadMesh(domMesh *pMesh){
 	}
 }
 
-int main( ){
-	DAE *daeObject = new DAE;
+bool InGE::Importer::saveCOLLADA(string filename, string filedir){
 	daeInt error;
-	
-	error = daeObject->load( "/home/nkbeto/Desktop/champignon.dae" );
-	if ( error == DAE_OK ){
-		cout << "Sucesso no load" << endl;
-	} else {
-		cout << "Falha no load" << endl;
-	}
-	
-	daeDatabase* database = daeObject->getDatabase();
-	
-	int elemNum = database->getElementCount(NULL, COLLADA_ELEMENT_GEOMETRY, NULL);
-	daeElement *pElement;
-	for (int i = 0; i < elemNum; i++){
-		database->getElement( (daeElement**)&pElement, i, NULL, COLLADA_ELEMENT_GEOMETRY, NULL );
-		domGeometry *pGeom = NULL;
-		pGeom = (domGeometry *)pElement;
-		if (pGeom) {
-			domMesh *pMesh = NULL;
-			pMesh = pGeom->getMesh();
-		
-			if(pMesh){
-				loadMesh(pMesh);
-			}
-		}
-/*		daeElementRefArray children;
-		pElement->getChildren( children );
-		int childrenNum = children.getCount();
-		
-		for ( int i = 0; i < childrenNum; i++ ) {
-			if ( !strcmp( children[i]->getTypeName(), "mesh" ) ) {
-				loadMesh(children[i]);
-			}
-		}*/
-	}
-	//dae database->getCollection( 0 );
-	
-	error = daeObject->saveAs( "teste.xml", "file:///home/nkbeto/Desktop/teste.xml");
+	error = m_pDaeObject->saveAs(filename.c_str(), filedir.c_str());
 	if ( error == DAE_OK ){
 		cout << "Sucesso no save" << endl;
 	} else {
 		cout << "Falha no save" << endl;
 	}
+
+}
+
+int main( ){
+	Importer *importer = new Importer( "/home/nkbeto/Desktop/champignon.dae" );
+
+	importer->importModel(COLLADA_ELEMENT_GEOMETRY);
+	importer->saveCOLLADA( "teste.xml", "file:///home/nkbeto/Desktop/teste.xml");
+		
 }
