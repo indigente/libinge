@@ -87,37 +87,34 @@ int SceneManager::getState(){
 
 void SceneManager::setState(int state){
 	m_state = state;
-}			
+}
 
+/**
+ * This method handles the events passed by the ControlLayer
+ * @param e This is the command given by the ControlLayer
+ * @param param These are the params of the command
+ */
+//TODO: Configuration file is needed for this commands.
 void SceneManager::controlEventHandler(ControlEnum e, ControlParam *param){
-	Drawer *drawer = Drawer::getInstance();
 	switch(e){
 		case InGE_CONTROL_ESCAPE:
 			if(param->state){ 
-				m_state = InGE_SCENE_STOPED;
+				setState( InGE_SCENE_STOPED );
 			}
 			break;
 		case InGE_CONTROL_F11:
 			if(param->state){ 
-				m_isFullScreen = !m_isFullScreen;
-				if(m_isFullScreen) SDL_WM_ToggleFullScreen( SDL_GetVideoSurface() );
+				fullScreen();
 			}
 			break;
 		case InGE_CONTROL_F12:
 			if(param->state){ 
-				m_isWire = !m_isWire;
-				if(m_isWire) drawer->polygonMode(InGE_FRONT_AND_BACK,InGE_LINE);
-				else drawer->polygonMode(InGE_FRONT_AND_BACK,InGE_FILL);
+				wireFrame();
 			}
 			break;
-			
 		case InGE_CONTROL_ACTION1:
-			if(param->state){
-				if( (m_pPlayer) && ( m_pPlayer->canPick() ) ){
-					if(m_pRenderManager){
-							m_pRenderManager->pick(m_pPlayer->getCamera(), param);
-					}
-				}
+			if(param->state){ 
+				pick(param);
 			}
 			break;		
 		default:
@@ -126,6 +123,12 @@ void SceneManager::controlEventHandler(ControlEnum e, ControlParam *param){
 }
 
 
+/**
+ * This method sequencially updates the modules of the engine.
+ * First, it checks for player controls and change camera's position.
+ * Second, make a step in the physics world and check for collisions.
+ * Third, render the world and models.
+ */
 void SceneManager::update(){
 	NetControl::waitForSync();
 	//SDL_SemWait(NetControl::m_pSemNetAndLocalSync);
@@ -151,5 +154,33 @@ void SceneManager::update(){
 	//SDL_SemPost(NetControl::m_pSemNetAndLocalSync);
 	
 	AudioManager::getInstance()->update();
+}
+
+/**
+ * This method make turn the aplication FullScreen if it's Windowed and Windowed if it's FullScreen.
+ */
+void InGE::SceneManager::fullScreen(){
+	m_isFullScreen = !m_isFullScreen;
+	if(m_isFullScreen)
+		SDL_WM_ToggleFullScreen( SDL_GetVideoSurface() );
+}
+
+/**
+ * This method make turn the aplication Wireframe if it's Filled and Filled if it's Wireframe.
+ */
+void InGE::SceneManager::wireFrame(){
+	Drawer *drawer = Drawer::getInstance();
+	m_isWire = !m_isWire;
+	if(m_isWire){
+		drawer->polygonMode(InGE_FRONT_AND_BACK,InGE_LINE);
+	}else{
+		drawer->polygonMode(InGE_FRONT_AND_BACK,InGE_FILL);
+	}
+}
+
+void InGE::SceneManager::pick(ControlParam *param){
+	if ( ( (m_pPlayer) && (m_pRenderManager) ) && (m_pPlayer->canPick()) ){
+		m_pRenderManager->pick( m_pPlayer->getCamera(), param);
+	}
 }
 

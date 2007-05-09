@@ -59,6 +59,9 @@ namespace InGE{
 			
 			SceneManager();
 			
+			void fullScreen();
+			void wireFrame();
+			void pick(ControlParam *param);
 			
 		public:
 		
