@@ -112,8 +112,12 @@ void SceneManager::controlEventHandler(ControlEnum e, ControlParam *param){
 			break;
 			
 		case InGE_CONTROL_ACTION1:
-			if(param->state){ 
-			//	m_pRenderManager->pick(param);
+			if(param->state){
+				if( (m_pPlayer) && ( m_pPlayer->canPick() ) ){
+					if(m_pRenderManager){
+							m_pRenderManager->pick(m_pPlayer->getCamera(), param);
+					}
+				}
 			}
 			break;		
 		default:

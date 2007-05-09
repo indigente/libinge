@@ -40,6 +40,8 @@ class Player{
 		AudioListener	*m_pAudioListener;
 		AudioSource		*m_pStream;
 		ICamera			*m_pCamera;
+		
+		bool		mPick;
 				
 		float		getInterpolationToNextFrame();
 		
@@ -64,7 +66,11 @@ class Player{
 		AudioListener *getAudioListener();
 		
 		void setCamera(ICamera *pCamera);
-		ICamera *getCamera();	
+		ICamera *getCamera();
+		
+		void allowPick(bool state);
+				
+		bool canPick();
 };
 
 }

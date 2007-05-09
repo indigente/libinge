@@ -84,6 +84,7 @@ class RenderManager{
 		IWidget *pGetWidget(string& widgetName);
 		
 		void render(ICamera *camera);
+		void pick(ICamera *camera, ControlParam *param);
 	};
 
 }

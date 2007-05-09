@@ -290,3 +290,12 @@ IWidget *RenderManager::pGetWidget(string& widgetName){
 }
 
 }
+
+
+/**
+ * Checks for picked objects
+ * @param camera 
+ * @param param 
+ */
+void InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
+}

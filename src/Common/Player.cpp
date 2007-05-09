@@ -39,7 +39,7 @@ Player::Player(Avatar *avatar, ICamera *pCamera){
 	m_pAvatar = avatar;
 	m_pAudioListener = AudioManager::getInstance()->getListener();
 	m_pStream = NULL;
-	
+	mPick = false;	
 	
 	if (pCamera){
 		m_pCamera = pCamera;
@@ -124,4 +124,20 @@ void Player::setStream(AudioSource *stream){
 
 AudioSource *Player::getStream(){
 	return m_pStream;
+}
+
+/**
+ * Allows a player whether to pick or not
+ * @param state The player can pick if this param is TRUE
+ */
+void InGE::Player::allowPick(bool state){
+	mPick = state;
+}
+
+/**
+ * Tells if a player can pick or not
+ * @return 
+ */
+bool InGE::Player::canPick(){
+	return mPick;
 }

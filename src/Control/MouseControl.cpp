@@ -64,7 +64,7 @@ void MouseControl::loadTab(string filename){
 }
 void MouseControl::loadDefaultTab(){
 	(*m_controlTab)[MOTION_INDEX] = InGE_CONTROL_LOOK;
-	(*m_controlTab)[SDL_BUTTON_LEFT] = InGE_CONTROL_ATTACK1;
+	(*m_controlTab)[SDL_BUTTON_LEFT] = InGE_CONTROL_ACTION1;
 	(*m_controlTab)[SDL_BUTTON_MIDDLE] = InGE_CONTROL_ACTION2;
 	(*m_controlTab)[SDL_BUTTON_RIGHT] = InGE_CONTROL_ACTION3;
 	
