@@ -45,7 +45,7 @@ public:
 	void 	setMass(PhysicalMass &mass);
 	float 	getMass();
 	Vector4 getCenter();
-	float 	*getInertia();
+	float 	getInertia();
 	
 				
 	void setPosition(Vector3 &position);

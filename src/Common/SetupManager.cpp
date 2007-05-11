@@ -122,7 +122,7 @@ bool SetupManager::setClient(string name, string ip, int port){
 		cerr << "ERRO: NAO FOI POSSIVEL CONECTAR" << endl;
 		return (1);
 	}
-	
+	return 0;
 }
 
 NetClient *SetupManager::getNetClient(){

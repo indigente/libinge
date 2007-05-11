@@ -59,10 +59,10 @@ Vector4 PhysicalBody::getCenter(){
 	return Vector4((float *)(mass.c));
 }
 
-float *PhysicalBody::getInertia(){
+float PhysicalBody::getInertia(){
 	dMass mass;
 	dBodyGetMass(m_bodyId, &mass);
-	return (float *)(mass.I);
+	return *(float *)(mass.I);
 }
 
 

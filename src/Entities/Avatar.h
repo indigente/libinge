@@ -65,7 +65,7 @@ namespace InGE {
 		public:
 			Avatar(PhysicalGeom *geom = NULL);
 			
-			~Avatar();
+			virtual ~Avatar();
 			
 					
 			ICamera *getCamera();

@@ -48,7 +48,7 @@ class IEntity {
 		
 	public:
 		IEntity(string type);
-		~IEntity();
+		virtual ~IEntity();
 		void	setType(string type);
 		string &getType();
 		

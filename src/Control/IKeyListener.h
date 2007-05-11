@@ -33,6 +33,7 @@ namespace InGE {
 class IKeyListener{
 public:
 	virtual void keyEventHandler(char c)=0;
+	virtual ~IKeyListener();
 };
 
 }

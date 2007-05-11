@@ -110,7 +110,7 @@ namespace InGE
     //seta o cenario a ser usado
     void setScene (string sceneName);
 
-    ~NetServer();
+    virtual ~NetServer();
 
   };
 

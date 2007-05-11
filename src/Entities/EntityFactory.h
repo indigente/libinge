@@ -70,7 +70,7 @@ class EntityFactory{
 	public:
 		static	EntityFactory *getInstance();
 
-		~EntityFactory();
+		virtual ~EntityFactory();
 		
 		void setPhysicsManager(PhysicsManager *physicsManager);
 		void setRenderManager(RenderManager *renderManager);

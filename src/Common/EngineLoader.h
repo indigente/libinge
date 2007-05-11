@@ -39,7 +39,7 @@ class EngineLoader{
 		
 	public:
 		EngineLoader();
-		~EngineLoader();
+		virtual ~EngineLoader();
 		Player *getPlayer();
 		BspScene *getScene();
 		ControlLayer *getControlLayer();

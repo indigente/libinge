@@ -42,7 +42,7 @@ class InfoEntity :  public InGE::IEntity{
 	public:
    	InfoEntity();
 
-		~InfoEntity();
+		virtual ~InfoEntity();
 		
 		void setClassName(string className);
 		void setPosition(const Vector3 &v);

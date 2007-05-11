@@ -38,7 +38,7 @@ namespace InGE{
 			PhysicalGeom *m_pGeom;
 		public:
 			ITrigger(PhysicalGeom &geom);
-			~ITrigger();
+			virtual ~ITrigger();
 			virtual void doAction(PhysicalGeom &geom)=0;
 			PhysicalGeom &getGeom();
 			

@@ -108,24 +108,27 @@ void MovieTex::set(bool setup){
 
 void MovieTex::executeCommand(ExecuteCommandEnum e, string param){
 	switch(e){
-		case InGE_EXCMD_PLAY:	
-			SMPEG_play(m_mpeg);
-			break;
-		case InGE_EXCMD_STOP:
-			SMPEG_stop(m_mpeg);
-			break;
-		case InGE_EXCMD_REWIND:
-			SMPEG_rewind(m_mpeg);
-			break;	
-		case InGE_EXCMD_LOOP:
-			if(param =="true" || param =="1") SMPEG_loop(m_mpeg, true);
-			else SMPEG_loop(m_mpeg, false);
-			break;
+	case InGE_EXCMD_PLAY:	
+		SMPEG_play(m_mpeg);
+		break;
+	case InGE_EXCMD_STOP:
+		SMPEG_stop(m_mpeg);
+		break;
+	case InGE_EXCMD_REWIND:
+		SMPEG_rewind(m_mpeg);
+		break;	
+	case InGE_EXCMD_LOOP:
+		if(param =="true" || param =="1") SMPEG_loop(m_mpeg, true);
+		else SMPEG_loop(m_mpeg, false);
+		break;
+	case InGE_EXCMD_SKIP:
+		break;
 	}		
 	
 }
 
 Mesh *MovieTex::interpolate(Mesh *pMesh, float interpolation){
 //	return new MovieTex( m_component->interpolate(pMesh, interpolation), m_pTexture, m_vetLightmapCoord );
+	return NULL;
 }
 

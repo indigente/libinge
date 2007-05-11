@@ -246,7 +246,7 @@ void Object3D::updateGeom(){
 	if (m_pPhysicalGeom->getClass() == 0)
 	((GeomSphere *)m_pPhysicalGeom)->setRadius(vetVolumeInfo[0]->getRadius());
 		//FIXME:SÃ³ estou pegando uma esfera						
-/*		for (int volumeIndex = 0; volumeIndex < vetVolumeInfo.size(); volumeIndex++){
+		for (int volumeIndex = 0; volumeIndex < vetVolumeInfo.size(); volumeIndex++){
 	if (m_pPhysicalSpace[volumeIndex].getClass() == 0)
 	((GeomSphere *)m_pPhysicalSpace->getGeom( volumeIndex))->setRadius( vetVolumeInfo[volumeIndex]->getRadius() );
 	m_pPhysicalSpace[volumeIndex].setPosition( vetVolumeInfo[volumeIndex]->getOrigin() );FIXME

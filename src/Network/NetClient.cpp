@@ -571,6 +571,7 @@ bool NetClient::sendCustomMessage (NetCustomMessage* cus_msg , bool toSelf){
 	SDLNet_UDP_Send(m_sock,-1,out_packet);
 
 	SDLNet_FreePacket(out_packet);
+	return true;
 }
 
 

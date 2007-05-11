@@ -26,13 +26,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "RenderManager.h"
 #include "../Toolkit/ToolkitManager.h"
 #include <iostream>
-#include <CEGUI.h>
-
-#if defined(CEGUI_VERSION_MINOR) && (CEGUI_VERSION_MINOR >= 5)
-#include <RendererModules/OpenGLGUIRenderer/openglrenderer.h>
-#else
-#include <renderers/OpenGLGUIRenderer/openglrenderer.h>
-#endif
 
 using namespace std;
 
@@ -287,6 +280,7 @@ IWidget *RenderManager::pGetWidget(string& widgetName){
 			return (*itWdg);
 		}
 	}
+	return NULL;
 }
 
 }
