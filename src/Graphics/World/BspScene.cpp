@@ -560,8 +560,6 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 				yamd->setPosition(start);
 				if(amd)
 					delete amd;
-				if(yamd)
-					delete yamd;
 				return new PhysicalContactPoint(yamd);
 			}
 		}
