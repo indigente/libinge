@@ -104,6 +104,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Physics/PhysicalJoint.h"
 #include "Physics/PhysicalJointGroup.h"
 #include "Physics/PhysicalContactPoint.h"
+#include "Physics/BrushCollisionListener.h"
 
 #include "Physics/Geoms/GeomBox.h"
 #include "Physics/Geoms/GeomCylinder.h"

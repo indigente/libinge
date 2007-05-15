@@ -468,11 +468,13 @@ void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *
  * Collision
  * Verifica colisao no movimento pretendido
  */
-PhysicalContactPoint *BspScene::checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom ){
+PhysicalContactPoint *BspScene::checkMoveCollision(Vector3 start, Vector3 end, PhysicalGeom *geom){
 	PhysicalContactPoint *moveData;
 	moveData->setDepth(1.0f);
 	moveData->setPosition( end );
-
+	
+	m_collidedBrushes.clear();
+	
 	checkGeom(start, end, geom);
 
 	if(start == end)
@@ -508,11 +510,7 @@ Vector3 BspScene::getPositionInc(PhysicalContactPoint *moveData, PhysicalContact
 	return pos;
 }
 
-/**
- * Collision
- * Verifica colisao no movimento pretendido e tenta fazer slide
- */
-PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom, PhysicalContactPoint *oldMoveData ){
+PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlideRecursive(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom, PhysicalContactPoint *oldMoveData) {
 	PhysicalContactPoint	*moveData = oldMoveData;
 	Vector3 slideStartPoint, position, target, posInc, targInc;
 	if (!moveData)
@@ -575,7 +573,17 @@ PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vec
 		delete amd;
 	if(yamd)
 		delete yamd;
-	return checkMoveCollisionAndTrySlide(slideStartPoint, position, elapsedTime, geom, moveData);
+	return checkMoveCollisionAndTrySlideRecursive(slideStartPoint, position, elapsedTime, geom, moveData);
+}
+
+/**
+ * Collision
+ * Verifica colisao no movimento pretendido e tenta fazer slide
+ */
+PhysicalContactPoint *BspScene::checkMoveCollisionAndTrySlide(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom, PhysicalContactPoint *oldMoveData){
+	m_collidedBrushes.clear();
+	
+	return checkMoveCollisionAndTrySlideRecursive(start, end, elapsedTime, geom, oldMoveData);
 }
 /**
  * Percorre a arvore(bsp) para ateh achar as folhas para verificar colisao
@@ -765,6 +773,7 @@ PhysicalContactPoint* BspScene::checkBrush(BspBrush &brush, PhysicalContactPoint
 			if(startOut) {
 				anotherMoveData->setDepth( startFraction );
 				anotherMoveData->setNormal( vCandidateToHitNormal );
+				m_collidedBrushes.push_back(&brush);
 			} else {
 				// inicia dentro do brush
 				//	anotherMoveData->startOut = false;
@@ -857,4 +866,17 @@ void InGE::BspScene::checkGeom( Vector3 start, Vector3 end, PhysicalGeom * geom 
 		m_endMovePosition = end;
 	}
 
+}
+
+vector<BspBrush*> InGE::BspScene::getCollidedBrushes() {
+	return m_collidedBrushes;
+}
+
+BspTexture &InGE::BspScene::getTexture(int textureID) {
+	static BspTexture invalidTexture;
+	
+	if (textureID < m_info.numOfTextures && textureID > 0)
+		return m_info.pTextures[textureID];
+	else
+		return invalidTexture;
 }

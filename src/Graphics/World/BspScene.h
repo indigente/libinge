@@ -140,6 +140,8 @@ namespace InGE{
 		
 		static const double 	m_kEpsilon;
 		
+		vector<BspBrush*> m_collidedBrushes;
+		
 		// TODO: Entities 
 		vector<QEntityInfo *>	m_vEntityInfo;
 		vector<QEntityLight *>	m_vEntityLight;
@@ -172,6 +174,7 @@ namespace InGE{
         Vector3 getCollisionInc(const Vector3& start, const Vector3& end, PhysicalContactPoint *moveData);
 		Vector3 getPositionInc(PhysicalContactPoint *moveData, PhysicalContactPoint *anotherMoveData, const Vector3& start, const Vector3& end, const Vector3& target);
 		
+		PhysicalContactPoint *checkMoveCollisionAndTrySlideRecursive(Vector3 start, Vector3 end, float elapsedTime, PhysicalGeom *geom = NULL, PhysicalContactPoint *oldMoveData = NULL);
 	  public:
 		BspScene(); 
 		~BspScene();
@@ -189,8 +192,9 @@ namespace InGE{
 		// Entity
 		std::vector<QEntityInfo *>& getVectorOfEntityInfo();
 		std::vector<QEntityLight *>& getVectorOfEntityLight();
-				
-	
+		
+		vector<BspBrush*> getCollidedBrushes();
+		BspTexture &getTexture(int textureID);
 	};
 
 }

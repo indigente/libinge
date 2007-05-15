@@ -23,6 +23,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 -----------------------------------------------------------------------------
 */
 #include "PhysicsManager.h"
+#include "BrushCollisionListener.h"
 
 #include <iostream>
 #include <cstdio>
@@ -105,14 +106,23 @@ void PhysicsManager::checkDynamicCollision(Object3D *object3D, Vector3 startPosi
 	if(!pGeom) return;
 	
 	if ( (object3D->getCollisionEnable())){
+		BspScene *bspScene = dynamic_cast<BspScene *>(m_pScene);
+		
 		moveData = m_pScene->checkMoveCollisionAndTrySlide( startPosition, position, elapsedTime, pGeom);
 		
 		if(moveData->getColided() == false){
 			object3D->worldDynamicWithoutCollision(moveData);
 		}else{
+			BrushCollisionListener *bcl = dynamic_cast<BrushCollisionListener *>(object3D);
+			if (bcl) {
+				if (bspScene)
+					bcl->collidedWithBrush(bspScene, bspScene->getCollidedBrushes());
+			}
+			
 			object3D->setPosition(moveData->getPosition());
 // 			object3D->setPosition(startPosition);
 			object3D->worldDynamicWithCollision(moveData);
+			
 			Vector3 v;
 			v = object3D->getVelocity();
 			v *= 0.9;
