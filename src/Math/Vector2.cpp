@@ -55,13 +55,24 @@ Vector2::Vector2(float vet[2]){
 // Metodos SET/GET
 void Vector2::setX(float x){ this->v[0] = x;}
 void Vector2::setY(float y){ this->v[1] = y;}
+void Vector2::setU(float u){ this->v[0] = u;}
+void Vector2::setV(float v){ this->v[1] = v;}
+
 float Vector2::getX() const { return this->v[0]; }
 float Vector2::getY() const { return this->v[1]; }
+float Vector2::getU() const { return this->v[0]; }
+float Vector2::getV() const { return this->v[1]; }
 
 void Vector2::setXY(float x, float y){ 
 	this->v[0] = x;
 	this->v[1] = y;
 }
+
+void Vector2::setUV(float u, float v){ 
+	this->v[0] = u;
+	this->v[1] = v;
+}
+
 
 // Retorna o Modulo vetor 2D
 float Vector2::getNorma() const{

@@ -24,7 +24,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 #include "NetClient.h"
 
-namespace InGE{
+using namespace InGE;
 
 NetClient* NetClient::m_pNetClient = NULL;
 
@@ -68,6 +68,8 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 		if ( data ) 
 			delete [] data;
 	
+		if( m_pNetClient->handleMessage(net_msg) ) continue;
+		
 		msg_type = net_msg->Attribute( "TYPE" );
 		net_msg->QueryIntAttribute( "ID", &msg_id );
 	
@@ -378,12 +380,12 @@ void NetClient::startClient(){
 	if (m_clientIsOn) return;
 	
 	if( !(m_sock=SDLNet_UDP_Open(0)) ){
-		cout << "NetClient :: SDLNet_UDP_Open: " << SDLNet_GetError() << endl;
+// 		cout << "NetClient :: SDLNet_UDP_Open: " << SDLNet_GetError() << endl;
 		return;
 	}
 	
 	m_stopClient = false;
-	m_pThreadClientStopper = SDL_CreateThread( clientStopper , this );
+	m_pThreadClientStopper = createThread( clientStopper );
 
 	m_pSemEntityValues = SDL_CreateSemaphore(1);
 	m_clientIsOn = true;
@@ -415,7 +417,7 @@ int NetClient::connectToServer(string ip_address, unsigned short port){
 
 	SDLNet_ResolveHost(&m_serverAddress, ip_address.c_str(), port);
 	
-	cout << "Client: tentando conectar no ip " << ip_address << ", na porta " << port << "." << endl;
+// 	cout << "Client: tentando conectar no ip " << ip_address << ", na porta " << port << "." << endl;
 
 	out_packet = SDLNet_AllocPacket(NetControl::M_PACKET_SIZE);
 
@@ -434,7 +436,7 @@ int NetClient::connectToServer(string ip_address, unsigned short port){
 
 	in_packet=SDLNet_AllocPacket(NetControl::M_PACKET_SIZE);
 	
-	cout << "Client: esperando por resposta do servidor." << endl;
+// 	cout << "Client: esperando por resposta do servidor." << endl;
 
 	while(!SDLNet_UDP_Recv(m_sock, in_packet)){
 		if (waitForAnswerRetries <= 0) 
@@ -491,7 +493,7 @@ void NetClient::startReceiver(){
 		return;
 	}
 
-	m_pThreadReceiver = SDL_CreateThread( receiver, this );
+	m_pThreadReceiver = createThread( receiver );
 	
 	while (!m_threadReceiverReady)
 		SDL_Delay(333);
@@ -508,7 +510,7 @@ void NetClient::startSyncSender(){
 		return;
 	}
 
-	m_pThreadSyncSender = SDL_CreateThread( syncSender, this);
+	m_pThreadSyncSender = createThread( syncSender );
 	m_syncSenderIsOn = true;
 }
 
@@ -516,7 +518,7 @@ void NetClient::startSyncSender(){
 void NetClient::activateDeadReckoning(){
 	if (m_deadReckoningIsOn) return;
 
-	m_pThreadDeadReckoning = SDL_CreateThread ( deadReckoning, this);
+	m_pThreadDeadReckoning = createThread ( deadReckoning );
 	m_deadReckoningIsOn = true;
 }
 
@@ -814,7 +816,11 @@ NetClient::~NetClient(){ // rever isso -> NetControl.cpp?
 	NetControl::quitSdlNet();
 }
 
+bool InGE::NetClient::handleMessage(TiXmlElement * msg){
+	cout << "Client Pai" << endl;
+	return false;
+}
 
-
-
+SDL_Thread * InGE::NetClient::createThread(int (*method)(void *)){
+	return SDL_CreateThread( method, this );
 }

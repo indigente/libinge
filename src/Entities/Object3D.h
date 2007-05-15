@@ -25,8 +25,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef INGEOBJECT3D_H
 #define INGEOBJECT3D_H
 
-#include "IEntity.h"
 #include <map>
+#include "IEntity.h"
 #include "../Graphics/Model/IModel.h"
 #include "../Graphics/Render/IRenderListener.h"
 #include "../Physics/PhysicalGeom.h"

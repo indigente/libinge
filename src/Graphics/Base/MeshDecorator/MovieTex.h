@@ -40,6 +40,10 @@ namespace InGE{
 
 	class MovieTex: public InGE::MeshDecorator{
 		private:
+			string m_filename;
+			bool m_hasSound;
+			int m_bpp;
+			
 			SDL_Surface 	*m_pSurface;
 			SDL_mutex 		*m_pMut;
 			unsigned int 	m_textureID;
@@ -47,6 +51,7 @@ namespace InGE{
 			SMPEG_Info 		m_info;
 			int 				m_width;
 			int				m_height;
+			
 		public:
 			MovieTex(Mesh *pMesh, string filename, bool hasSound, int bpp=32);
 			~MovieTex();

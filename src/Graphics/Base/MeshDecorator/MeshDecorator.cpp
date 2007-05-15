@@ -87,6 +87,22 @@ void MeshDecorator::clearVertex(){
 	m_component->clearVertex();
 }
 
+void InGE::MeshDecorator::setTexCoord(vector< Vector2 > vetTexCoord){
+	m_component->setTexCoord(vetTexCoord);
+}
+
+void InGE::MeshDecorator::setTexCoord(Vector2 * vetTexCoord, unsigned int numTexCoord){
+	m_component->setTexCoord(vetTexCoord, numTexCoord);
+}
+
+void InGE::MeshDecorator::addTexCoord(Vector2 texCoord){
+	m_component->addTexCoord(texCoord);
+}
+
+void InGE::MeshDecorator::clearTexCoord(){
+	m_component->clearTexCoord();
+}
+
 /**
  * Seta o m_drawIndex
  * @param vector<unsigned int> *drawIndex - Vetor de indices das faces
@@ -174,6 +190,15 @@ unsigned int MeshDecorator::getNumVertex(){
 	return m_component->getNumVertex();
 }
 
+
+Vector2 * InGE::MeshDecorator::getTexCoord(unsigned int index){
+	return m_component->getTexCoord(index);
+}
+
+unsigned int InGE::MeshDecorator::getNumTexCoord(){
+	return m_component->getNumTexCoord();
+}
+
 /**
  * @return Retorna o inicio dos indices das faces
  */	
@@ -240,3 +265,4 @@ void MeshDecorator::draw(){
 void MeshDecorator::executeCommand(ExecuteCommandEnum e, string param){
 	m_component->executeCommand(e,param);
 }
+

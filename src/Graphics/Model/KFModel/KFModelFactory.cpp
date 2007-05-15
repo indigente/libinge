@@ -262,18 +262,23 @@ Md3Model *KFModelFactory::createMd3(FILE *file, string bodyPart){
 map<string, vector<KeyFrame *> > KFModelFactory::md3Setup(sMd3Header header, sMesh *psMesh, sBoundVolume *psBoundVolume, sTag *psTag, unsigned int **drawIndex, string bodyPart){
 	map<string, vector<KeyFrame *> > mapAnim;
 	if (m_vetAnimInfo.size() > 0){
+		
 		for (int animIndex = 0; animIndex < m_vetAnimInfo.size(); animIndex++){
+			
 			if ( ( (m_vetAnimInfo[animIndex].bodyPart == bodyPart) || (m_vetAnimInfo[animIndex].bodyPart == "BOTH") ) && (bodyPart != "HEAD")  ) { 
+				
 				vector<KeyFrame *> vetKeyFrame;
 				for (int frameIndex = m_vetAnimInfo[animIndex].firstFrame; frameIndex < (m_vetAnimInfo[animIndex].numFrame + m_vetAnimInfo[animIndex].firstFrame); frameIndex++){
 					KeyFrame *currentKeyFrame = new KeyFrame();
 					currentKeyFrame->setName(m_vetAnimInfo[animIndex].name);
+					
 					for (int tagIndex = 0; tagIndex < header.numTags; tagIndex++){
 						currentKeyFrame->addTag(new Tag(psTag[tagIndex].name, psTag[(frameIndex * header.numTags) + tagIndex].position, (float *)psTag[(frameIndex * header.numTags) + tagIndex].rotation));
 					}
 					Vector3 *pPosition, *pNormal;
 					Vector2 *pTexCood;
 					sAliasTriangle *psVertex;
+					
 					for (int meshIndex=0; meshIndex < header.numMeshes; meshIndex++){
 						Mesh *pMesh = new ConcreteMesh();
 						
@@ -300,7 +305,8 @@ map<string, vector<KeyFrame *> > KFModelFactory::md3Setup(sMd3Header header, sMe
 							pTexCood = new Vector2( psMesh[meshIndex].texCoord[ vIndex ].s,
 															psMesh[meshIndex].texCoord[ vIndex ].t );
 							
-							pMesh->addVertex( Vertex( *pPosition, *pNormal, *pTexCood ) );
+							pMesh->addVertex( Vertex( *pPosition, *pNormal ) );
+							pMesh->addTexCoord( *pTexCood );
 							
 						}
 						
@@ -356,7 +362,8 @@ map<string, vector<KeyFrame *> > KFModelFactory::md3Setup(sMd3Header header, sMe
 					pTexCood = new Vector2(	psMesh[meshIndex].texCoord[ vIndex + (0 * psMesh[meshIndex].header.numVertex) ].s,
 													psMesh[meshIndex].texCoord[ vIndex + (0 * psMesh[meshIndex].header.numVertex) ].t );
 
-					pMesh->addVertex( Vertex( *pPosition, *pNormal, *pTexCood ) );
+					pMesh->addVertex( Vertex( *pPosition, *pNormal ) );
+					pMesh->addTexCoord( *pTexCood );
 				}
 			
 				pMesh->setDrawIndex( drawIndex[meshIndex], psMesh[meshIndex].header.numTriangles * 3 );

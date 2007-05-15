@@ -29,7 +29,10 @@ using namespace InGE;
 MovieTex::MovieTex(Mesh *pMesh, string filename, bool hasSound, int bpp) : MeshDecorator(pMesh){
 	Drawer *drawer = Drawer::getInstance();
 
-
+	m_filename = filename;
+	m_hasSound = hasSound;
+	m_bpp = bpp;
+	
 	// Inicializa nulo
 	m_pSurface = NULL;
 	m_pMut = NULL;
@@ -101,7 +104,7 @@ void MovieTex::set(bool setup){
 	
 	drawer->clientActiveTextureARB(InGE_TEXTURE0_ARB);
 	drawer->enableClientState(InGE_TEXTURE_COORD_ARRAY);
-	drawer->texCoordPointer(2, InGE_FLOAT, sizeof(Vertex), m_component->getVertex(0)->getTextureOffset());
+	drawer->texCoordPointer(2, InGE_FLOAT, sizeof(Vector2), getTexCoord(0) );
 
 	m_component->set(true);	
 }
@@ -128,7 +131,8 @@ void MovieTex::executeCommand(ExecuteCommandEnum e, string param){
 }
 
 Mesh *MovieTex::interpolate(Mesh *pMesh, float interpolation){
-//	return new MovieTex( m_component->interpolate(pMesh, interpolation), m_pTexture, m_vetLightmapCoord );
+	return new MovieTex( m_component->interpolate(pMesh, interpolation), m_filename, m_hasSound, m_bpp );
 	return NULL;
 }
+
 

@@ -49,10 +49,15 @@ namespace InGE{
 		void setX(float x);
 		void setY(float y);
 		void setXY(float x=0.0f, float y=0.0f);
+		void setU(float u);
+		void setV(float v);
+		void setUV(float u=0.0f, float v=0.0f);
 	
 		//Metodos Get
 		float getX() const;
 		float getY() const;
+		float getU() const;
+		float getV() const;
 		float& operator[] (const long i) { return v[i];	}
 		
 		float getNorma() const;				// Modulo/Norma do Vetor

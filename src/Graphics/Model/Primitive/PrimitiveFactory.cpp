@@ -141,10 +141,14 @@ Plane	*PrimitiveFactory::loadPlane(string name, float scale, string filenameTex)
 
 		
 
-	pMesh->addVertex( Vertex(  scale,  scale,  0.0, 0.0, 0.0, 1.0, 0, 0 ) );
-	pMesh->addVertex( Vertex(  scale, -scale,  0.0, 0.0, 0.0, 1.0, 0, 1 ) );
-	pMesh->addVertex( Vertex( -scale, -scale,  0.0, 0.0, 0.0, 1.0, 1, 1 ) );
-	pMesh->addVertex( Vertex( -scale,  scale,  0.0, 0.0, 0.0, 1.0, 1, 0 ) );
+	pMesh->addVertex( Vertex(  scale,  scale,  0.0, 0.0, 0.0, 1.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	pMesh->addVertex( Vertex(  scale, -scale,  0.0, 0.0, 0.0, 1.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale, -scale,  0.0, 0.0, 0.0, 1.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale,  scale,  0.0, 0.0, 0.0, 1.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
 
 
 	//Face 1
@@ -200,42 +204,65 @@ Box 	*PrimitiveFactory::loadBox(string name, float scale, string filenameTex){
 
 	pMesh->addMaterial(texture);
 	
-
 	//Face 1
-	pMesh->addVertex( Vertex(  scale,  scale,  scale,  1.0,  0.0,  0.0, 1, 0 ) );
-	pMesh->addVertex( Vertex(  scale,  scale, -scale,  1.0,  0.0,  0.0, 1, 1 ) );
-	pMesh->addVertex( Vertex(  scale, -scale, -scale,  1.0,  0.0,  0.0, 0, 1 ) );
-	pMesh->addVertex( Vertex(  scale, -scale,  scale,  1.0,  0.0,  0.0, 0, 0 ) );
+	pMesh->addVertex( Vertex(  scale,  scale,  scale,  1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	pMesh->addVertex( Vertex(  scale,  scale, -scale,  1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	pMesh->addVertex( Vertex(  scale, -scale, -scale,  1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
+	pMesh->addVertex( Vertex(  scale, -scale,  scale,  1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
 
 	//Face 2
-	pMesh->addVertex( Vertex( -scale, -scale,  scale, -1.0,  0.0,  0.0, 1, 0 ) );
-	pMesh->addVertex( Vertex( -scale, -scale, -scale, -1.0,  0.0,  0.0, 1, 1 ) );
-	pMesh->addVertex( Vertex( -scale,  scale, -scale, -1.0,  0.0,  0.0, 0, 1 ) );
-	pMesh->addVertex( Vertex( -scale,  scale,  scale, -1.0,  0.0,  0.0, 0, 0 ) );
+	pMesh->addVertex( Vertex( -scale, -scale,  scale, -1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	pMesh->addVertex( Vertex( -scale, -scale, -scale, -1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale,  scale, -scale, -1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale,  scale,  scale, -1.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
 
 	//Face 3
-	pMesh->addVertex( Vertex(  scale,  scale,  scale,  0.0,  0.0,  1.0, 0, 0 ) );
-	pMesh->addVertex( Vertex(  scale, -scale,  scale,  0.0,  0.0,  1.0, 0, 1 ) );
-	pMesh->addVertex( Vertex( -scale, -scale,  scale,  0.0,  0.0,  1.0, 1, 1 ) );
-	pMesh->addVertex( Vertex( -scale,  scale,  scale,  0.0,  0.0,  1.0, 1, 0 ) );
+	pMesh->addVertex( Vertex(  scale,  scale,  scale,  0.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	pMesh->addVertex( Vertex(  scale, -scale,  scale,  0.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale, -scale,  scale,  0.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale,  scale,  scale,  0.0,  0.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
 
 	//Face 4
-	pMesh->addVertex( Vertex( -scale,  scale, -scale,  0.0,  0.0, -1.0, 1, 0 ) );
-	pMesh->addVertex( Vertex( -scale, -scale, -scale,  0.0,  0.0, -1.0, 1, 1 ) );
-	pMesh->addVertex( Vertex(  scale, -scale, -scale,  0.0,  0.0, -1.0, 0, 1 ) );
-	pMesh->addVertex( Vertex(  scale,  scale, -scale,  0.0,  0.0, -1.0, 0, 0 ) );
+	pMesh->addVertex( Vertex( -scale,  scale, -scale,  0.0,  0.0, -0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	pMesh->addVertex( Vertex( -scale, -scale, -scale,  0.0,  0.0, -0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	pMesh->addVertex( Vertex(  scale, -scale, -scale,  0.0,  0.0, -0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
+	pMesh->addVertex( Vertex(  scale,  scale, -scale,  0.0,  0.0, -0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
 	
 	//Face 5
-	pMesh->addVertex( Vertex( -scale,  scale,  scale,  0.0,  1.0,  0.0, 1, 0 ) );
-	pMesh->addVertex( Vertex( -scale,  scale, -scale,  0.0,  1.0,  0.0, 1, 1 ) );
-	pMesh->addVertex( Vertex(  scale,  scale, -scale,  0.0,  1.0,  0.0, 0, 1 ) );
-	pMesh->addVertex( Vertex(  scale,  scale,  scale,  0.0,  1.0,  0.0, 0, 0 ) );
+	pMesh->addVertex( Vertex( -scale,  scale,  scale,  0.0,  1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	pMesh->addVertex( Vertex( -scale,  scale, -scale,  0.0,  1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	pMesh->addVertex( Vertex(  scale,  scale, -scale,  0.0,  1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
+	pMesh->addVertex( Vertex(  scale,  scale,  scale,  0.0,  1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
 	
 	//Face 6
-	pMesh->addVertex( Vertex(  scale, -scale,  scale,  0.0, -1.0,  0.0, 1, 0 ) );
-	pMesh->addVertex( Vertex(  scale, -scale, -scale,  0.0, -1.0,  0.0, 1, 1 ) );
-	pMesh->addVertex( Vertex( -scale, -scale, -scale,  0.0, -1.0,  0.0, 0, 1 ) );
-	pMesh->addVertex( Vertex( -scale, -scale,  scale,  0.0, -1.0,  0.0, 0, 0 ) );
+	pMesh->addVertex( Vertex(  scale, -scale,  scale,  0.0, -1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	pMesh->addVertex( Vertex(  scale, -scale, -scale,  0.0, -1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale, -scale, -scale,  0.0, -1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
+	pMesh->addVertex( Vertex( -scale, -scale,  scale,  0.0, -1.0,  0.0 ) );
+	pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
 	
 	//Face 1
 	pMesh->addDrawIndex(0);

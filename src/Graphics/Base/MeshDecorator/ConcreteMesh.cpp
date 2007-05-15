@@ -49,6 +49,7 @@ ConcreteMesh::ConcreteMesh(ConcreteMesh *pMesh){
 	this->m_frontFace = pMesh->m_frontFace;
 	
 	this->m_vetVertex = pMesh->m_vetVertex;
+	this->m_vetTexCoord = pMesh->m_vetTexCoord;
 	this->m_drawIndex = pMesh->m_drawIndex;
 
 	this->m_vetMaterial = pMesh->m_vetMaterial;
@@ -110,10 +111,28 @@ void ConcreteMesh::addVertex(Vertex vertex){
 
 }
 /**
- * Esvazia o vetor de v�tices
+ * Clear the vector of Vertex
  */
 void ConcreteMesh::clearVertex(){
 	m_vetVertex.clear();
+}
+
+void InGE::ConcreteMesh::setTexCoord(vector< Vector2 > vetTexCoord){
+	m_vetTexCoord = vetTexCoord;
+}
+
+void InGE::ConcreteMesh::setTexCoord(Vector2 * vetTexCoord, unsigned int numTexCoord){
+	for (int i = 0; i < numTexCoord; i++){
+		m_vetTexCoord.push_back( vetTexCoord[i] );
+	}
+}
+
+void InGE::ConcreteMesh::addTexCoord(Vector2 texCoord){
+	m_vetTexCoord.push_back( texCoord );
+}
+
+void InGE::ConcreteMesh::clearTexCoord(){
+	m_vetTexCoord.clear();
 }
 
 /**
@@ -232,6 +251,14 @@ unsigned int ConcreteMesh::getNumVertex(){
 	return m_vetVertex.size();
 }
 
+Vector2 * InGE::ConcreteMesh::getTexCoord(unsigned int index){
+	return &m_vetTexCoord[index];
+}
+
+unsigned int InGE::ConcreteMesh::getNumTexCoord(){
+	return m_vetTexCoord.size();
+}
+
 /**
  * @return Retorna o inicio dos indices das faces
  */	
@@ -289,6 +316,7 @@ Mesh *ConcreteMesh::interpolate(Mesh *pMesh, float interpolation){
 	
 	for (unsigned int i = 0; i < m_vetVertex.size(); i++){
 		newMesh->m_vetVertex[i] += ( pConcreteMesh->m_vetVertex[i] - m_vetVertex[i] ) * interpolation;
+// 		newMesh->m_vetTexCoord[i] += m_vetTexCoord[i];
 	}
 	
 	return newMesh;
@@ -313,15 +341,10 @@ void ConcreteMesh::set(bool setup){
 
 	if (!setup){
 		m_vetMaterial[m_currMaterial].apply(InGE_TEXTURE0_ARB);
-		/*
-		drawer->activeTextureARB(InGE_TEXTURE0_ARB);
-		drawer->enable(InGE_TEXTURE_2D);
-		drawer->bindTexture(InGE_TEXTURE_2D, m_vetMaterial[m_currMaterial].getId() );
-		*/
 		
 		drawer->clientActiveTextureARB(InGE_TEXTURE0_ARB);
 		drawer->enableClientState(InGE_TEXTURE_COORD_ARRAY);
-		drawer->texCoordPointer(2, InGE_FLOAT, sizeof(Vertex), m_vetVertex[0].getTextureOffset());
+		drawer->texCoordPointer(2, InGE_FLOAT, sizeof(Vector2), getTexCoord(0) );
 	}
 }
 
@@ -365,3 +388,7 @@ void ConcreteMesh::renderNormals(){
 	
 	drawer->end();
 }
+
+
+
+

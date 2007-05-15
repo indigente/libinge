@@ -40,13 +40,12 @@ namespace InGE{
 	private:
 		Vector3 m_position;
 		Vector3 m_normal;
-		Vector2 m_texCoord;
 	
 	public:
 		Vertex(const Vertex &vet);
-		Vertex(float pX=0.0f, float pY=0.0f, float pZ=0.0f, float nX=0.0f, float nY=0.0f, float nZ=0.0f, float tU=0.0f, float tV=0.0f);
-		Vertex(float pos[3],float nor[3],float tex[2]);
-		Vertex(Vector3 &position, const Vector3 &normal, const Vector2 &texCoord);
+		Vertex(float pX=0.0f, float pY=0.0f, float pZ=0.0f, float nX=0.0f, float nY=0.0f, float nZ=0.0f);
+		Vertex(float pos[3],float nor[3]);
+		Vertex(Vector3 &position, const Vector3 &normal);
 		~Vertex();
 	
 		//Metodos Set
@@ -60,10 +59,6 @@ namespace InGE{
 		void  setNZ (float nZ);
 		void  setNormal (float nX, float nY, float nZ);
 		void  setNormal (const Vector3 &normal);
-		void  setTU (float tX);
-		void  setTV (float tY);
-		void  setTexCoord (float tX, float tY);
-		void  setTexCoord (const Vector2 &texCoord);
 	    
 	    //Metodos Get
 		float  getPX();
@@ -74,11 +69,8 @@ namespace InGE{
 		float  getNY();
 		float  getNZ();
 		Vector3 *getNormal();
-		float  getTU();
-		float  getTV();
-		Vector2 *getTexCoord();
+		
 		float *getPositionOffset();
-		float *getTextureOffset();
 		float *getNormalOffset();
 
 		//Metodos Operadores

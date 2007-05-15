@@ -71,8 +71,6 @@ class IEntity {
 		virtual void updateFromXml(TiXmlElement *xml);
 		virtual void updateAttributes();
 };
-	
-
 
 }
 

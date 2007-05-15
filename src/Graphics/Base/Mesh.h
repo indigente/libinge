@@ -72,6 +72,11 @@ namespace InGE{
 		virtual void addVertex(Vertex vertex) = 0;
 		virtual void clearVertex() = 0;
 		
+		virtual void setTexCoord(vector<Vector2 > vetTexCoord) = 0;
+		virtual void setTexCoord(Vector2 * vetTexCoord, unsigned int numTexCoord) = 0;
+		virtual void addTexCoord(Vector2 texCoord) = 0;
+		virtual void clearTexCoord() = 0;
+		
 		virtual void setDrawIndex(vector<unsigned int> drawIndex) = 0;
 		virtual void setDrawIndex(unsigned int *drawIndex, unsigned int numIndex) = 0;
 		virtual void addDrawIndex(unsigned int drawIndex) = 0;
@@ -89,6 +94,9 @@ namespace InGE{
 
 		virtual Vertex *getVertex(unsigned int index) = 0;
 		virtual unsigned int getNumVertex() = 0;
+		
+		virtual Vector2 *getTexCoord(unsigned int index) = 0;
+		virtual unsigned int getNumTexCoord() = 0;
 		
 		virtual unsigned int *getDrawIndexOffSet() = 0;
 		virtual unsigned int getNumIndex() = 0;

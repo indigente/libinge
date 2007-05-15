@@ -343,14 +343,16 @@ anim_t Md2Model::m_animlist[21]= {
 				pMesh->addMaterial(material);
 					
 				Vertex *vertex;
+				Vector2 *texCoord;
 				float *normal = new float[3];
 				for( int j = 0; j < num_xyz; j++ ){
 					vertex = new Vertex();
 					vertex->setPosition( (frame->verts[j].vertex[0] * frame->scale[0]) + frame->translate[0], (frame->verts[j].vertex[1] * frame->scale[1]) + frame->translate[1], (frame->verts[j].vertex[2] * frame->scale[2]) + frame->translate[2] );
 					normal=&m_anorms[frame->verts[j].lightNormalIndex];
 					vertex->setNormal(normal[0],normal[1],normal[2]);
-//				vertex->setTexCoord([0],[1]);
+// 					texCoord->setUV([0],[1]);
 					pMesh->addVertex(*vertex);
+// 					pMesh->addTexCoord(texCoord);
 				}
 				
 				
@@ -369,8 +371,10 @@ anim_t Md2Model::m_animlist[21]= {
 						pMesh->setDrawMode(InGE_TRIANGLE_FAN);
 					}
 					pMesh->addDrawIndex( m_glcmds[j+3] );
-					vertex = pMesh->getVertex( m_glcmds[j+3] );
-					vertex->setTexCoord((float )m_glcmds[j+1],(float )m_glcmds[j+2]);
+// 					texCoord = pMesh->getTexCoord( m_glcmds[j+3] );
+					texCoord = new Vector2();
+					texCoord->setUV((float )m_glcmds[j+1],(float )m_glcmds[j+2]);
+					pMesh->addTexCoord( *texCoord );
 				
 				}
 				keyFrame.addMesh(pMesh);

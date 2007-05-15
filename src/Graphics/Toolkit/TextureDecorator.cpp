@@ -56,10 +56,15 @@ TextureDecorator::TextureDecorator(const string &filename, IWidget *widget){
 	m_pMesh->setDrawMode(InGE_POLYGON);
 	m_pMesh->setFrontFace(InGE_CW);
 
-	m_pMesh->addVertex( Vertex(  m_x,  m_y + m_h, 0.0, 		0.0, 0.0, 1.0, 0, 1 ) );
-	m_pMesh->addVertex( Vertex(  m_x,  m_y, 0.0,					0.0, 0.0, 1.0, 0, 0 ) );
-	m_pMesh->addVertex( Vertex( m_x + m_w, m_y, 0.0, 			0.0, 0.0, 1.0, 1, 0 ) );
-	m_pMesh->addVertex( Vertex( m_x + m_w,  m_y + m_h, 0.0,	0.0, 0.0, 1.0, 1, 1 ) );
+	
+	m_pMesh->addVertex( Vertex(  m_x,  m_y + m_h,		0.0, 0.0, 0.0, 1.0 ) );
+	m_pMesh->addTexCoord( Vector2( 0.0, 1.0 ) );
+	m_pMesh->addVertex( Vertex(  m_x,  m_y,				0.0, 0.0, 0.0, 1.0 ) );
+	m_pMesh->addTexCoord( Vector2( 0.0, 0.0 ) );
+	m_pMesh->addVertex( Vertex( m_x + m_w, m_y,			0.0, 0.0, 0.0, 1.0 ) );
+	m_pMesh->addTexCoord( Vector2( 1.0, 0.0 ) );
+	m_pMesh->addVertex( Vertex( m_x + m_w,  m_y + m_h, 0.0, 0.0, 0.0, 1.0 ) );
+	m_pMesh->addTexCoord( Vector2( 1.0, 1.0 ) );
 
 	//Face 1
 	m_pMesh->addDrawIndex(0);

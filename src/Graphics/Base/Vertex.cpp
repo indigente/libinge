@@ -35,39 +35,34 @@ using namespace InGE;
 Vertex::Vertex(const Vertex &vet){
 	m_position = vet.m_position;
 	m_normal = vet.m_normal;
-	m_texCoord = vet.m_texCoord;
 }
 
-Vertex::Vertex(Vector3 &position, const Vector3 &normal, const Vector2 &texCoord){
+Vertex::Vertex(Vector3 &position, const Vector3 &normal){
 	m_position = position;
 	m_normal = normal;
-	m_texCoord = texCoord;
 }
 
 
-Vertex::Vertex(float pX, float pY, float pZ, float nX, float nY, float nZ, float tU, float tV){
+Vertex::Vertex(float pX, float pY, float pZ, float nX, float nY, float nZ){
 	m_position[0] = pX;
 	m_position[1] = pY;
 	m_position[2] = pZ;
 	m_normal[0] = nX;
 	m_normal[1] = nY;
 	m_normal[2] = nZ;
-	m_texCoord[0] = tU;
-	m_texCoord[1] = tV;
 }
 
-Vertex::Vertex(float pos[3],float nor[3],float tex[2]){
+Vertex::Vertex(float pos[3],float nor[3]){
 	this->setPX(pos[0]);
 	this->setPY(pos[1]);
 	this->setPZ(pos[2]);
 	this->setNX(nor[0]);
 	this->setNY(nor[1]);
-	this->setTU(tex[0]);
-	this->setTV(tex[1]);
+	this->setNZ(nor[2]);
 }
 
-Vertex::~Vertex()
-{}
+Vertex::~Vertex(){
+}
 
 //Metodos Set
 void  Vertex::setPX (float pX){
@@ -96,6 +91,10 @@ void  Vertex::setNX (float nX){
 void  Vertex::setNY (float nY){
 	m_normal[1] = nY;
 }
+void  Vertex::setNZ (float nZ){
+	m_normal[2] = nZ;
+}
+
 void  Vertex::setNormal (float nX, float nY, float nZ){
 	m_normal[0] = nX;
 	m_normal[1] = nY;
@@ -106,21 +105,7 @@ void  Vertex::setNormal (const Vector3 &normal){
 	m_normal = normal;
 }
 
-void  Vertex::setTU (float tU){
-	m_texCoord[0] = tU;
-}
-void  Vertex::setTV (float tV){
-	m_texCoord[1] = tV;
-}
-void  Vertex::setTexCoord (float tU, float tV){
-	m_texCoord[0] = tU;
-	m_texCoord[1] = tV;
-}
 
-void  Vertex::setTexCoord(const Vector2 &texCoord){
-	m_texCoord = texCoord;
-}
-    
 //Metodos Get
 float  Vertex::getPX (){
 	return m_position[0];
@@ -153,23 +138,8 @@ Vector3 *Vertex::getNormal(){
 	return &m_normal;
 }
 
-float  Vertex::getTU (){
-	return m_texCoord[0];
-}
-float  Vertex::getTV (){
-	return m_texCoord[1];
-}
-
-Vector2 *Vertex::getTexCoord (){
-	return &m_texCoord;
-}
-
 float *Vertex::getPositionOffset(){
 	return &m_position[0];
-}
-
-float *Vertex::getTextureOffset(){
-	return &m_texCoord[0];
 }
 
 float *Vertex::getNormalOffset(){
@@ -181,8 +151,7 @@ Vertex Vertex::operator+(const Vertex &vert) const{
 	Vertex vertRet;
 	vertRet = *this;
 	vertRet.m_position += vert.m_position;
-	vertRet.m_texCoord += vert.m_texCoord;						
-	vertRet.m_normal += vert.m_normal;						
+	vertRet.m_normal += vert.m_normal;
 	return vertRet;
 }
 
@@ -190,8 +159,7 @@ Vertex Vertex::operator-(const Vertex &vert) const{
 	Vertex vertRet;
 	vertRet = *this;
 	vertRet.m_position -= vert.m_position;
-	vertRet.m_texCoord -= vert.m_texCoord;						
-	vertRet.m_normal -= vert.m_normal;						
+	vertRet.m_normal -= vert.m_normal;
 	return vertRet;
 }
 
@@ -200,41 +168,35 @@ Vertex Vertex::operator*(float f) const{
 	Vertex vertRet;
 	vertRet = *this;
 	vertRet.m_position *= f;
-	vertRet.m_texCoord *= f;						
-	vertRet.m_normal *= f;						
+	vertRet.m_normal *= f;
 	return vertRet;
 }
 
 Vertex &Vertex::operator=(const Vertex &vert){
 	m_position = vert.m_position;
 	m_normal = vert.m_normal;
-	m_texCoord = vert.m_texCoord;
 	return *this;
 }
 
 Vertex *Vertex::operator=( Vertex *vert){
 	m_position = vert->m_position;
 	m_normal = vert->m_normal;
-	m_texCoord = vert->m_texCoord;
 	return this;
 }
 
 Vertex &Vertex::operator+=(const Vertex &vert){
 	m_position += vert.m_position;
-	m_texCoord += vert.m_texCoord;						
-	m_normal += vert.m_normal;						
+	m_normal += vert.m_normal;
 	return *this;
 }
 Vertex &Vertex::operator-=(const Vertex &vert){
 	m_position -= vert.m_position;
-	m_texCoord -= vert.m_texCoord;						
-	m_normal -= vert.m_normal;						
+	m_normal -= vert.m_normal;
 	return *this;
 }
 Vertex &Vertex::operator*=(float f){
 	m_position *= f;
-	m_texCoord *= f;						
-	m_normal *= f;						
+	m_normal *= f;
 	return *this;
-}		
+}
 

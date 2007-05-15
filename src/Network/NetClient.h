@@ -51,7 +51,7 @@ namespace InGE {
 	@author Garou <kdubezerra@gmail.com>
 */
 class NetClient{
-	private:
+	protected:
 		static NetClient* m_pNetClient;
 		
 		SDL_Thread* m_pThreadReceiver;
@@ -104,6 +104,10 @@ class NetClient{
 		
 		void answerPing();
 		
+		virtual bool handleMessage(TiXmlElement* msg);
+		
+		SDL_Thread *createThread(int (*method)(void *));
+		
 		NetClient();
 	public:
 		
@@ -114,9 +118,7 @@ class NetClient{
 		/** INTERFACE PRINCIPAL (DEVE SER CHAMADO NESSA ORDEM) : **/
 		
 		void startClient(); //abre o socket, basicamente
-		
 		int connectToServer(string ip_address, unsigned short port); //retorna o ID
-		
 		void startReceiver(); //inicializa a thread de recebimento
 		
 		/* PODE-SE ESCOLHER ENTRE ENVIO SINCRONO, ASSINCRONO, OU AMBOS :) */
@@ -124,43 +126,28 @@ class NetClient{
 		void asyncSend(); //manda todas as entidades a qq momento
 		
 		void disconnectFromServer();
-		
 		void stopEverything(); //para tudo, deixando o client "zerado", como recem-instanciado		
 		
 		
 		/** PEGAR E SETAR ATRIBUTOS E ESTADOS : **/
-		
 		void setName(std::string name); //o jogador define seu nome na net
-		
 		int getId(); //retorna a m_myNetId		
-		
 		string getName(); //retorna o m_myNetName
-		
 		string getScene(); //retorna o cenario que o servidor lhe deu, quando conectou
-		
 		bool isConnected(); //retorna m_isConnected
-		
 		
 		/** INTERFACE PARA USO E ENVIO E RECEBIMENTO DE CUSTOM MESSAGES : **/
 		
 		bool sendCustomMessage (NetCustomMessage* cus_msg , bool toSelf=false);
-		
 		NetCustomMessage* nextCustomMessage(); //por enquanto, o metodo nao deleta
-																	 //a msg, apenas remove do vetor 
-		
+															 //a msg, apenas remove do vetor 
 		
 		/** METODOS QUE PROVAVELMENTE TORNEM-SE PRIVADOS : **/
 		bool addEntityToNet(IEntity* ent); //verificar pro cara nao inserir duas vezes. 
 		bool rmEntityFromNet(IEntity* ent);  //retorna true se removeu, false se por algum motivo nao
 		
-		
 		/** METODOS QUE PROVAVELMENTE TORNEM-SE INEXISTENTES... : **/
 		void activateDeadReckoning(); //ativa o deadReckoning
-		
-    
-		
-		
-
 };
 
 }

@@ -49,13 +49,13 @@ Mesh *RollTexture::interpolate(Mesh *pMesh, float interpolation){
 }
 
 void RollTexture::set(bool setup){
-	Vertex *vertex;
+	Vector2 *texCoord;
 	float tu, tv;
 	for (unsigned int i = 0; i < m_component->getNumVertex(); i++){
-		vertex = m_component->getVertex(i);
-		tu = vertex->getTU() + m_vetRollSpeed[i % m_vetRollSpeed.size()]->getX();
-		tv = vertex->getTV() + m_vetRollSpeed[i % m_vetRollSpeed.size()]->getY();
-		vertex->setTexCoord(tu, tv);
+		texCoord = m_component->getTexCoord(i);
+		tu = texCoord->getU() + m_vetRollSpeed[i % m_vetRollSpeed.size()]->getU();
+		tv = texCoord->getV() + m_vetRollSpeed[i % m_vetRollSpeed.size()]->getV();
+		texCoord->setUV(tu, tv);
 	}	
 	m_component->set(setup);
 }

@@ -52,6 +52,11 @@ class MeshDecorator : public InGE::Mesh {
 		void addVertex(Vertex vertex);
 		void clearVertex();
 		
+		void setTexCoord(vector<Vector2 > vetTexCoord);
+		void setTexCoord(Vector2 * vetTexCoord, unsigned int numTexCoord);
+		void addTexCoord(Vector2 texCoord);
+		void clearTexCoord();
+		
 		void setDrawIndex(vector<unsigned int> drawIndex);
 		void setDrawIndex(unsigned int *drawIndex, unsigned int numIndex);
 		void addDrawIndex(unsigned int drawIndex);
@@ -69,6 +74,9 @@ class MeshDecorator : public InGE::Mesh {
 
 		Vertex *getVertex(unsigned int index);
 		unsigned int getNumVertex();
+		
+		Vector2 *getTexCoord(unsigned int index);
+		unsigned int getNumTexCoord();
 		
 		unsigned int *getDrawIndexOffSet();
 		unsigned int getNumIndex();

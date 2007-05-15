@@ -418,6 +418,7 @@ bool BspScene::load(string filename){
 
 void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *pVerts){
 	Vertex *pVertex;
+	vector<Vector2 > vetTexCoord;
 	vector<Vector2 > vetLightmapCoord;
 	BspVertex *currVertex;
 	int j;
@@ -431,8 +432,10 @@ void BspScene::loadMeshs(BspMeshVertex *pMeshVerts, BspFace *pFaces, BspVertex *
 			currVertex = &pVerts[pFaces[j].startVertIndex + k];
 			vetLightmapCoord.push_back(currVertex->vLightmapCoord);
 
-			pVertex = new Vertex(currVertex->vPosition, currVertex->vNormal, currVertex->vTextureCoord);
+			pVertex = new Vertex(currVertex->vPosition, currVertex->vNormal);
+		
 			m_vMeshs[j]->addVertex(*pVertex);
+			m_vMeshs[j]->addTexCoord(currVertex->vTextureCoord);
 		}
 
 		m_vMeshs[j]->setDrawIndex( (unsigned int*) &pMeshVerts[pFaces[j].meshVertIndex], pFaces[j].numMeshVerts);

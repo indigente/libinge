@@ -48,7 +48,7 @@ void MultiTexture::set(bool setup){
 	drawer->bindTexture( InGE_TEXTURE_2D, m_texture.getId() );
 	
 	drawer->clientActiveTextureARB(InGE_TEXTURE2_ARB);
-	drawer->texCoordPointer(2, InGE_FLOAT, sizeof(Vertex), m_component->getVertex(0)->getTextureOffset());
+	drawer->texCoordPointer(2, InGE_FLOAT, sizeof(Vector2), getTexCoord(0));
 	drawer->enableClientState(InGE_TEXTURE_COORD_ARRAY);
 }
 

@@ -165,7 +165,6 @@ AudioSource *Object3D::getAudioSource(){
 
 
 void Object3D::rotate(float angle, Vector3 &axis){
-	
 	Vector3 newView;
 	
 	Quaternion quaternion(angle, axis);

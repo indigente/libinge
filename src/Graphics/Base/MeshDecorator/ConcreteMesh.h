@@ -39,10 +39,12 @@ class ConcreteMesh : public InGE::Mesh {
 		string			m_name;	// Nome do Mesh
 		EnumDrawer		m_drawMode;
 		
-		bool			m_cullFace;
+		bool				m_cullFace;
 		EnumDrawer		m_frontFace;
 		
 		vector<Vertex>		m_vetVertex;
+		vector<Vector2 >	m_vetTexCoord;
+
 		vector<unsigned int>	m_drawIndex;	// Indices das faces, numero de faces = m_numIndex / 3
 		vector<MaterialInfo >	m_vetMaterial;	// Informa�es das texturas
 
@@ -66,6 +68,11 @@ class ConcreteMesh : public InGE::Mesh {
 		void addVertex(Vertex vertex);
 		void clearVertex();
 		
+		void setTexCoord(vector<Vector2 > vetTexCoord);
+		void setTexCoord(Vector2 * vetTexCoord, unsigned int numTexCoord);
+		void addTexCoord(Vector2 texCoord);
+		void clearTexCoord();
+		
 		void setDrawIndex(vector<unsigned int> drawIndex);
 		void setDrawIndex(unsigned int *drawIndex, unsigned int numIndex);
 		void addDrawIndex(unsigned int drawIndex);
@@ -83,6 +90,9 @@ class ConcreteMesh : public InGE::Mesh {
 
 		Vertex *getVertex(unsigned int index);
 		unsigned int getNumVertex();
+		
+		Vector2 *getTexCoord(unsigned int index);
+		unsigned int getNumTexCoord();
 		
 		unsigned int *getDrawIndexOffSet();
 		unsigned int getNumIndex();
