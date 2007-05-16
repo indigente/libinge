@@ -170,14 +170,25 @@ void BspScene::renderLeaf(int leafIndex){
 			if ( m_vMeshs[meshIndex]->getBlend() ){
 				vMeshBlend.push_back(m_vMeshs[meshIndex]);
 			} else {
-				m_vMeshs[meshIndex]->draw();
+				Mesh *mesh = m_vMeshs[meshIndex];
+				if (isMeshVisible(mesh))
+					mesh->draw();
 			}
 		}
 
 	}
 	for (unsigned int i = 0; i < vMeshBlend.size(); i++){
-		m_vMeshs[i]->draw();
+		Mesh *mesh = m_vMeshs[i];
+		if (isMeshVisible(mesh))
+			mesh->draw();
 	}
+}
+
+bool BspScene::isMeshVisible(Mesh *mesh) {
+	if (mesh)
+		return mesh->getMaterial().getFileName().find("/common/") == string::npos;
+	else
+		return false;
 }
 
 int BspScene::isClusterVisible(int current, int test){
@@ -875,7 +886,7 @@ vector<BspBrush*> InGE::BspScene::getCollidedBrushes() {
 BspTexture &InGE::BspScene::getTexture(int textureID) {
 	static BspTexture invalidTexture;
 	
-	if (textureID < m_info.numOfTextures && textureID > 0)
+	if (textureID < m_info.numOfTextures && textureID >= 0)
 		return m_info.pTextures[textureID];
 	else
 		return invalidTexture;

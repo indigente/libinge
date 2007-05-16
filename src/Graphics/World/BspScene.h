@@ -159,6 +159,7 @@ namespace InGE{
 		void renderLeaf(int nodeIndex);
 		
 		int isClusterVisible(int current, int test);
+		bool isMeshVisible(Mesh *mesh);
 
 	  	// Metodos de colisao
 		PhysicalContactPoint* checkNode(int nodeIndex, PhysicalContactPoint *moveData, double startFraction, double endFraction, Vector3 start, Vector3 end);
