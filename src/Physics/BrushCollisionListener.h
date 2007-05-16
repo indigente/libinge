@@ -26,7 +26,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define INGEBRUSHCOLLISIONLISTENER_H
 
 #include <vector>
-#include "../../Graphics/World/BspScene.h"
+#include "../Graphics/World/BspScene.h"
 
 
 using namespace std;
