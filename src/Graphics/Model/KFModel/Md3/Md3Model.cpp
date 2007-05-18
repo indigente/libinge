@@ -45,6 +45,12 @@ Md3Model::Md3Model(string bodyPart, map<string, vector<KeyFrame *> > mapAnim){
 
 
 Md3Model::~Md3Model(){
+	m_mapModel.clear();
+	m_vetMaterial.clear();
+	m_vetVolumeInfo.clear();
+	m_mapAnim.clear();
+	m_mapEntityAnim.clear();
+
 }
 
 /**
