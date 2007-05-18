@@ -39,7 +39,7 @@ Player::Player(Avatar *avatar, ICamera *pCamera){
 	m_pAvatar = avatar;
 	m_pAudioListener = AudioManager::getInstance()->getListener();
 	m_pStream = NULL;
-	mPick = false;	
+	mPick = true;	
 	
 	if (pCamera){
 		m_pCamera = pCamera;

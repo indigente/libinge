@@ -130,7 +130,9 @@ void RenderManager::render(ICamera *pCamera){
 	//Renderiza o Cen�io.
 	if(m_pScene) m_pScene->renderLevel(pCamera->getPosition(), m_frustum);
 
-	
+	glInitNames();
+	glPushName(0);
+		
 	drawOpaqueObjects();
 	drawBlendingObjects();
 	
@@ -237,8 +239,8 @@ void RenderManager::drawGUI(){
         int w = surface->w;
         int h = surface->h;
 
-        float pos[] = { w/2, h/2, 600.0f, 0.0f };//FIXME: Armengue pra iluminação da GUI
-        glLightfv(GL_LIGHT0, GL_POSITION, pos);//FIXME: Armengue pra iluminação da GUI
+        //float pos[] = { w/2, h/2, 600.0f, 0.0f };//FIXME: Armengue pra iluminação da GUI
+        //glLightfv(GL_LIGHT0, GL_POSITION, pos);//FIXME: Armengue pra iluminação da GUI
 
         drawer->ortho(0,w,h,0,0,1);
 
@@ -292,4 +294,31 @@ IWidget *RenderManager::pGetWidget(string& widgetName){
  * @param param 
  */
 void InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
+	int objectsFound = 0;
+	int viewportCoords[4] = {0};
+	unsigned int selectBuffer[32] = {0};
+	
+	cerr << "entrei na funcao RenderManager::pick!" << endl;
+	
+	glSelectBuffer(32, selectBuffer);
+	glGetIntegerv(GL_VIEWPORT, viewportCoords);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glRenderMode(GL_SELECT);
+	glLoadIdentity();
+	gluPickMatrix(param->x, viewportCoords[3] - param->y, 2, 2, viewportCoords);
+	gluPerspective(45.0f,1.333,0.1f,150.0f);
+	glMatrixMode(GL_MODELVIEW);
+	
+	render(camera);
+	
+	objectsFound = glRenderMode(GL_RENDER);
+	
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	
+	if (objectsFound > 0){
+		cerr << "SOMETHING WAS PICKED!!!" << endl;
+	}
 }

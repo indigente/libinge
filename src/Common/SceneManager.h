@@ -44,6 +44,9 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace InGE{
 	
+	/**
+	 * Class that controls the main loop of the game
+	 */
 	class SceneManager : public InGE::IControlLayerListener{
 		private:
 			static SceneManager	*m_pSceneManager;

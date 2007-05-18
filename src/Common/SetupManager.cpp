@@ -9,6 +9,11 @@ using std::endl;
 SetupManager *SetupManager::m_setupManager = NULL;
 SDL_Surface *g_screen = NULL;
 
+/**
+ * Initializes basic OpenGL settings
+ * @param width horizontal screen resolution
+ * @param height vertical screen resolution
+ */
 void SetupManager::setupOpenGL(int width, int height){
 	Drawer *drawer = Drawer::getInstance();
 	float ratio = (float) width / (float) height;
@@ -40,6 +45,14 @@ void SetupManager::setupOpenGL(int width, int height){
 	
 }
 
+/**
+ * Initializes basic SDL settings
+ * @param width horizontal screen resolution
+ * @param height vertical screen resolution
+ * @param bpp bits per pixel (pixel depth)
+ * @param fullscreen defines whether the application will start in fullscreen
+ * @return 0 if everything goes ok, or 1 if there's an error
+ */
 int SetupManager::init(int width, int height, int bpp, bool fullscreen){
 	int videoFlags=SDL_OPENGL;
 	if (fullscreen)
@@ -88,16 +101,25 @@ int SetupManager::init(int width, int height, int bpp, bool fullscreen){
 	return 0;
 }
 
+/**
+ * Returns a reference to the single instance of this class. If there's no instance yet, one will be created.
+ * @return reference to the single instance of this class
+ */
 SetupManager *SetupManager::getInstance(){
 	if(!m_setupManager) m_setupManager = new SetupManager();
 	
 	return m_setupManager;
 }
 
-
+/**
+ * Class Constructor
+ */
 SetupManager::SetupManager(){
 }
 
+/**
+ * Class Destructor
+ */
 SetupManager::~SetupManager(){
 	
 }

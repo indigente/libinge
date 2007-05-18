@@ -31,6 +31,9 @@ using namespace InGE;
 SceneManager *SceneManager::m_pSceneManager = 0;
 
 
+/**
+ * Class Constructor
+ */
 SceneManager::SceneManager(){
 	m_state = InGE_SCENE_STARTED;
 	m_pRenderManager = NULL;
@@ -40,10 +43,16 @@ SceneManager::SceneManager(){
 	m_isWire = false;
 }
 
-
+/**
+ * Class Destructor
+ */
 SceneManager::~SceneManager(){
 }
 
+/**
+ * Returns the instance
+ * @return 
+ */
 SceneManager *SceneManager::getInstance(){
 	if(!m_pSceneManager){
 		m_pSceneManager = new SceneManager();
