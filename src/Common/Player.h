@@ -40,6 +40,7 @@ class Player{
 		AudioListener	*m_pAudioListener;
 		AudioSource		*m_pStream;
 		ICamera			*m_pCamera;
+		RenderManager	*m_pRenderManager;
 		
 		bool		mPick;
 				

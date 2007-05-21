@@ -29,7 +29,7 @@ using namespace InGE;
 using namespace std;
 
 /**
- * Contrutor de Player
+ * Construtor de Player
  * @param PhysicalWorld *pw -Mundo Fisico onde o Corpo ser�inserido
  * @param  IModel *pModel - Modelo do Player
  * @param  IScene *pScene - Scenario onde o Player ser�inserido

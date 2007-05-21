@@ -35,14 +35,13 @@ void SetupManager::setupOpenGL(int width, int height){
 	drawer->matrixMode(InGE_PROJECTION);
 	drawer->loadIdentity();
 
-	drawer->perspective(70.0f,ratio, 0.1f ,10000.0f);
+	drawer->perspective(70.0f,ratio, 0.1f ,10000.0f); //Devemos poder configurar isso de algum lugar?
 	
 	drawer->enable(InGE_CULL_FACE);
 	drawer->cullFace(InGE_FRONT);
 	
 	drawer->matrixMode(GL_MODELVIEW);
 	drawer->loadIdentity();
-	
 }
 
 /**

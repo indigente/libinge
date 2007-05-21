@@ -191,7 +191,7 @@ void RenderManager::drawOpaqueObjects(){
 		if (*itOb){
 			Vector3 position = (*itOb)->getPosition();
 //			if(m_frustum.isPointInFrustum(position) ){
-				glLoadName(i++); //FIXME: Mudar para função em Drawer
+ 				glLoadName(i++); //FIXME: Mudar para função em Drawer
 				(*itOb)->draw();
 				drawer->end();
 // 		}
@@ -291,9 +291,10 @@ IWidget *RenderManager::pGetWidget(string& widgetName){
 /**
  * Checks for picked objects
  * @param camera 
- * @param param 
+ * @param param
+ * @return id of the picked object
  */
-void InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
+int InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
 	int objectsFound = 0;
 	int viewportCoords[4] = {0};
 	unsigned int selectBuffer[32] = {0};
@@ -319,6 +320,23 @@ void InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
 	glMatrixMode(GL_MODELVIEW);
 	
 	if (objectsFound > 0){
-		cerr << "SOMETHING WAS PICKED!!!" << endl;
+		unsigned int lowestDepth = selectBuffer[1];
+		int selectedObject = selectBuffer[3];
+		for(int i = 1; i < objectsFound; i++)
+		{
+			if(selectBuffer[(i * 4) + 1] < lowestDepth)
+			{
+                // Set the current lowest depth
+				lowestDepth = selectBuffer[(i * 4) + 1];
+
+                // Set the current object ID
+				selectedObject = selectBuffer[(i * 4) + 3];
+			}
+		}
+        // Return the selected object
+		cerr << "SOMETHING WAS PICKED!!! id: " << selectedObject << endl;
+		return selectedObject;
 	}
+    // We didn't click on any objects so return 0
+	return 0;
 }
