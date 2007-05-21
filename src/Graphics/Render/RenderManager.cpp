@@ -239,9 +239,6 @@ void RenderManager::drawGUI(){
         int w = surface->w;
         int h = surface->h;
 
-        //float pos[] = { w/2, h/2, 600.0f, 0.0f };//FIXME: Armengue pra iluminação da GUI
-        //glLightfv(GL_LIGHT0, GL_POSITION, pos);//FIXME: Armengue pra iluminação da GUI
-
         drawer->ortho(0,w,h,0,0,1);
 
         list<IWidget*>::iterator itWdg;
