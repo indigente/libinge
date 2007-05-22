@@ -131,7 +131,7 @@ void RenderManager::render(ICamera *pCamera){
 	if(m_pScene) m_pScene->renderLevel(pCamera->getPosition(), m_frustum);
 
 	glInitNames();
-	glPushName(0);
+	//glPushName(0);
 		
 	drawOpaqueObjects();
 	drawBlendingObjects();
@@ -189,11 +189,12 @@ void RenderManager::drawOpaqueObjects(){
 	int i = 0;
 	for(itOb = m_listOpaqueObjects.begin();itOb != m_listOpaqueObjects.end(); itOb++){
 		if (*itOb){
-			Vector3 position = (*itOb)->getPosition();
+//			Vector3 position = (*itOb)->getPosition();
 //			if(m_frustum.isPointInFrustum(position) ){
- 				glLoadName(i++); //FIXME: Mudar para função em Drawer
+ 				glPushName(i++); //FIXME: Mudar para função em Drawer
 				(*itOb)->draw();
 				drawer->end();
+				glPopName();
 // 		}
 		}
 	}
@@ -206,11 +207,12 @@ void RenderManager::drawBlendingObjects(){
 	int i = 0;
 	for(itOb = m_listBlendingObjects.begin();itOb != m_listBlendingObjects.end(); itOb++){
 		if (*itOb){
-			Vector3 position = (*itOb)->getPosition();
+//			Vector3 position = (*itOb)->getPosition();
 //			if(m_frustum.isPointInFrustum(position) ){
-				glLoadName(i++); //FIXME: Mudar para função em Drawer
+				glPushName(i++); //FIXME: Mudar para função em Drawer
 				(*itOb)->draw();
 				drawer->end();
+				glPopName();
 // 		}
 		}
 	}
