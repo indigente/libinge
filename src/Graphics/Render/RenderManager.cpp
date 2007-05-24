@@ -297,7 +297,8 @@ int InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
 	int objectsFound = 0;
 	int viewportCoords[4] = {0};
 	unsigned int selectBuffer[32] = {0};
-	
+	Drawer *drawer = Drawer::getInstance();
+
 	cerr << "entrei na funcao RenderManager::pick!" << endl;
 	
 	glSelectBuffer(32, selectBuffer);
@@ -310,7 +311,44 @@ int InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
 	gluPerspective(45.0f,1.333,0.1f,150.0f);
 	glMatrixMode(GL_MODELVIEW);
 	
-	render(camera);
+
+	if(!camera) return -1;
+
+	// Limpar o Buffer e carrega a matriz identidade
+	drawer->clear();
+	
+	//calcDinamicLights();
+	
+	// Posiciona a camera
+	drawer->lookAt( camera->getPosition(), camera->getViewPoint(), camera->getUp());
+	
+	//calcStaticLights();
+	
+	m_frustum.calculeFrustum();
+	
+	drawer->enable( InGE_CULL_FACE );
+	drawer->cullFace( InGE_BACK );
+	drawer->frontFace(InGE_CW);
+
+	
+	drawer->enableClientState(InGE_NORMAL_ARRAY);
+	drawer->enableClientState(InGE_VERTEX_ARRAY);
+	
+	//Renderiza o Cen�io.
+	//if(m_pScene) m_pScene->renderLevel(pCamera->getPosition(), m_frustum);
+
+	glInitNames();
+	//glPushName(0);
+		
+	drawOpaqueObjects();
+	drawBlendingObjects();
+	
+	//drawGUI();
+
+
+	// Troca o Buffer do Double Buffer
+	drawer->swapBuffers();
+	//render(camera);
 	
 	objectsFound = glRenderMode(GL_RENDER);
 	
