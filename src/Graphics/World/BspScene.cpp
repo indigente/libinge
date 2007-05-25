@@ -170,6 +170,13 @@ void BspScene::renderLeaf(int leafIndex){
 			if ( m_vMeshs[meshIndex]->getBlend() ){
 				vMeshBlend.push_back(m_vMeshs[meshIndex]);
 			} else {
+				int leafBrushID = leaf.leafBrush;
+				int brushID = m_info.pLeafBrushes[leafBrushID];
+				BspBrush &brush = m_info.pBrushes[brushID];
+				int textureID = m_info.pBrushes[brushID].textureID;
+				BspTexture &texture = m_info.pTextures[textureID];
+				//printf("TextureName = %s, contents = %x, flags = %x\n", texture.strName, texture.contents, texture.flags);
+				
 				Mesh *mesh = m_vMeshs[meshIndex];
 				if (isMeshVisible(mesh))
 					mesh->draw();
@@ -185,10 +192,12 @@ void BspScene::renderLeaf(int leafIndex){
 }
 
 bool BspScene::isMeshVisible(Mesh *mesh) {
-	if (mesh)
-		return mesh->getMaterial().getFileName().find("/common/") == string::npos;
-	else
+	if (!mesh)
 		return false;
+
+	
+
+	return mesh->getMaterial().getFileName().find("/common/") == string::npos;
 }
 
 int BspScene::isClusterVisible(int current, int test){
@@ -611,6 +620,7 @@ PhysicalContactPoint* BspScene::checkNode(int nodeIndex, PhysicalContactPoint *m
 		for (int i = 0; i < leaf.numOfLeafBrushes; i++){
 			BspBrush &brush = m_info.pBrushes[m_info.pLeafBrushes[leaf.leafBrush + i]];
 			// Checa se o brush eh valido e	 material pra colisao
+			printf("contents: %d\n", m_info.pTextures[brush.textureID].contents);
 			if((brush.numOfBrushSides > 0) && (((m_info.pTextures[brush.textureID].contents)&1)||((m_info.pTextures[brush.textureID].contents)&0x10000))){
 
 				moveData = checkBrush(brush, moveData);
