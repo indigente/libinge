@@ -817,7 +817,7 @@ NetClient::~NetClient(){ // rever isso -> NetControl.cpp?
 }
 
 bool InGE::NetClient::handleMessage(TiXmlElement * msg){
-	cout << "Client Pai" << endl;
+//	cout << "Client Pai" << endl;
 	return false;
 }
 

@@ -390,7 +390,7 @@ void NetServer::checkClientsTimeOut(){
 
 
 bool NetServer::handleMessage(TiXmlElement* msg) {
-	cout << "Server Pai" << endl;
+//	cout << "Server Pai" << endl;
 	return false;
 } 
 

@@ -296,60 +296,44 @@ IWidget *RenderManager::pGetWidget(string& widgetName){
 int InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
 	int objectsFound = 0;
 	int viewportCoords[4] = {0};
-	unsigned int selectBuffer[32] = {0};
+	unsigned int selectBuffer[256] = {0}; //Buffer capable of holding 64 objects with 4 params (256 = 4 * 64)
 	Drawer *drawer = Drawer::getInstance();
 
-	cerr << "entrei na funcao RenderManager::pick!" << endl;
+	if(!camera) return -1;
+
+	//cerr << "entrei na funcao RenderManager::pick!" << endl;
 	
-	glSelectBuffer(32, selectBuffer);
+	glSelectBuffer(256, selectBuffer);
 	glGetIntegerv(GL_VIEWPORT, viewportCoords);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glRenderMode(GL_SELECT);
 	glLoadIdentity();
 	gluPickMatrix(param->x, viewportCoords[3] - param->y, 2, 2, viewportCoords);
-	gluPerspective(45.0f,1.333,0.1f,150.0f);
+	gluPerspective(45.0f,1,0.1f,10000.0f);
 	glMatrixMode(GL_MODELVIEW);
 	
-
-	if(!camera) return -1;
-
-	// Limpar o Buffer e carrega a matriz identidade
 	drawer->clear();
-	
-	//calcDinamicLights();
-	
-	// Posiciona a camera
 	drawer->lookAt( camera->getPosition(), camera->getViewPoint(), camera->getUp());
-	
-	//calcStaticLights();
-	
+		
 	m_frustum.calculeFrustum();
 	
 	drawer->enable( InGE_CULL_FACE );
 	drawer->cullFace( InGE_BACK );
 	drawer->frontFace(InGE_CW);
-
 	
 	drawer->enableClientState(InGE_NORMAL_ARRAY);
 	drawer->enableClientState(InGE_VERTEX_ARRAY);
 	
-	//Renderiza o Cen�io.
-	//if(m_pScene) m_pScene->renderLevel(pCamera->getPosition(), m_frustum);
-
 	glInitNames();
-	//glPushName(0);
-		
+			
 	drawOpaqueObjects();
 	drawBlendingObjects();
 	
 	//drawGUI();
-
-
-	// Troca o Buffer do Double Buffer
-	drawer->swapBuffers();
-	//render(camera);
 	
+	drawer->swapBuffers();
+		
 	objectsFound = glRenderMode(GL_RENDER);
 	
 	glMatrixMode(GL_PROJECTION);
@@ -363,17 +347,15 @@ int InGE::RenderManager::pick(ICamera * camera, ControlParam * param){
 		{
 			if(selectBuffer[(i * 4) + 1] < lowestDepth)
 			{
-                // Set the current lowest depth
+				// Set the current lowest depth
 				lowestDepth = selectBuffer[(i * 4) + 1];
-
-                // Set the current object ID
+				// Set the current object ID
 				selectedObject = selectBuffer[(i * 4) + 3];
 			}
 		}
-        // Return the selected object
 		cerr << "SOMETHING WAS PICKED!!! id: " << selectedObject << endl;
+		// Return the selected object
 		return selectedObject;
 	}
-    // We didn't click on any objects so return 0
 	return 0;
 }
