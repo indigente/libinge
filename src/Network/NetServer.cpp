@@ -191,9 +191,6 @@ int NetServer::activeServer (void *instance ){
 			SDL_Delay(NetControl::M_RECEIVER_DELAY); //1/200th of a second
 		}
 
-		if (data) 
-			delete [] data;
-		
 		if (pNetServer->m_stopServer)
 			break;
 
@@ -206,6 +203,9 @@ int NetServer::activeServer (void *instance ){
 		xmlContainer->Parse( data );
 		netMsg = xmlContainer->RootElement();
 // 		cout << "Server: \t" << *netMsg << endl;
+
+		if (data) 
+			delete [] data;
 
 		if ( pNetServer->handleMessage(netMsg) ) continue;
 
@@ -245,7 +245,6 @@ int NetServer::activeServer (void *instance ){
 
 	SDLNet_FreePacket(inPacket);
 	if (xmlContainer) delete (xmlContainer);
-	if (data) delete [] data;
 
 	return 0;
 }

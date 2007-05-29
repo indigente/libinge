@@ -155,7 +155,7 @@ int NetClient::receiver (void* instance){ /** CRITICA **/
 	SDLNet_FreePacket( in_packet );
 	if ( xmlcontainer ) 
 		delete ( xmlcontainer );
-	
+
 	return 0;
 }
 

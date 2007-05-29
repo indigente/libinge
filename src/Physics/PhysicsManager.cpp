@@ -128,8 +128,9 @@ void PhysicsManager::checkDynamicCollision(Object3D *object3D, Vector3 startPosi
 			v *= 0.9;
 			object3D->setVelocity(v);
 		}
+		if(moveData)
+			delete moveData;
 	}
-	delete moveData;
 }
 
 void PhysicsManager::checkObjectCollision(Avatar *avatar, Object3D *object3D){
