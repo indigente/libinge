@@ -111,6 +111,12 @@ void EntityFactory::loadEntities(BspScene *pScene){
 // 			Vector3 up(0,0,1);
 // 			pEntity->rotate(vetEntityInfo[i]->angle, up);
 // 			
+		} else {
+			InfoEntity *pInfoStart = new InfoEntity();
+			pInfoStart->setPosition( vetEntityInfo[i]->origin );
+			pInfoStart->setRotation(Vector4(vetEntityInfo[i]->angle, 0, 0, 1));
+			pInfoStart->setClassName( vetEntityInfo[i]->classname );
+			m_vetInfoEntity.push_back(pInfoStart);
 		}
 	}
 }
