@@ -49,7 +49,7 @@ namespace InGE{
 			 * Field of view angle, in degrees, in the y direction (fovy). (Description
 			 * from gluPerspective man page.)
 			 */
-			float		m_angle;
+			float		m_fovy;
 			
 			VolumeInfo 	*m_pVolumeInfo;		// Informa�o sobre o volume da camera
 			
@@ -58,9 +58,9 @@ namespace InGE{
 			ICamera(Vector3 position, Vector3 viewPoint, Vector3 up);
 			virtual ~ICamera();
 			
-			virtual void setAngle(float angle);
-			virtual void incAngle(float amount);
-			virtual float getAngle();
+			virtual void setFovy(float angle);
+			virtual void incFovy(float amount);
+			virtual float getFovy();
 
 			//Metodos Set
 			virtual void setPosition(const Vector3 &position);
