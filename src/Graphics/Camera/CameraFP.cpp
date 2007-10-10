@@ -30,6 +30,8 @@ CameraFP::CameraFP(){
 	m_position.setXYZ (0.0f, 0.0f, 0.0f);
 	m_up.setXYZ       (0.0f, 0.0f, 1.0f);
 	m_viewPoint.setXYZ(0.0f, 1.0f, 0.0f);
+	m_minRotX = -1.0f;
+	m_maxRotX = 1.0f;
 	
 	m_pVolumeInfo = new VolumeInfo( Vector3(0,0,0),Vector3(0,0,0),m_position,30);
 }
@@ -199,6 +201,30 @@ VolumeInfo *CameraFP::pGetVolumeInfo(){
 	return m_pVolumeInfo;
 }
 
+/**
+ * Sets the limits in the up and down rotation of the camera.
+ * @param minAngle The angle, in radians, to which the camera can look down.
+ * @param maxAngle The angle, in radians, to which the camera can look up.
+ */
+void CameraFP::setVerticalLimits(float minAngle, float maxAngle) {
+	m_minRotX = minAngle;
+	m_maxRotX = maxAngle;
+}
+
+/**
+ * Sets the maximum angle, in radians, to which the camera can look.
+ */
+float CameraFP::getVerticalMaxLimit() {
+	return m_maxRotX;
+}
+
+/**
+ * Sets the minimum angle, in radians, to which the camera can look.
+ */
+float CameraFP::getVerticalMinLimit() {
+	return m_minRotX;
+}
+
 void CameraFP::setViewByPointer(int pointerX,int pointerY){
 	int middleX = 320, middleY = 240;
 	float angleY = 0.0f , angleZ = 0.0f; 
@@ -220,12 +246,12 @@ void CameraFP::setViewByPointer(int pointerX,int pointerY){
 	Vector3 up = this->getUp();
  	Vector3 strafe = this->getStrafe();
 	
-	if(currentRotX > 1.0f){
-		currentRotX = 1.0f;
+	if(currentRotX > m_maxRotX){
+		currentRotX = m_maxRotX;
 		this->rotate(angleY, up);		
 	}
-	else if(currentRotX < -1.0f){
-		currentRotX = -1.0f;
+	else if(currentRotX < m_minRotX){
+		currentRotX = m_minRotX;
 		this->rotate(angleY, up);
 	}
 	else{ 

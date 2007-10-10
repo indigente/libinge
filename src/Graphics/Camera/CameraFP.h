@@ -32,6 +32,14 @@ namespace InGE{
 	class CameraFP : public InGE::ICamera{
 		private:
 			Vector3 checkCollision(const Vector3 &start,const Vector3 &target);
+			/**
+			 * The angle (in radians) to which the camera can look down.
+			 */
+			float m_minRotX;
+			/**
+			 * The angle (in radians) to which the camera can look up.
+			 */
+			float m_maxRotX;
 		
 		public:
 			CameraFP();
@@ -42,6 +50,10 @@ namespace InGE{
 			void setAttachPosition(const Vector3 &attach);
 			void setAttachAxis(const Vector3 &attach);
 		
+			void setVerticalLimits(float minAngle, float maxAngle);
+			float getVerticalMaxLimit();
+			float getVerticalMinLimit();
+
 			// Rotacionar
 			void setViewByPointer(int pointerX,int pointerY);
 			void rotate(float angle, Vector3 &axis);
