@@ -36,6 +36,7 @@ ICamera::ICamera() : IEntity("ICamera"){
 	m_position.setXYZ (0.0f, 0.0f, 0.0f);
 	m_up.setXYZ       (0.0f, 0.0f, 1.0f);
 	m_viewPoint.setXYZ(0.0f, 1.0f, 0.0f);
+	m_angle = 70.0f;
 	
 	m_pVolumeInfo = new VolumeInfo( Vector3(0,0,0),Vector3(0,0,0),m_position,30);
 }
@@ -104,6 +105,21 @@ Vector3 ICamera::getViewPoint(){
  */
 Vector3 ICamera::getUp(){
 	return m_up;
+}
+			
+void ICamera::setAngle(float angle) {
+	m_angle = angle;
+}
+
+/**
+ * Increments the angle by amount (may be negative).
+ */
+void ICamera::incAngle(float amount) {
+	setAngle(m_angle + amount);
+}
+
+float ICamera::getAngle() {
+	return m_angle;
 }
 
 TiXmlElement *ICamera::entity2xml(){

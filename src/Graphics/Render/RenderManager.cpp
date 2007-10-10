@@ -107,6 +107,13 @@ void RenderManager::render(ICamera *pCamera){
 
 	if(!pCamera) return;
 
+	drawer->matrixMode(InGE_PROJECTION);
+	drawer->loadIdentity();
+	SDL_Surface *surface = SDL_GetVideoSurface();
+	float ratio = (float)surface->w / surface->h;
+	drawer->perspective(pCamera->getAngle(), ratio, 0.1f, 10000.0f);
+
+	drawer->matrixMode(InGE_MODELVIEW);
 	// Limpar o Buffer e carrega a matriz identidade
 	drawer->clear();
 	

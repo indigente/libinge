@@ -45,6 +45,11 @@ namespace InGE{
 			Vector3		m_position;		// Posicao da camera 
 			Vector3		m_viewPoint;		// Ponto de visao da camera
 			Vector3		m_up;			// Vetor cabeca da camera
+			/**
+			 * Field of view angle, in degrees, in the y direction (fovy). (Description
+			 * from gluPerspective man page.)
+			 */
+			float		m_angle;
 			
 			VolumeInfo 	*m_pVolumeInfo;		// Informa�o sobre o volume da camera
 			
@@ -53,6 +58,10 @@ namespace InGE{
 			ICamera(Vector3 position, Vector3 viewPoint, Vector3 up);
 			virtual ~ICamera();
 			
+			virtual void setAngle(float angle);
+			virtual void incAngle(float amount);
+			virtual float getAngle();
+
 			//Metodos Set
 			virtual void setPosition(const Vector3 &position);
 			virtual void setVelocity(const Vector3 &v) {}; // de IEntity
