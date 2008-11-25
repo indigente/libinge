@@ -106,8 +106,8 @@ int KFModelFactory::findKFModel(string name){
  * @param string directoryName - Endere� do diretorio com os arquivos referentes ao modelo.
  * @return Retorna um poteiro para o IModel carregado que tenha o nome filename.
  */
-IModel *KFModelFactory::loadMd3(string directoryName){
-	string filename = directoryName + "/lower.md3";
+IModel *KFModelFactory::loadMd3(string directoryName, string file="lower.md3"){
+	string filename = directoryName + "/" + file;
 	int modelIndex = findKFModel(filename);
 	if (modelIndex != -1){
 		return m_loadedModels[modelIndex];
@@ -128,7 +128,7 @@ IModel *KFModelFactory::loadMd3(string directoryName){
 	loadMd3AnimationFile( directoryName + "/animation.cfg" );
 	
 	
-	pMd3Model = loadMd3Model("/lower.md3", "LEGS");
+	pMd3Model = loadMd3Model("/"+file, "LEGS");
 	if (pMd3Model) {
 		if ( pMd3Model->attachModel( loadMd3Model("/upper.md3", "TORSO") ) ){
 			cout << "Model " << directoryName + "/upper.md3" << " attached to " <<  pMd3Model->getName() << endl;

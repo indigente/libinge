@@ -122,6 +122,7 @@ Vector3 Spline::evaluate(float t)
 	float value = (normalized - patch*patch_size)/patch_size;
 	//return p(0, t); //FIXME: identificar a curva
 	return p(3*patch, value);
+    return Vector3();                // Era para ter algo aqui!
 }
 
 void Spline::draw()
