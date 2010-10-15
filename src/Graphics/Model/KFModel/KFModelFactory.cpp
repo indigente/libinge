@@ -106,7 +106,7 @@ int KFModelFactory::findKFModel(string name){
  * @param string directoryName - Endere� do diretorio com os arquivos referentes ao modelo.
  * @return Retorna um poteiro para o IModel carregado que tenha o nome filename.
  */
-IModel *KFModelFactory::loadMd3(string directoryName, string file="lower.md3"){
+IModel *KFModelFactory::loadMd3(string directoryName, string file){
 	string filename = directoryName + "/" + file;
 	int modelIndex = findKFModel(filename);
 	if (modelIndex != -1){

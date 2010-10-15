@@ -91,7 +91,7 @@ namespace InGE{
 			virtual		~KFModelFactory();
 			
 // 		IKFModel		*loadKFModel(string filename, const vector<string> &vetFileTex);
-			IModel		*loadMd3(string directoryName, string file);
+			IModel		*loadMd3(string directoryName, string file="lower.md3");
 
 			IModel		*getModel(int index);
 			IModel		*getModel(string filename);

@@ -24,7 +24,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 */
 
 #include "Tag.h"
-using namespace InGE;
+#include <algorithm>
+#include <cstring>
 using namespace InGE;
 using std::string;
 using std::vector;

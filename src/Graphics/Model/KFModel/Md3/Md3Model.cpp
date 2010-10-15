@@ -25,6 +25,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Md3Model.h"
 
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 namespace InGE{
